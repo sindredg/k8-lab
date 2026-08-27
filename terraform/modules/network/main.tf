@@ -1,5 +1,5 @@
 locals {
-    pod_secondary_range_name = "${var.subnet_name}-pods"
+  pod_secondary_range_name = "${var.subnet_name}-pods"
 }
 
 resource "google_compute_network" "main" {
@@ -10,11 +10,11 @@ resource "google_compute_network" "main" {
 }
 
 resource "google_compute_subnetwork" "main" {
-  name          = var.subnet_name
-  project       = var.project_id
-  region        = var.region
-  network       = google_compute_network.main.id
-  ip_cidr_range = var.node_ipv4_cidr
+  name                     = var.subnet_name
+  project                  = var.project_id
+  region                   = var.region
+  network                  = google_compute_network.main.id
+  ip_cidr_range            = var.node_ipv4_cidr
   private_ip_google_access = true
 
   secondary_ip_range {

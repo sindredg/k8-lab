@@ -1,39 +1,39 @@
 variable "project_id" {
-  description = "The GCP project ID"
+  description = "Google Cloud project ID in which the network will be created."
   type        = string
 }
 
 variable "region" {
-  description = "The GCP region"
+  description = "Google Cloud region in which the subnet will be created."
   type        = string
 }
 
 variable "network_name" {
-  description = "The name of the custom VPC network"
+  description = "Name of the custom VPC network."
   type        = string
 }
 
 variable "subnet_name" {
-  description = "The name of the subnet used for the GKE cluster"
+  description = "Name of the subnet used by the GKE cluster."
   type        = string
 }
 
 variable "node_ipv4_cidr" {
-  description = "The CIDR range for the GKE cluster nodes"
+  description = "Primary IPv4 CIDR range used by GKE nodes."
   type        = string
-}
 
-validation {
-  condition     = can(cidrhost(var.node_ipv4_cidr, 0))
-  error_message = "The node_ipv4_cidr must be a valid IPv4 CIDR range."
+  validation {
+    condition     = can(cidrhost(var.node_ipv4_cidr, 0))
+    error_message = "node_ipv4_cidr must use valid CIDR notation."
+  }
 }
 
 variable "pod_ipv4_cidr" {
-  description = "The secondary IPv4 CIDR range for the GKE cluster pods"
+  description = "Secondary IPv4 CIDR range used by Kubernetes Pods."
   type        = string
-}
 
-validation {
-  condition     = can(cidrhost(var.pod_ipv4_cidr, 0))
-  error_message = "The pod_ipv4_cidr must be a valid IPv4 CIDR range."
+  validation {
+    condition     = can(cidrhost(var.pod_ipv4_cidr, 0))
+    error_message = "pod_ipv4_cidr must use valid CIDR notation."
+  }
 }

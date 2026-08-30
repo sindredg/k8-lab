@@ -124,7 +124,9 @@ Alternatives: Leave the namespace open and rely on Pod Security alone, allow all
 
 Enforcement comes from [GKE Dataplane V2](https://cloud.google.com/kubernetes-engine/docs/concepts/dataplane-v2), already enabled through `datapath_provider = "ADVANCED_DATAPATH"`. The legacy `network_policy` block is deliberately absent because Dataplane V2 enforces policy itself.
 
-The DNS rule matches the kube-dns address with `ipBlock` rather than a selector. [NodeLocal DNSCache](https://cloud.google.com/kubernetes-engine/docs/how-to/nodelocal-dns-cache#network_policy) answers on the kube-dns cluster IP from the node's own network namespace, so the destination is not a Pod and no selector can match it. The cost is a cluster-specific address in a manifest, which breaks if the Services range changes; the alternative is disabling NodeLocal DNSCache and losing its caching. The Pod selector is kept alongside it as the path used when the cache is absent.
+The DNS rule allows both `kube-dns` and `node-local-dns` Pods. [NodeLocal DNSCache](https://cloud.google.com/kubernetes-engine/docs/how-to/nodelocal-dns-cache) answers on the kube-dns cluster IP but runs as its own Pod with the label `k8s-app: node-local-dns`, so a rule naming only `kube-dns` selects a Pod that never receives the query. Allowing both keeps the rule correct whether or not the cache is present.
+
+The rule cannot name the kube-dns Service address instead. Dataplane V2 rewrites a Service IP to a backend Pod before policy is evaluated, so an `ipBlock` naming that address matches nothing. NetworkPolicy selects Pods, never Services.
 
 ## Infrastructure and configuration
 

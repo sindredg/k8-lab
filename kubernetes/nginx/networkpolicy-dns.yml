@@ -13,28 +13,24 @@ spec:
     - Egress
 
   egress:
-    # NodeLocal DNSCache answers on the kube-dns ClusterIP from the node's own
-    # network namespace, so the destination is not a Pod and no selector can
-    # match it. Matching the address directly is the only rule that works.
-    # Confirm the address with: kubectl get svc kube-dns -n kube-system
-    - to:
-        - ipBlock:
-            cidr: 34.118.224.10/32
-      ports:
-        - protocol: UDP
-          port: 53
-        - protocol: TCP
-          port: 53
-
-    # Kept as the path used when NodeLocal DNSCache is absent or bypassed.
-    # One list item with two selectors means AND: kube-dns Pods, in kube-system.
+    # NodeLocal DNSCache answers first and kube-dns answers when the cache is
+    # bypassed, so both have to be allowed. They carry different k8s-app values,
+    # which matchLabels cannot express on its own.
+    #
+    # The kube-dns Service address cannot be used here. The dataplane rewrites a
+    # Service IP to a backend Pod before policy is evaluated, so a rule naming
+    # that address never matches anything.
     - to:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: kube-system
           podSelector:
-            matchLabels:
-              k8s-app: kube-dns
+            matchExpressions:
+              - key: k8s-app
+                operator: In
+                values:
+                  - kube-dns
+                  - node-local-dns
 
       # DNS answers that do not fit in a UDP packet are retried over TCP.
       ports:

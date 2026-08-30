@@ -17,13 +17,10 @@ spec:
     - Ingress
 
   ingress:
-    # A podSelector with no namespaceSelector beside it means this namespace only.
     - from:
         - podSelector:
             matchLabels:
               nginx-client: "true"
-
-      # The container port, not the Service port, because policy is enforced on the Pod.
       ports:
         - protocol: TCP
           port: 80

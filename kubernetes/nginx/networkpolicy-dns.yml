@@ -13,13 +13,7 @@ spec:
     - Egress
 
   egress:
-    # NodeLocal DNSCache answers first and kube-dns answers when the cache is
-    # bypassed, so both have to be allowed. They carry different k8s-app values,
-    # which matchLabels cannot express on its own.
-    #
-    # The kube-dns Service address cannot be used here. The dataplane rewrites a
-    # Service IP to a backend Pod before policy is evaluated, so a rule naming
-    # that address never matches anything.
+    # NodeLocal DNSCache answers first, kube-dns when it is bypassed.
     - to:
         - namespaceSelector:
             matchLabels:
@@ -32,7 +26,7 @@ spec:
                   - kube-dns
                   - node-local-dns
 
-      # DNS answers that do not fit in a UDP packet are retried over TCP.
+      # Answers too large for UDP are retried over TCP.
       ports:
         - protocol: UDP
           port: 53

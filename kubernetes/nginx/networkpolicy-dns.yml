@@ -13,6 +13,20 @@ spec:
     - Egress
 
   egress:
+    # NodeLocal DNSCache answers on the kube-dns ClusterIP from the node's own
+    # network namespace, so the destination is not a Pod and no selector can
+    # match it. Matching the address directly is the only rule that works.
+    # Confirm the address with: kubectl get svc kube-dns -n kube-system
+    - to:
+        - ipBlock:
+            cidr: 34.118.224.10/32
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+
+    # Kept as the path used when NodeLocal DNSCache is absent or bypassed.
     # One list item with two selectors means AND: kube-dns Pods, in kube-system.
     - to:
         - namespaceSelector:

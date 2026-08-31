@@ -185,10 +185,9 @@ Phase 5, Slice 1.
 
 **Issue:** Every `terraform plan` proposes to unset `enable_private_endpoint` on the cluster, and applying it changes nothing. The next plan proposes it again.
 
-```text
-~ private_cluster_config {
-    - enable_private_endpoint = true -> null
-```
+![The same modification proposed after a successful apply](images/endpoint-permadiff.png)
+
+The apply reported success and the plan above was taken afterwards. `0 to add, 1 to change` on a run where nothing had been edited.
 
 **Cause:** The configuration never declares the field, and GKE derives it from `control_plane_endpoints_config.ip_endpoints_config.enabled = false`. Terraform reads `true` from the API, finds nothing in the configuration, and resolves the difference in favour of the configuration. The API then ignores the write because the value is derived, so the next refresh reads `true` again.
 
@@ -200,6 +199,29 @@ private_cluster_config {
   enable_private_endpoint = true
 }
 ```
+
+![A clean plan after declaring the value](images/endpoint-plan-clean.png)
+
+### Checking exposure rather than reading it
+
+The cluster description reports a public address, which reads alarming.
+
+```bash
+gcloud container clusters describe k8-lab --zone europe-north1-a \
+  --format="yaml(privateClusterConfig,controlPlaneEndpointsConfig,endpoint)"
+```
+
+![Endpoint configuration reported by GKE](images/endpoint-cluster-config.png)
+
+`publicEndpoint` is reported whether or not the endpoint serves traffic. Reachability is governed by `ipEndpointsConfig.enabled`, which is `false`, and the `endpoint` field holds the DNS name rather than an address. Connecting settles it.
+
+```bash
+curl -k --max-time 5 https://35.228.170.226/version
+```
+
+![The public address accepting no connection](images/endpoint-not-reachable.png)
+
+Result: `curl: (28)`, a timeout rather than a refusal, so nothing is listening. The posture recorded in the Phase 1 decision holds, and the only real fault was the recurring diff.
 
 ### Why it matters beyond the noise
 

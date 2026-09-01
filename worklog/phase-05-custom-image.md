@@ -164,7 +164,11 @@ Fixed by setting the type instead of adding a header.
 default_type text/plain;
 ```
 
-The status and body were correct throughout, so a check that only asserted `200` would have passed. Reading the whole response is what surfaced it.
+![A single content type on the probe response](../images/image-healthz.png)
+
+Result: one `Content-Type: text/plain`, and the body unchanged.
+
+The status and body were correct throughout, so a check that only asserted `200` would have passed. Reading the whole response is what surfaced it. The entry in the [troubleshooting log](../troubleshooting.md#an-nginx-response-carries-the-same-header-twice) records the directive difference.
 
 ## Remaining slices
 

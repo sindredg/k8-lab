@@ -233,6 +233,37 @@ The diff appeared in the first plan run after Phase 1, alongside an unrelated ch
 
 A plan diff on something no one edited means the configuration is silent about a value the API has an opinion on. State the value. The same shape appears wherever an API normalises input, including durations returned in seconds when the configuration was written in days.
 
+## An NGINX response carries the same header twice
+
+**Issue:** A `/healthz` location returning a fixed string answered with two `Content-Type` headers, `application/octet-stream` followed by `text/plain`.
+
+**Cause:** `add_header` appends a header. It does not replace one, so the directive added a second value beside the type NGINX had already chosen.
+
+**Fix:** Set the type instead of adding a header.
+
+```nginx
+default_type text/plain;
+```
+
+The status and the body were correct throughout, so a check asserting only `200` would never have caught it. Reading the whole response did.
+
+## A rebuilt image is not the running container
+
+**Issue:** A configuration fix appeared to have no effect. The same wrong output came back after editing the file and rebuilding.
+
+**Cause:** The old container was still running. `docker run --name` fails when the name is taken, so the new container never started and the request reached the old one.
+
+**Fix:** Remove the container before rebuilding, and check what is actually running.
+
+```bash
+docker rm -f k8-lab-run
+docker build -t k8-lab-test .
+docker run -d --name k8-lab-run -p 8080:8080 k8-lab-test
+docker ps --filter name=k8-lab-run     # confirm CREATED is seconds, not minutes
+```
+
+The build was never the problem. `COPY` is keyed on file contents, so an edited file always invalidates the cache from that layer down.
+
 ## A Pod restart does not reload network policy
 
 **Issue:** A policy or label change appears not to take effect, and restarting the Pod does not help.

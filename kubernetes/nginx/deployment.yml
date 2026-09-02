@@ -39,7 +39,8 @@ spec:
       containers:
         - name: nginx
           # Deployed by digest, so this manifest names one fixed set of bytes.
-          image: europe-north1-docker.pkg.dev/project-69726555-c4de-48de-a69/k8-lab/nginx@sha256:PASTE_DIGEST_HERE
+          # The tag is the commit that built it, kept for readers only.
+          image: europe-north1-docker.pkg.dev/project-69726555-c4de-48de-a69/k8-lab/frontend:2bb5f3a@sha256:a0388fda22de1086efb0e9296ee6178f52a7d6cb6d48e1d5f14ff32c79c8efad
           imagePullPolicy: IfNotPresent
 
           securityContext:

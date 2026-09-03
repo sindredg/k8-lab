@@ -42,3 +42,8 @@ output "deploy_service_account_email" {
   description = "Email of the delivery pipeline identity."
   value       = module.delivery.deploy_service_account_email
 }
+
+output "gateway_address" {
+  description = "Reserved public address of the external Gateway."
+  value       = module.gateway.address
+}

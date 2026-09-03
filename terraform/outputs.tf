@@ -47,3 +47,13 @@ output "gateway_address" {
   description = "Reserved public address of the external Gateway."
   value       = module.gateway.address
 }
+
+output "dns_authorization_record" {
+  description = "CNAME record proving control of the domain."
+  value       = module.gateway.dns_authorization_record
+}
+
+output "certificate_map_name" {
+  description = "Certificate Manager map the Gateway annotation references."
+  value       = module.gateway.certificate_map_name
+}

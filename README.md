@@ -64,14 +64,14 @@ flowchart TB
 
 ## Status
 
-- Focus: secure workload delivery on GKE, with the AI reviewer as a later reference workload.
+- Focus: secure platform and workload delivery on GKE
 - Complete: private GKE foundation built with modular Terraform.
 - Complete: NGINX Deployment, ClusterIP Service, probes, resources, scaling, self-healing, restart, and rollback validation.
 - Complete: credential-free pull request validation, required on `main`.
 - Complete: workload guardrails, with Pod Security Admission, a namespace resource budget, and default-deny NetworkPolicies.
-- In progress: a project-owned non-root image published to Artifact Registry and deployed by digest. The private repository exists; nothing has been built yet.
+- Complete: a project-owned non-root image published to Artifact Registry and deployed by digest. The private repository exists; nothing has been built yet.
+- In-progres: public facing gateway, custom .com domain (complete) and secure tls 1.3 connectivity (troubleshooting in-progress)
 - Milestone 1: guard the existing NGINX workload, publish a custom image, add keyless delivery, expose it through Gateway API, and prove it with monitoring and failure tests.
-- Milestone 2: add an AI-assisted manifest reviewer with deterministic validation before and after every model suggestion.
 
 ## Platform capabilities
 

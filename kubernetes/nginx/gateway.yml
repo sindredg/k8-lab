@@ -1,0 +1,23 @@
+# Main front door. Tells Google Cloud to build a global load balancer using our reserved IP.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: external
+  namespace: demo
+  labels:
+    app.kubernetes.io/part-of: k8-lab
+spec:
+  gatewayClassName: gke-l7-global-external-managed
+
+  # Points to the existing Terraform IP address by name, so Kubernetes doesn't create a new one.
+  addresses:
+    - type: NamedAddress
+      value: k8-lab-gateway
+
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Same

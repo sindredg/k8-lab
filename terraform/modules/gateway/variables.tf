@@ -8,3 +8,8 @@ variable "address_name" {
   type        = string
   default     = "k8-lab-gateway"
 }
+
+variable "domain" {
+  description = "The root or subdomain to issue the SSL certificate for"
+  type        = string
+}

@@ -75,6 +75,7 @@ module "gateway" {
 
   project_id   = var.project_id
   address_name = "k8-lab-gateway"
+  domain       = var.domain
 
   depends_on = [google_project_service.required]
 }

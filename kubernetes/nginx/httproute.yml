@@ -10,9 +10,12 @@ metadata:
 spec:
   parentRefs:
     - name: external
+      sectionName: https
+
+  hostnames:
+    - sindrg.com
 
   rules:
     - backendRefs:
-        # The Service names the Pods. The load balancer then reaches those Pods directly, so the Service stays ClusterIP.
         - name: nginx
           port: 80

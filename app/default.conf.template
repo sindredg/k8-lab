@@ -1,0 +1,37 @@
+server {
+    # A non-root process cannot bind a port below 1024.
+    listen 8080;
+    server_name _;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # Probe target that stays valid whatever the page content becomes.
+    location = /healthz {
+        access_log off;
+
+        # Sets the type rather than appending a second Content-Type header.
+        default_type text/plain;
+        return 200 "ok\n";
+    }
+
+    location / {
+        try_files $uri $uri/ =404;
+
+        # Rewrites the placeholders in index.html with facts about the Pod
+        # actually serving the response. envsubst has already replaced the
+        # ${...} values below when this file was rendered at container start,
+        # so what nginx loads holds literal strings, not variables.
+        sub_filter '__POD_NAME__'      '${POD_NAME}';
+        sub_filter '__POD_NAMESPACE__' '${POD_NAMESPACE}';
+        sub_filter '__POD_IP__'        '${POD_IP}';
+        sub_filter '__NODE_NAME__'     '${NODE_NAME}';
+        sub_filter '__RUNTIME_UID__'   '${RUNTIME_UID}';
+        sub_filter '__IMAGE_DIGEST__'  '${IMAGE_DIGEST}';
+        sub_filter_once off;
+
+        # Two replicas serve this. Caching a response would hide the fact that
+        # a reload can land on the other one, which is the point of the page.
+        add_header Cache-Control "no-store" always;
+    }
+}

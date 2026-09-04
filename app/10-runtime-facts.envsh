@@ -1,16 +1,9 @@
 #!/bin/sh
-# Sourced by the NGINX entrypoint before the template is rendered, so what it
-# exports is available to envsubst. Files ending in .envsh are sourced rather
-# than executed, which is what lets an export survive into the next script.
-#
-# The uid is read from the running process rather than copied from the Pod
-# spec, so the page reports what the container is, not what it was asked to be.
+# The NGINX entrypoint sources this file rather than running it, so these exports reach envsubst.
+# Reading the uid from the process means the page shows what the container actually runs as.
 export RUNTIME_UID="$(id -u)"
 
-# Every variable the template names must be defined, including outside
-# Kubernetes. envsubst leaves an undefined ${NAME} untouched, nginx then reads
-# the leftover as one of its own variables, and the container exits with
-# "unknown \"name\" variable" before it ever serves a request.
+# Every variable needs a default. Without one, envsubst leaves ${NAME} in place, nginx treats it as its own variable, and startup fails.
 export POD_NAME="${POD_NAME:-unknown}"
 export POD_NAMESPACE="${POD_NAMESPACE:-unknown}"
 export POD_IP="${POD_IP:-unknown}"

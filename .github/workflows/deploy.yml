@@ -77,9 +77,7 @@ jobs:
           use_dns_endpoint: true
 
       # The digest is what deploys. The tag above is only for a reader.
-      # The image and IMAGE_DIGEST are set in one patch rather than two
-      # commands, so the digest the page reports is always the digest it runs
-      # and a single rollout carries both.
+      # Sets the image and IMAGE_DIGEST in one patch, so the digest on the page matches the one running.
       - name: Roll out the new digest
         env:
           DIGEST: ${{ steps.build.outputs.digest }}

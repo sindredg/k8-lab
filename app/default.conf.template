@@ -18,10 +18,7 @@ server {
     location / {
         try_files $uri $uri/ =404;
 
-        # Rewrites the placeholders in index.html with facts about the Pod
-        # actually serving the response. envsubst has already replaced the
-        # ${...} values below when this file was rendered at container start,
-        # so what nginx loads holds literal strings, not variables.
+        # Replaces the placeholders in index.html with this Pod's facts. envsubst filled in the ${...} values at startup.
         sub_filter '__POD_NAME__'      '${POD_NAME}';
         sub_filter '__POD_NAMESPACE__' '${POD_NAMESPACE}';
         sub_filter '__POD_IP__'        '${POD_IP}';
@@ -30,8 +27,7 @@ server {
         sub_filter '__IMAGE_DIGEST__'  '${IMAGE_DIGEST}';
         sub_filter_once off;
 
-        # Two replicas serve this. Caching a response would hide the fact that
-        # a reload can land on the other one, which is the point of the page.
+        # Prevents caching, so a reload can land on the other replica and show it.
         add_header Cache-Control "no-store" always;
     }
 }

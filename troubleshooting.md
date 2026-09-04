@@ -525,6 +525,55 @@ Worth confirming at the same time that `_acme-challenge` is not proxied by the D
 4. Check for CAA records before assuming the fault is the challenge record. A `CONFIG` failure carrying no `troubleshooting` block points away from the CNAME.
 5. Separate a transport failure from a verify failure before forming any theory about the certificate.
 
+### A certificate cannot be replaced while its map entry references it
+
+**Issue:** `terraform apply -replace=module.gateway.google_certificate_manager_certificate.default` planned the certificate as a replacement and the map entry as an in-place update, then failed on the first step.
+
+```text
+Error: googleapi: Error 400: can't delete certificate that is referenced by
+a CertificateMapEntry or other resources
+  "type": "RESOURCE_STILL_IN_USE"
+```
+
+**Cause:** A replacement destroys before it creates, and Certificate Manager refuses to delete a certificate any map entry still points at. Nothing drops the reference, because the entry was only being updated.
+
+The earlier replacement, when `domain` was corrected, did not hit this. `hostname` on the map entry is immutable too, so changing the domain replaced the entry as well, and Terraform destroys dependents first. The deadlock appears only when the certificate is replaced *alone*.
+
+**Fix:** Replace both, and the dependency graph orders it correctly: the entry is destroyed, then the certificate, then both are recreated.
+
+```bash
+terraform -chdir=terraform apply \
+  -replace=module.gateway.google_certificate_manager_certificate_map_entry.default \
+  -replace=module.gateway.google_certificate_manager_certificate.default
+```
+
+#### What put the certificate up for replacement in the first place
+
+The plan changed a field nobody had edited.
+
+```text
+~ dns_authorizations = [
+    ~ "projects/421458901689/locations/global/dnsAuthorizations/k8-lab-gateway-dns-auth"
+   -> "projects/project-69726555-c4de-48de-a69/locations/global/dnsAuthorizations/k8-lab-gateway-dns-auth",
+  ]
+```
+
+Both name the same authorization. The left is the project number, which is how Certificate Manager stores a reference and therefore what refreshes into state; the right is the project ID, which is what `google_certificate_manager_dns_authorization.default.id` builds from `var.project_id`. The two never converge, and because the whole `managed` block is immutable, every plan proposes a replacement — each one landing on the error above.
+
+The module now writes the reference in the form the API returns, so config and state agree:
+
+```hcl
+data "google_project" "this" {
+  project_id = var.project_id
+}
+
+dns_authorizations = [
+  "projects/${data.google_project.this.number}/locations/global/dnsAuthorizations/${google_certificate_manager_dns_authorization.default.name}",
+]
+```
+
+Referencing `.name` keeps the implicit dependency, so the authorization is still created first. A plan that proposes a replacement nobody asked for is a bug in the configuration, not a step to approve: read the changed field before typing `yes`, and check whether the two values are the same thing written differently.
+
 ### GatewayClasses appear in waves
 
 **Issue:** After enabling the Gateway API, `kubectl get gatewayclass` returned only layer 4 classes, and `gke-l7-global-external-managed` was absent.

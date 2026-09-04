@@ -336,6 +336,16 @@ Cost: The digest in `kubernetes/nginx/deployment.yml` no longer matches what run
 
 Alternatives: Commit the digest back to `main`, or substitute a placeholder at deploy time.
 
+### DNS authorization record type
+
+Decision: Issue the managed certificate against a `PER_PROJECT_RECORD` DNS authorization, validating at `_acme-challenge_<hash>.sindrg.com` rather than the default `_acme-challenge.sindrg.com`.
+
+Why: Cloudflare serves its own hidden `TXT` records at `_acme-challenge` for Universal SSL. A name holding both a `CNAME` and a `TXT` answers `TXT` queries from the `TXT` set alone, so validation never followed the `CNAME` to Google and the certificate failed with `CONFIG` on every attempt. A per-project label is not contested by anything.
+
+Cost: The challenge record's name is generated rather than predictable, so it cannot be written before the authorization exists. `type` is immutable, so changing it later replaces the authorization, the certificate and the map entry together.
+
+Alternatives: Disable Cloudflare's Universal SSL, which removes the conflicting records but is console state rather than configuration and may be reprovisioned. Move DNS to Cloud DNS, which removes the conflict and the registrar's edge features with it.
+
 ## Project and process
 
 ### Project focus

@@ -255,7 +255,18 @@ gcloud certificate-manager certificates describe k8-lab-gateway-cert --format=ya
 
 ![The certificate authorizing against the correct domain](../images/gateway-cert-authorizing.png)
 
-Result so far: `domains: sindrg.com`, `state: PROVISIONING`, and an attempt in `AUTHORIZING` with no `failureReason`. The `CNAME` has since been corrected and resolves to the expected target, so the next check should succeed.
+Result so far: `domains: sindrg.com`, `state: PROVISIONING`. The `CNAME` was corrected and resolves to the expected target.
+
+A later attempt, roughly three hours after that correction, failed again:
+
+```yaml
+- attemptTime: '2026-09-04T01:50:18Z'
+  domain: sindrg.com
+  failureReason: CONFIG
+  state: FAILED
+```
+
+This failure carries no `troubleshooting` block and no `CNAME_MISMATCH`, unlike the first one, which argues the challenge record is not the fault this time. A CAA record restricting which authorities may issue is the next candidate, and the [troubleshooting log](../troubleshooting.md#a-managed-certificate-stays-in-provisioning) carries the checks that separate the possibilities.
 
 Outstanding, to be recorded when the certificate reaches `ACTIVE`:
 

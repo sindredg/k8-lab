@@ -471,12 +471,59 @@ The served value began `c016c223`, from the destroyed authorization; the expecte
 
 ![The connection refused before any handshake](images/gateway-https-refused.png)
 
+#### A second failure, with the domain and the record both correct
+
+Status: Open
+
+After the domain was corrected and the record updated, a later attempt failed again:
+
+```yaml
+authorizationAttemptInfo:
+- attemptTime: '2026-09-04T01:50:18Z'
+  domain: sindrg.com
+  failureReason: CONFIG
+  state: FAILED
+provisioningIssue:
+  reason: AUTHORIZATION_ISSUE
+```
+
+This one reads differently from the first. The `sidnrg` failure carried a `troubleshooting` block naming `CNAME_MISMATCH` and the record it wanted; this one carries neither. Certificate Manager names the mismatch explicitly when the record is the fault, so its absence argues the CNAME is not what failed. The attempt also ran about three hours after the record was corrected, so the right value was available to it.
+
+That leaves the issuer rather than the record as the next candidate. A CAA record names which certificate authorities may issue for a domain, and one that omits Google's fails issuance with a configuration error and no CNAME complaint. Cloudflare adds CAA records automatically for domains using its own SSL, so a zone can carry them without anyone having written one.
+
+```bash
+NS=$(dig +short DOMAIN NS | head -1)
+
+# Is an issuer restriction in place?
+dig +short @"$NS" DOMAIN CAA
+
+# Does the record still match?
+gcloud certificate-manager dns-authorizations describe NAME \
+  --format="value(dnsResourceRecord.data)"
+dig +short @"$NS" _acme-challenge.DOMAIN CNAME
+
+# Anything recorded on the authorization itself
+gcloud certificate-manager dns-authorizations describe NAME --format=yaml
+```
+
+| Result | Meaning |
+| --- | --- |
+| CAA records present, none naming `pki.goog` | Google Trust Services is barred from issuing. Add `0 issue "pki.goog"` or remove the restriction. |
+| No CAA records | Not the cause; any authority may issue. |
+| The two CNAME values differ | A mismatch after all, despite the missing `issues` block. |
+| Values match and no CAA | Neither candidate; read the authorization YAML before guessing further. |
+
+Query the authoritative nameserver rather than a resolver. A cached negative answer on CAA reads as "no restriction" when one exists, which would rule out the likeliest cause on false evidence.
+
+Worth confirming at the same time that `_acme-challenge` is not proxied by the DNS provider. A proxied CNAME returns the provider's addresses instead of the target name, which fails validation without ever looking like a mismatch.
+
 #### What to check first next time
 
 1. Read `managed.authorizationAttemptInfo`, not `managed.state`. The state says stuck; the attempt says why.
 2. Confirm the `domains` list holds the domain you own. A certificate for the wrong name fails identically to a missing DNS record.
 3. Compare the expected authorization target against what DNS serves, character by character.
-4. Separate a transport failure from a verify failure before forming any theory about the certificate.
+4. Check for CAA records before assuming the fault is the challenge record. A `CONFIG` failure carrying no `troubleshooting` block points away from the CNAME.
+5. Separate a transport failure from a verify failure before forming any theory about the certificate.
 
 ### GatewayClasses appear in waves
 

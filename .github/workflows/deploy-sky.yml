@@ -8,6 +8,11 @@ on:
       - 'kubernetes/sky/**'
       - '.github/workflows/deploy-sky.yml'
   workflow_dispatch:
+    inputs:
+      build_only:
+        description: 'Publish the image without deploying it. The pipeline Role holds patch and not create, so the first image has to exist before an operator can apply the manifests.'
+        type: boolean
+        default: false
 
 # id-token: write lets the runner request a signed OIDC token. Without it,
 # authentication cannot start.
@@ -83,8 +88,25 @@ jobs:
             SERVICE_VERSION=${{ env.UPSTREAM_REF }}
           tags: ${{ env.IMAGE }}:${{ env.UPSTREAM_REF }}-${{ github.run_id }}.${{ github.run_attempt }}
 
+      # Bootstrapping: the digest is the only output, and it goes into kubernetes/sky/deployment.yml before the manifests are applied by hand.
+      - name: Report the digest
+        if: ${{ inputs.build_only }}
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          {
+            echo "### Image published"
+            echo ""
+            echo '```'
+            echo "${IMAGE}@${DIGEST}"
+            echo '```'
+            echo ""
+            echo "Put this in kubernetes/sky/deployment.yml, then apply the manifests once."
+          } >> "$GITHUB_STEP_SUMMARY"
+
       # The cluster has no IP endpoint, so credentials come via the DNS one.
       - name: Get cluster credentials
+        if: ${{ !inputs.build_only }}
         uses: google-github-actions/get-gke-credentials@3da1e46a907576cefaa90c484278bb5b259dd395 # v3.0.0
         with:
           cluster_name: ${{ env.CLUSTER }}
@@ -94,6 +116,7 @@ jobs:
       # The digest is what deploys. The tag above is only for a reader.
       # The pipeline Role holds patch and not create, so the Deployment has to exist already: the manifests in kubernetes/sky/ are applied once by an operator, and the pipeline only ever updates the image after that.
       - name: Apply the Deployment with the new digest
+        if: ${{ !inputs.build_only }}
         env:
           DIGEST: ${{ steps.build.outputs.digest }}
         run: |
@@ -104,11 +127,13 @@ jobs:
 
       # maxUnavailable is 0, so a Pod that never goes Ready fails here.
       - name: Wait for the rollout
+        if: ${{ !inputs.build_only }}
         run: kubectl rollout status "deployment/$DEPLOYMENT" -n "$NAMESPACE" --timeout=180s
 
       # The label satisfies the NetworkPolicy; the securityContext satisfies
       # the restricted Pod Security standard.
       - name: Smoke test from inside the cluster
+        if: ${{ !inputs.build_only }}
         env:
           POD: smoke-sky-${{ github.run_id }}
         run: |

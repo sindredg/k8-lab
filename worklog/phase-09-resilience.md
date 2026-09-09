@@ -1,9 +1,7 @@
-# Worklog: Surviving a node
+# Worklog: Phase 9 Surviving a Node
 
 Date: 2026-09-08  
 Status: Complete.
-
-Unnumbered on purpose. This was unplanned hardening that followed Phase 8, and `plan.md` already spends Phase 9 on deterministic manifest review.
 
 ## Goal
 

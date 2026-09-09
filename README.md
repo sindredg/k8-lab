@@ -102,7 +102,7 @@ flowchart TB
 | Deployment | Keyless GitHub Actions delivery, repository-scoped federation, namespaced pipeline RBAC, gated rollout | [Delivery](decisions.md#delivery) | [Phase 6](worklog/phase-06-keyless-delivery.md) |
 | Ingress | GKE Gateway on a reserved global address, container-native load balancing, Certificate Manager TLS, HTTP to HTTPS redirect | [Ingress and TLS](decisions.md#ingress-and-tls) | [Phase 7](worklog/phase-07-gateway-tls.md) |
 | Observability | Not built yet | [Deferred](decisions.md#deferred-decision-records) | Phase 8 |
-| Resilience | Node floor of two, disruption budgets on both workloads, nightly maintenance window | [Cluster](decisions.md#cluster) | [Surviving a node](worklog/resilience.md) |
+| Resilience | Node floor of two, disruption budgets on both workloads, nightly maintenance window | [Cluster](decisions.md#cluster) | [Phase 9](worklog/phase-09-resilience.md) |
 
 ## Documentation
 
@@ -115,7 +115,8 @@ flowchart TB
 - [Phase 5 custom image worklog](worklog/phase-05-custom-image.md)
 - [Phase 6 keyless delivery worklog](worklog/phase-06-keyless-delivery.md)
 - [Phase 7 gateway and TLS worklog](worklog/phase-07-gateway-tls.md)
-- [Surviving a node worklog](worklog/resilience.md)
+- [Phase 8 observability worklog](worklog/phase-08-observability.md)
+- [Phase 9 surviving a node worklog](worklog/phase-09-resilience.md)
 - [Troubleshooting log](troubleshooting.md)
 - [Kubernetes concepts reference](reference/kubernetes-concepts.md)
 - [kubectl command reference](reference/kubectl-commands.md)

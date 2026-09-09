@@ -19,7 +19,7 @@ Redundancy is three claims, and each one can be false while the two either side 
 
 `maxUnavailable: 0` covers a **rollout**, which this repository asks for. It says nothing about an **eviction**, which is what `auto_upgrade` and `auto_repair` do to a Pod without asking. Only a disruption budget covers that, and a budget is worse than nothing where the Pod it protects has nowhere to land: on a single node it stalls the drain rather than pacing it.
 
-So the floor and the budgets are one change. Each phase below is a claim that looked true and was not.
+So the floor and the budgets are one change. Each slice below is a claim that looked true and was not.
 
 ## Slice 1: A floor of two nodes
 
@@ -49,15 +49,21 @@ The other two changed resources are pre-existing drift in the observability modu
 
 ### The floor was raised and nothing happened
 
-`totalMinNodeCount` read `2` in GCP. The managed instance group target stayed at `1`, and fifteen minutes later there was still one node.
+```bash
+kubectl get nodes
+```
 
-![One node, well after the apply](../images/resilience-single-node.png)
+![One node, 22 hours old, well after the apply](../images/resilience-single-node.png)
 
-Quota was not the constraint: the regional E2 limit is 24 vCPUs, against a single two-vCPU node. The autoscaler simply had not reconciled a minimum it had no workload pressure to satisfy. It took a direct resize.
+`totalMinNodeCount` read `2` in GCP while the managed instance group target stayed at `1`, and fifteen minutes later there was still one node. Quota was not the constraint: the regional E2 limit is 24 vCPUs, against a single two-vCPU node. The autoscaler had not reconciled a minimum it had no workload pressure to satisfy. It took a direct resize.
 
-![Resizing the pool by hand](../images/resilience-resize.png)
+![The pool resized to two nodes in each zone it spans](../images/resilience-resize.png)
 
-![Both nodes Ready](../images/resilience-two-nodes.png)
+```bash
+kubectl get nodes
+```
+
+![The second node Ready, 45 seconds old](../images/resilience-two-nodes.png)
 
 Worth keeping as an expectation: a raised minimum is a bound the autoscaler respects, not an instruction it acts on promptly. Check the instance group rather than the Terraform output.
 
@@ -67,9 +73,11 @@ Status: Complete
 
 ### The second node changed nothing on its own
 
-Two nodes, and all four Pods on the first one.
+```bash
+kubectl get pods -n demo -o wide
+```
 
-![Four Pods, one node](../images/resilience-pods-together.png)
+![All four Pods on the older node, 5gn3](../images/resilience-pods-together.png)
 
 A rolling restart made it worse rather than better: all four moved to the *new* node together. The mechanism is that `topologySpreadConstraints` count every Pod matching the selector, including the **old** replicas still running. Each new Pod saw two on the old node and none on the new one and chose the new one, twice. Then the old Pods terminated. `ScheduleAnyway` is a preference, so nothing overrode it.
 
@@ -79,7 +87,11 @@ Restarting again only mirrors the problem.
 
 Deleting one Pod per Deployment. A single replacement carries no old-revision skew, so the emptier node wins.
 
-![One nginx and one sky on each node](../images/resilience-pods-spread.png)
+```bash
+kubectl get pods -n demo -o wide
+```
+
+![One nginx and one sky on each node, 5gn3 and n75s](../images/resilience-pods-spread.png)
 
 `ScheduleAnyway` stays. With `maxSkew: 1` across exactly two nodes, `DoNotSchedule` would refuse to reschedule during a drain, because the surviving node would sit at skew 2. That is the same deadlock the budgets exist to avoid, moved somewhere harder to see. Phase 2 justified the soft constraint by the single-node floor; it survives the floor moving, for a different reason.
 
@@ -93,6 +105,10 @@ Status: Complete
 
 - `PodDisruptionBudget` with `minAvailable: 1` for both workloads.
 - Applied by an operator: the delivery Role holds `patch` and not `create`, and covers Deployments rather than policy objects.
+
+```bash
+kubectl get pdb -n demo
+```
 
 ![Both budgets allowing one disruption](../images/resilience-budgets.png)
 

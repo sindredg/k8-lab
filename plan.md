@@ -100,6 +100,8 @@ Documentation: [GKE Gateway API](https://cloud.google.com/kubernetes-engine/docs
 
 ### Phase 8: Observability and evidence
 
+**Status:** In progress. The telemetry scope, the uptime check, the alert, and the dashboard are built and taking data. The failure drills, the numbers, and the milestone close are outstanding.
+
 - Create one workload health dashboard.
 - Create one actionable availability alert.
 - Trigger the alert deliberately and verify recovery.
@@ -126,6 +128,8 @@ Existing self-healing, scaling, restart, and rollback evidence counts toward thi
 Documentation: [GKE observability](https://cloud.google.com/kubernetes-engine/docs/concepts/observability), [Cloud Monitoring alerting](https://cloud.google.com/monitoring/alerts), [GKE pricing](https://cloud.google.com/kubernetes-engine/pricing)
 
 ### Phase 9: Surviving a node
+
+**Status:** Complete
 
 Unplanned, and taken on because Phase 8 made the gap visible: two replicas survived a rollout and would not have survived a node going away.
 

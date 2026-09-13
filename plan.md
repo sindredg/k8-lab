@@ -211,7 +211,7 @@ Each step is one pull request.
 - The quota in D covers `maxReplicas`, one surge Pod, the smoke test Pod and nginx, and `pods` rises with it.
 - The uptime alert stays armed.
 
-Out of scope: sudden node loss and drain under load, autoscaling nginx, and custom metrics.
+Deferred: sudden node loss and drain under load, autoscaling nginx, and custom metrics.
 
 **Exit criteria:** A results table with one row per run: configuration, saturation rate, p95 at saturation, errors during rollout, peak replicas, nodes, and time from the HPA's decision to a Ready Pod on new capacity. The rollout error window, the quota stall and scale-down are each recorded with their recovery. The load generator and its VPC are deleted, and `gke-vpc` is the only network.
 

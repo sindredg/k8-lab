@@ -484,7 +484,7 @@ Alternatives: A `sky.` subdomain, which keeps each workload's path namespace who
 
 ### Telemetry scope
 
-Decision: Declare `SYSTEM_COMPONENTS` and `WORKLOADS` logging and `SYSTEM_COMPONENTS` monitoring with Managed Service for Prometheus, and leave `API_SERVER`, `SCHEDULER`, and `CONTROLLER_MANAGER` off.
+Decision: Declare `SYSTEM_COMPONENTS` and `WORKLOADS` logging and `SYSTEM_COMPONENTS` monitoring with Managed Service for Prometheus, and leave `API_SERVER`, `SCHEDULER`, and `CONTROLLER_MANAGER` off. The `CADVISOR`, `HPA`, `DEPLOYMENT` and `POD` packages are recorded under [Scaling telemetry](#scaling-telemetry).
 
 Why: Container stdout is the largest ingest line on a cluster this size and Cloud Logging bills it, so keeping `WORKLOADS` is a cost decision rather than a free one. The control plane streams answer "who changed this object", and are noisy and billable for everything else. Writing the scope down also turned an inherited default into a recorded choice, which the first plan proved by proposing a change rather than an empty diff.
 

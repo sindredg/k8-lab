@@ -1,6 +1,8 @@
-# Secure GKE Workload Platform
+# Secure GKE Platform, Proven Under Failure and Load
 
-A secure, publicly reachable Kubernetes platform on Google Cloud, built and documented one phase at a time, for those who want to see how a private cluster, keyless delivery, workload guardrails and managed TLS fit together in practice.
+A private, publicly reachable Kubernetes platform on Google Cloud, built one phase at a time and tested until it broke: a site outage, a failed rollout, traffic past saturation, and a zone out of capacity.
+
+It shows how a private cluster, keyless delivery, workload guardrails, managed TLS, zero-drop rollouts and autoscaling across zones fit together, and every claim links to the commands, numbers and screenshots behind it.
 
 ## Live
 

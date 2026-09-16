@@ -1,6 +1,6 @@
-# GKE Platform Lab
+# Kubernetes on GKE
 
-A GKE cluster on Google Cloud, set up with Terraform and deployed to from GitHub Actions without stored keys. It runs two workloads, `nginx` and `sky`, behind a Gateway with managed TLS. Each phase has a worklog, and each design choice is recorded in [decisions.md](decisions.md).
+A Kubernetes cluster on Google Cloud, set up with Terraform and deployed to from GitHub Actions. It currently runs two workloads, `nginx` and `sky`, behind a Gateway with managed TLS. Each phase has a worklog, and each design choice is recorded in [decisions.md](decisions.md).
 
 ## Live
 

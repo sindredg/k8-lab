@@ -5,7 +5,7 @@ resource "google_service_account" "nodes" {
   display_name = "GKE node service account for ${var.cluster_name}"
 }
 
-# Grants the node identity the minimum project role required by GKE system components.
+# The minimum project role GKE system components require on a node.
 resource "google_project_iam_member" "nodes" {
   project = var.project_id
   role    = "roles/container.defaultNodeServiceAccount"

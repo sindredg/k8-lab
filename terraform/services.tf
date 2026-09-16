@@ -1,4 +1,4 @@
-# Defines the Google Cloud APIs required to create and operate the initial GKE platform.
+# The Google Cloud APIs this platform needs.
 locals {
   required_services = toset([
     "artifactregistry.googleapis.com",
@@ -16,7 +16,7 @@ locals {
   ])
 }
 
-# Enables every required API without disabling shared project APIs during Terraform destruction.
+# Leaves shared project APIs enabled when Terraform destroys this one.
 resource "google_project_service" "required" {
   for_each = local.required_services
 

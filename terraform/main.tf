@@ -12,7 +12,7 @@ module "network" {
   depends_on = [google_project_service.required]
 }
 
-# Creates the private GKE cluster and its separately managed general-purpose node pool.
+# The private GKE cluster and its separately managed node pool.
 module "gke" {
   source = "./modules/gke"
 
@@ -28,16 +28,12 @@ module "gke" {
   node_pool_name = "general"
   machine_type   = "e2-standard-2"
 
-  # Two is the floor rather than one so a replica has somewhere to land when a node
-  # is drained, which is what lets the disruption budgets hold. At one node both
-  # replicas of a workload share a failure domain and the second replica buys only
-  # rollout continuity.
+  # Two so an evicted replica has somewhere to land, which the budgets need.
   min_node_count = 2
   max_node_count = 3
   disk_size_gb   = 50
 
-  # Node replacements land at night in Helsinki rather than whenever the release
-  # channel reaches this cluster.
+  # Node replacements land at night in Helsinki rather than at random.
   maintenance_start_time = "01:00"
 
   deletion_protection = true
@@ -90,7 +86,7 @@ module "gateway" {
   depends_on = [google_project_service.required]
 }
 
-# Watches the published site from outside Google's network, and gives an incident somewhere to start.
+# Watches the published site from outside Google's network.
 module "observability" {
   source = "./modules/observability"
 

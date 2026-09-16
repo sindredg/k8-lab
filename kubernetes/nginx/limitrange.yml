@@ -1,4 +1,4 @@
-# Supplies default resource values for containers that doesn't declare their own, so Pods are not rejected once a ResourceQuota is in place.
+# Defaults for containers that declare none, so a quota cannot reject them.
 apiVersion: v1
 kind: LimitRange
 metadata:
@@ -10,12 +10,12 @@ spec:
   limits:
     - type: Container
 
-      # Applied as container's limits when no other are declared.
+      # Applied as the container's limits when none are declared.
       default:
         cpu: 250m
         memory: 128Mi
 
-      # Applied as container's requests when no other are declared.
+      # Applied as the container's requests when none are declared.
       defaultRequest:
         cpu: 50m
         memory: 64Mi

@@ -1,5 +1,4 @@
-# Credential-free validation for every pull request.
-# Checks that the configuration in this repo is well formed and internally consistent.
+# Credential-free validation for every pull request and push to main.
 name: CI
 
 on:

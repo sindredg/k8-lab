@@ -1,4 +1,3 @@
-# Creates a dedicated Google Cloud service account for GKE worker nodes.
 resource "google_service_account" "nodes" {
   project      = var.project_id
   account_id   = var.node_service_account_id

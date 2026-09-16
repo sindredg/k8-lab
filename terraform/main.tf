@@ -1,4 +1,3 @@
-# Creates the dedicated VPC, subnet, and Pod address range used by GKE.
 module "network" {
   source = "./modules/network"
 
@@ -12,7 +11,6 @@ module "network" {
   depends_on = [google_project_service.required]
 }
 
-# The private GKE cluster and its separately managed node pool.
 module "gke" {
   source = "./modules/gke"
 
@@ -46,7 +44,6 @@ module "gke" {
   depends_on = [module.network]
 }
 
-# Creates the private image repository and grants the nodes read access to it.
 module "registry" {
   source = "./modules/registry"
 
@@ -63,7 +60,6 @@ module "registry" {
   depends_on = [google_project_service.required]
 }
 
-# Federates GitHub Actions into the project and creates the delivery identity.
 module "delivery" {
   source = "./modules/delivery"
 
@@ -75,7 +71,6 @@ module "delivery" {
   depends_on = [google_project_service.required, module.registry]
 }
 
-# Reserves the public address the external Gateway attaches to.
 module "gateway" {
   source = "./modules/gateway"
 
@@ -86,7 +81,6 @@ module "gateway" {
   depends_on = [google_project_service.required]
 }
 
-# Watches the published site from outside Google's network.
 module "observability" {
   source = "./modules/observability"
 

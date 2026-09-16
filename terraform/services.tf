@@ -1,4 +1,3 @@
-# The Google Cloud APIs this platform needs.
 locals {
   required_services = toset([
     "artifactregistry.googleapis.com",

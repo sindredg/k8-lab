@@ -75,7 +75,6 @@ export const options = {
 
 const params = (name, window) => ({ tags: window ? { name, window } : { name }, timeout: '10s' });
 
-// Settling until the step has run for SETTLE_SECONDS, settled after.
 const stepWindow = () => (Date.now() - exec.scenario.startTime < SETTLE_SECONDS * 1000 ? 'settling' : 'settled');
 
 // The places come from the application, so the test follows its data.

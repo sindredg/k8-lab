@@ -60,7 +60,6 @@ jobs:
           echo "UPSTREAM_REF=$ref" >> "$GITHUB_ENV"
           echo "Building ${ref}."
 
-      # Fetched by commit, so the build input is exactly the reviewed one.
       - name: Fetch the application source at the pinned commit
         run: |
           git init upstream

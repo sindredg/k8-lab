@@ -8,7 +8,6 @@ metadata:
     app.kubernetes.io/name: nginx
     app.kubernetes.io/part-of: k8-lab
 spec:
-  # This policy governs traffic arriving at the NGINX Pods.
   podSelector:
     matchLabels:
       app.kubernetes.io/name: nginx
@@ -34,7 +33,6 @@ metadata:
   labels:
     app.kubernetes.io/part-of: k8-lab
 spec:
-  # This policy governs traffic leaving the client Pods.
   podSelector:
     matchLabels:
       nginx-client: "true"

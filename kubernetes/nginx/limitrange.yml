@@ -10,12 +10,10 @@ spec:
   limits:
     - type: Container
 
-      # Applied as the container's limits when none are declared.
       default:
         cpu: 250m
         memory: 128Mi
 
-      # Applied as the container's requests when none are declared.
       defaultRequest:
         cpu: 50m
         memory: 64Mi

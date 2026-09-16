@@ -29,8 +29,6 @@ resource "google_container_cluster" "main" {
     }
   }
 
-  # Both blocks are declared, so the telemetry scope is a recorded choice.
-
   # WORKLOADS is the billed line here. Control-plane components stay off.
   logging_config {
     enable_components = ["SYSTEM_COMPONENTS", "WORKLOADS"]

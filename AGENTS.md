@@ -1,81 +1,47 @@
 # Working in this repository
 
-A GKE cluster built with Terraform and deployed to from GitHub Actions, serving
-`nginx` and `sky` behind one Gateway. The infrastructure and the delivery live
-here. The application is [sky](https://github.com/sindredg/sky), and that
-repository has its own guidance.
-
-The README holds the architecture and what has been measured. `plan.md` holds
-the phases, `decisions.md` holds why each choice was made. This file holds only
-what none of those can tell you.
+A GKE cluster built with Terraform and deployed from GitHub Actions. The
+application it serves is [sky](https://github.com/sindredg/sky), which has its
+own guidance. The README holds the architecture, `plan.md` the phases,
+`decisions.md` the reasoning. This file holds what none of them can.
 
 ## Authority
 
-The cluster is real, serves a public domain, and costs about kr462 a week.
+The cluster is real, public, and costs money. Propose, never apply: no
+`terraform apply`, no `kubectl apply`, no mutating `gcloud`. Open a pull request
+and stop. A human applies it and returns the result.
 
-Propose, never apply. No `terraform apply`, no `kubectl apply`, no `gcloud`
-command that mutates. Write the manifests and the Terraform, open a pull
-request, and stop. A human applies and pastes the result back.
+A plan that replaces infrastructure is a finding, not a formality. Say so.
 
-Never merge, close, approve, enable auto-merge, or force push a shared branch.
-Never weaken branch protection, required checks, or Actions restrictions.
+Never merge, approve, force push a shared branch, or weaken a check.
+
+## A green check is not evidence
+
+Confirm what a check examined, not that it passed. `check-docs.sh` reads
+`git ls-files`, so it skips a file you have not staged. `kubeconform` runs with
+`-ignore-missing-schemas`, so every CRD passes unvalidated and a misspelled
+policy field applies cleanly and does nothing. CI has reported three passing
+checks against a commit two behind the branch head.
+
+The same standard governs what you write. Every claim in the README, `plan.md`
+and the worklogs has a command and its output behind it. Give the number, not
+the adjective.
 
 ## Changes
 
-Branch names carry a type: `feat/`, `fix/`, `docs/`, `ci/`. Never `claude/`.
+Branch names and commit subjects both take a Conventional Commits type. The
+name describes the change, not its author.
 
-The conventional prefix goes in the pull request title, because squash merge
-makes it the commit subject. The body says why and what it cost.
-
-Do not stack pull requests. GitHub retargets the child only after the base
-merges, and not instantly, so merging both quickly lands the second in a
-squash-merged branch where it never reaches `main`.
-
-Confirm CI ran on your head commit, not that the pull request looks green. A
-run against an earlier commit displays as three passing checks and has examined
-none of your work.
-
-## Evidence
-
-Every claim in the README, `plan.md` and the worklogs has a command and its
-output behind it. Do not write one you have not run.
-
-Give the number, not the adjective. Either you measured it or you did not.
-
-A check that passes without examining anything is the worst outcome here,
-because it becomes evidence. Two in this repository behave that way.
-`scripts/check-docs.sh` reads `git ls-files`, so an unstaged new file is
-invisible to it and it reports `ok` having skipped your work entirely.
-`kubeconform` runs with `-ignore-missing-schemas`, so every CRD passes
-unvalidated, and a misspelled field in a policy applies cleanly and does
-nothing.
-
-## The cluster
-
-`terraform plan` must be clean before anything is applied. Check whether an
-attribute is `ForceNew` before changing it: `initial_node_count` drifted from
-Phase 9 to Phase 11 and would have destroyed both nodes on the next apply.
-
-Both delivery workflows share a concurrency group because two rollouts at once
-filled `limits.cpu`. The pipeline Role holds `patch` and not `create`, so a
-workload has to exist before the pipeline can update it.
-
-Cost is a constraint, not a footnote. Anything with recurring spend is said out
-loud. The load generator and its VPC exist for a session and are deleted after.
+Squash merge rewrites SHAs, so a branch built on another must be rebased once
+its base lands, and never merged while its base is anything but `main`.
 
 ## Where writing goes
 
-| File | Holds |
-| --- | --- |
-| `plan.md` | Phases, their scope, and exit criteria |
-| `decisions.md` | Decision, Why, Alternatives, and Cost when there is one |
-| `worklog/` | What was run, what came back, and the screenshots |
-| `reference/` | How a mechanism works, for a reader who was not there |
+`plan.md` is what will happen, `decisions.md` is why, `worklog/` is what
+happened, `reference/` is how something works.
 
-A worklog needs screenshots and you cannot take them. Write the prose and leave
-the human to capture the images. Never reference an image that is not
-committed, and never commit one nothing references: `check-docs.sh` fails both
-ways.
+A worklog needs screenshots you cannot take. Write the prose and leave the
+capture.
 
 ## Conventions
 

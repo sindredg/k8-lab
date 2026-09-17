@@ -199,7 +199,7 @@ $ gh api repos/sindredg/sky/collaborators --paginate --jq '.[] | .login'
 sindredg
 ```
 
-**Branch protection on `main`.** Unprotected on both repos: no required status checks, no required reviews, no "require branches to be up to date" setting, because none of those settings exist without protection turned on.
+**Branch protection on `main`.** The first check used the classic API and read as unprotected on both repos:
 
 ```text
 $ gh api repos/sindredg/k8-lab/branches/main/protection
@@ -207,6 +207,31 @@ $ gh api repos/sindredg/k8-lab/branches/main/protection
 $ gh api repos/sindredg/sky/branches/main/protection
 {"message":"Branch not protected", ... "status":"404"}
 ```
+
+That reads unprotected because `k8-lab` doesn't use classic protection at all — it uses a Ruleset, a separate GitHub mechanism the classic endpoint doesn't see:
+
+```text
+$ gh api repos/sindredg/k8-lab/rulesets
+[{"id":21742516,"name":"Protect main","enforcement":"active", "created_at":"2026-08-28T17:16:30Z", ...}]
+```
+
+`enforcement: "active"`, created 2026-08-28, with rules blocking deletion and force-push and requiring the `Terraform`, `Kubernetes` and `Docs and scripts` checks. But `conditions.ref_name.include` was `[]` — an active ruleset matching no branch. It has enforced nothing on `main` since it was created three weeks ago; the classic endpoint's 404 was accidentally the correct practical answer, for the wrong reason. `Static analysis` (checkov) is also absent from the required-checks list, unrelated to targeting.
+
+Fixed in this session: targeting set to `~DEFAULT_BRANCH`, and `strict_required_status_checks_policy` (the "require branches to be up to date" toggle the model needed answered) turned on.
+
+```text
+$ gh api repos/sindredg/k8-lab/rulesets/21742516
+{"conditions":{"ref_name":{"include":["~DEFAULT_BRANCH"],"exclude":[]}},
+ "rules":[{"type":"deletion"},{"type":"non_fast_forward"},
+   {"type":"required_status_checks","parameters":{
+     "strict_required_status_checks_policy":true,
+     "required_status_checks":[{"context":"Terraform"},{"context":"Kubernetes"},{"context":"Docs and scripts"}]}},
+   {"type":"pull_request","parameters":{"required_approving_review_count":0}}],
+ "current_user_can_bypass":"never",
+ "updated_at":"2026-09-17T20:28:40Z"}
+```
+
+`current_user_can_bypass: "never"` was already correct — the sole collaborator's admin permission cannot bypass this ruleset, so turning it on is not decorative. `sky` has neither a ruleset nor classic protection; still fully open. `Static analysis` remains outside the required-checks list on `k8-lab`, a separate decision not made in this session.
 
 **MFA.** Not answerable from an API. `sindredg` is a personal account (`gh api orgs/sindredg` returns 404), and GitHub's REST API no longer reports a personal account's own two-factor status — `GET /user` still returns the field but it is deprecated and always null:
 
@@ -217,9 +242,7 @@ $ gh api user --jq '{login, two_factor_authentication}'
 
 No API path answers this. Confirmed instead by the account owner checking github.com/settings/security directly: enabled.
 
-Finding 8 is now fully measured. Write access is scoped to one account, `main` has no protection on either repo, and that one account has MFA enabled — the highest-ranked path's remaining exposure is the missing branch protection, not the credential.
-
-Combined with an unprotected `main` and sole write access on a personal account, finding 8's highest-ranked path is: one set of credentials, unconfirmed second factor, gates a production GCP deployment pipeline with no required review and no required status check.
+Finding 8, as it stood at the start of this phase: one set of credentials, unconfirmed second factor, gated a production GCP deployment pipeline with an active-looking ruleset that matched nothing. As it stands now: MFA confirmed on, `main` on `k8-lab` genuinely enforces its required checks and cannot be bypassed by its own admin, and `sky` remains the open item — same shape, unaddressed.
 
 ## Open question raised during the phase
 

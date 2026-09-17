@@ -272,6 +272,8 @@ Documentation: [hardening your GKE cluster](https://cloud.google.com/kubernetes-
 
 Ordered by the threat model's ranking rather than by ease. The first item defends the only path an adversary is exercising today; the last is the one with six controls already on it.
 
+Four bullets below shipped and were deployed during Phase 13: Cloud Armor rate limiting, the SSL policy, the response headers (except sky's CSP), and the pin-bump CI check. See the [Phase 13 worklog](worklog/phase-13-security-baseline.md).
+
 - Add Cloud Armor rate limiting to the Gateway, sized from the Phase 12 measurements.
 - Re-decide the federation trust boundary with its consequence written down, and record the outcome either way.
 - Restrict certificate issuance with CAA records, and alert when the certificate leaves `ACTIVE`.

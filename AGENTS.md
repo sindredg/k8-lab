@@ -10,6 +10,16 @@ own guidance. The README holds the architecture, `plan.md` the phases,
 The cluster is real, public, and costs money. Propose, never apply. 
 Open a pull request, stop and let the repo owner review and apply it.
 
+An authorisation to apply covers the change under review and nothing else. It
+does not carry to the next task, and never reaches a resource Terraform does
+not manage. Asked to prove a rate limit, a session began provisioning a load
+generator VM and its VPC; Phase 11 spent a slice deleting the last unmanaged
+network this project had.
+
+Load tests, failure drills, and anything that puts traffic on the platform
+belong to the repo owner. The result is the deliverable, not a step toward one.
+Scaffold the worklog and leave the numbers blank.
+
 A plan that replaces infrastructure is a finding, not a formality. Say so.
 
 Never merge, approve, force push a shared branch, or weaken a check.

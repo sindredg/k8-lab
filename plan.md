@@ -262,7 +262,7 @@ Kept thin deliberately: the ATT&CK mapping records the techniques that apply, wi
 
 **Exit criteria met:** Every threat model finding is confirmed, closed, or reclassified against measured state. `scripts/check-public-surface.sh` runs daily in `security-scan.yml` and fails on a listed finding that regresses, proven by the deliberate-regression test recorded in the worklog. checkov runs on every pull request via `ci.yml`. kubescape ran one-shot against MITRE and NSA. Security Command Center was checked and found disabled, itself a finding. The three account controls (MFA, write access, branch protection) are all verified, and one was found broken: `k8-lab`'s branch ruleset existed but targeted no branch, fixed during this phase.
 
-Not closed by this phase, carried to Phase 14: findings 2, 4, 9, 10, and `sky`'s branch protection.
+Not closed by this phase, carried to Phase 14: findings 2, 3, 4, 9 and 10, finding 6's CSP and `frame-ancestors`, and `sky`'s branch protection. Findings 3 and 9 were measured open rather than left unverified. The [threat model's findings table](reference/threat-model.md#findings) carries the status of all twelve.
 
 Evidence: [Phase 13 worklog](worklog/phase-13-security-baseline.md)
 

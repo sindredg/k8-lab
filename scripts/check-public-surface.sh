@@ -55,7 +55,9 @@ unknown=0
 is_known() {
   local id=$1 entry
   for entry in "${KNOWN_OPEN[@]}"; do
-    [ "${entry%% *}" = "$id" ] && return 0
+    if [ "${entry%% *}" = "$id" ]; then
+      return 0
+    fi
   done
   return 1
 }

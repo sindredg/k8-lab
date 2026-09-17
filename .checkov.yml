@@ -1,0 +1,20 @@
+# Static analysis of the Terraform and the manifests.
+#
+# Only checks verified wrong for this repository are skipped here. A finding
+# that is merely judged acceptable belongs in .checkov.baseline instead, so
+# that accepting it stays a recorded decision rather than a silent skip.
+framework:
+  - terraform
+  - kubernetes
+
+skip-check:
+  # Dataplane V2 enforces NetworkPolicy natively and does not use the legacy
+  # network_policy block this check looks for. terraform/modules/gke/main.tf
+  # sets datapath_provider = "ADVANCED_DATAPATH", and Phase 4 recorded an
+  # unlabelled client denied by both name and address.
+  - CKV_GCP_12
+
+  # workload_metadata_config is set to GKE_METADATA, with legacy endpoints
+  # disabled, in terraform/modules/gke/node_pool.tf. The check reads the
+  # cluster resource, and this node pool is a separate resource.
+  - CKV_GCP_69

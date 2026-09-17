@@ -1,0 +1,63 @@
+# Checks the published surface from outside the platform, on a schedule.
+#
+# Phase 11 audited by inspection and Phase 13 measures instead, because the
+# grade a public TLS scan gives this domain was not visible in any manifest.
+# This runs without a credential and reaches nothing but the public address.
+name: Security scan
+
+on:
+  schedule:
+    # An hour before Watch sky, so a morning review sees both.
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/check-public-surface.sh'
+      - '.github/workflows/security-scan.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-scan
+  cancel-in-progress: false
+
+env:
+  DOMAIN: sindrg.com
+
+jobs:
+  surface:
+    name: Public surface
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # The runner image carries openssl and curl. dig is what queries CAA
+      # and the zone's signing state.
+      - name: Install dig
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends bind9-dnsutils
+
+      # Findings the threat model already records are listed in the script and
+      # do not fail here. A new one does, and so does one that has quietly been
+      # fixed without the list being updated.
+      - name: Check TLS, headers, and DNS
+        id: check
+        run: |
+          set -o pipefail
+          ./scripts/check-public-surface.sh "$DOMAIN" | tee "$RUNNER_TEMP/surface.txt"
+
+      - name: Record the result
+        if: always()
+        run: |
+          {
+            echo "### Public surface of ${DOMAIN}"
+            echo ""
+            echo '```'
+            cat "$RUNNER_TEMP/surface.txt"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

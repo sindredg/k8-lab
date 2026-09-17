@@ -72,7 +72,7 @@ The run above is the first with nothing inconclusive: every probe reached the or
 
 Findings the threat model records are listed in the script, so it gates against regression rather than against work Phase 14 has not done. A listed check that starts passing also fails, and names the line to delete. The list cannot quietly outlive the findings it describes.
 
-Evidence: run recorded above. Scheduled daily by `.github/workflows/security-scan.yml`.
+Evidence: run recorded above, and the deliberate test below. Scheduled daily by `.github/workflows/security-scan.yml`.
 
 ### Applied and re-verified
 
@@ -123,6 +123,39 @@ $ curl -sS "https://api.ssllabs.com/api/v3/analyze?host=sindrg.com&all=done" | j
 ```
 
 Grade `A`, not `A+`. HSTS is set to one day (`max-age=86400`), not the 180 days (`15552000`) A+ requires. That is deliberate: `includeSubDomains` and preload are both one-way doors.
+
+### The gate, tested deliberately
+
+A script that reports `0 regressed` has not shown that it can report anything else. Both directions were forced against the live host, on a copy of the script so the committed one stayed as it is.
+
+A finding that regresses: `caa` deleted from `KNOWN_OPEN` while it still fails.
+
+```text
+$ sed '/^  "caa"/d' scripts/check-public-surface.sh > /tmp/regressed.sh
+$ bash /tmp/regressed.sh sindrg.com
+
+REGRESSED caa              no CAA record
+
+8 ok, 3 known open, 1 regressed, 0 resolved, 0 inconclusive
+$ echo $?
+1
+```
+
+A finding that closed: `hsts` added back to `KNOWN_OPEN` while it now passes.
+
+```text
+$ sed 's|^  "csp"|  "hsts"\n  "csp"|' scripts/check-public-surface.sh > /tmp/resolved.sh
+$ bash /tmp/resolved.sh sindrg.com
+
+RESOLVED  hsts             strict-transport-security present on every path
+          remove hsts from KNOWN_OPEN in resolved.sh
+
+7 ok, 4 known open, 0 regressed, 1 resolved, 0 inconclusive
+$ echo $?
+1
+```
+
+Both exit `1`, so `security-scan.yml` fails on either. The list cannot drift from the findings in either direction without the workflow saying so.
 
 ## Slice 2: Static analysis of the Terraform and the manifests
 

@@ -6,6 +6,17 @@ resource "google_compute_global_address" "gateway" {
   description  = "Static frontend address for the external Gateway"
 }
 
+# Google's default policy for a load balancer accepts TLS 1.0 and 1.1, which
+# is what a public scan grades this domain B on. Nothing chose that default;
+# it applies because no policy is attached. MODERN keeps the cipher suites a
+# current browser offers, and the floor rules out the two old versions.
+resource "google_compute_ssl_policy" "default" {
+  project         = var.project_id
+  name            = "${var.address_name}-ssl-policy"
+  profile         = "MODERN"
+  min_tls_version = "TLS_1_2"
+}
+
 # The API stores project numbers, so the certificate is written that way.
 data "google_project" "this" {
   project_id = var.project_id

@@ -15,6 +15,23 @@ spec:
     - sindrg.com
 
   rules:
-    - backendRefs:
+    # Gateway API puts filters on a rule, not on a Gateway, so the same header
+    # set is declared on every rule that serves this host.
+    - filters:
+        - type: ResponseHeaderModifier
+          responseHeaderModifier:
+            set:
+              # One day to begin with. Long enough to be a control, short
+              # enough to back out of within a day. Raising it is Phase 14's
+              # last step, once nothing on the domain is found to need plain
+              # HTTP. includeSubDomains and preload stay off: both are one-way
+              # doors, and preload removal takes months.
+              - name: Strict-Transport-Security
+                value: max-age=86400
+              - name: X-Content-Type-Options
+                value: nosniff
+              - name: Referrer-Policy
+                value: strict-origin-when-cross-origin
+      backendRefs:
         - name: nginx
           port: 80

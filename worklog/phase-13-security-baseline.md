@@ -52,7 +52,9 @@ The two compound rather than add. The certificate depends on a DNS answer, the D
 
 **TLS 1.0 and 1.1 accepted**, confirming the public scan independently. Google's default SSL policy permits them and no policy is attached to the Gateway.
 
-**Five response headers missing on both paths.** HSTS, CSP, `X-Content-Type-Options`, `Referrer-Policy` and a `frame-ancestors` directive are absent from the nginx root and from `/sky/` alike, which is the argument for setting them once at the Gateway rather than twice in two workloads.
+**Five response headers missing on both paths.** HSTS, CSP, `X-Content-Type-Options`, `Referrer-Policy` and a `frame-ancestors` directive are absent from the nginx root and from `/sky/` alike.
+
+A first draft of this worklog said the fix was to set them once at the Gateway. That is not possible. Gateway API puts filters on an HTTPRoute rule, and a Gateway-wide response header filter exists only as an implementation-specific extension that this controller does not provide. The header set is therefore declared on every rule serving the host, which is three rules across two files, and keeping them identical is a review problem rather than a configuration one.
 
 ### What the script refuses to do
 

@@ -27,6 +27,17 @@ spec:
             path:
               type: ReplacePrefixMatch
               replacePrefixMatch: /
+        # Declared per rule because Gateway API has no Gateway-wide filter.
+        # Kept identical to the nginx route: one host, one header set.
+        - type: ResponseHeaderModifier
+          responseHeaderModifier:
+            set:
+              - name: Strict-Transport-Security
+                value: max-age=86400
+              - name: X-Content-Type-Options
+                value: nosniff
+              - name: Referrer-Policy
+                value: strict-origin-when-cross-origin
       backendRefs:
         - name: sky
           port: 80
@@ -39,6 +50,16 @@ spec:
         - path:
             type: PathPrefix
             value: /static
+      filters:
+        - type: ResponseHeaderModifier
+          responseHeaderModifier:
+            set:
+              - name: Strict-Transport-Security
+                value: max-age=86400
+              - name: X-Content-Type-Options
+                value: nosniff
+              - name: Referrer-Policy
+                value: strict-origin-when-cross-origin
       backendRefs:
         - name: sky
           port: 80

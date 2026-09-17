@@ -425,118 +425,6 @@ Status: **Not started.**
 
 The question is what the free tier covers for this project today, specifically whether Security Health Analytics configuration scanning is included or whether Google now directs that to Compliance Manager. Nothing was looked up. No answer should be inferred from the tier this project was on when Phase 13 was written.
 
-## Finding: an unattributed load generator
-
-A load generator VM existed in this project during this work and was not accounted for. It is recorded here because an unexplained compute resource created with the owner's credentials is a security question, not a bookkeeping one.
-
-### What existed
-
-```bash
-gcloud compute instances list
-```
-
-```text
-NAME                              ZONE             MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP   STATUS
-loadgen                           europe-west4-a   e2-standard-2               10.99.0.2    34.90.221.25  RUNNING
-gke-k8-lab-general-cf1cb723-jplw  europe-north1-b  e2-standard-2               10.10.0.20                 RUNNING
-gke-k8-lab-general-7d6bb7c7-0rru  europe-north1-a  e2-standard-2               10.10.0.15                 RUNNING
-```
-
-A second VPC existed alongside it, which is what Phase 11 spent a slice removing the last of:
-
-```text
-gke-vpc
-loadgen
-```
-
-### Who created it
-
-From the Cloud Audit Log:
-
-```bash
-gcloud logging read \
-  'protoPayload.methodName="v1.compute.instances.insert" AND
-   protoPayload.resourceName:"instances/loadgen"' \
-  --freshness=2d \
-  --format='value(timestamp, protoPayload.authenticationInfo.principalEmail)'
-```
-
-```text
-2026-09-17T21:41:13.883525Z	sindre.demetrio@gmail.com
-2026-09-17T21:41:00.919286Z	sindre.demetrio@gmail.com
-```
-
-The principal is the project owner's own account, which is the only credential on the workstation. The caller metadata narrows it further:
-
-```text
-google-cloud-sdk gcloud/579.0.0 agent-name/claude-code_2-1-274_agent
-command/gcloud.compute.instances.create
-invocation-id/bf1d98d6e2bc46aa8401ebf36e5c0e59
-client-os/LINUX client-os-ver/6.6.87 client-pltf-arch/arm
-interactive/False from-script/True python/3.12.3
-(Linux 6.6.87.2-microsoft-standard-WSL2)
-```
-
-What the log states, and no more:
-
-- The call was `gcloud compute instances create`, made with the owner's credentials.
-- It came from a Claude Code agent process (`agent-name/claude-code_2-1-274_agent`), non-interactively (`interactive/False`), from a script (`from-script/True`) — consistent with `loadtest/loadgen.sh up`, which is the only script in this repository that creates this instance.
-- Both log lines share one `invocation-id`, and are the first and last entries of a single long-running operation rather than two creates.
-- The host was `arm` on WSL2, which is this workstation and not a runner.
-
-**This correctly rules out the remote session**, which holds no Google Cloud credentials. It also rules out a hand-typed command.
-
-**One thing it does not explain.** The prior session's own `loadgen.sh up` call was rejected by the operator and never executed, yet the log shows an agent-driven create from this workstation at 21:41:00.9Z. Which agent process made the call is therefore not established by the evidence gathered here, and this worklog does not guess. What is established is the principal, the tool, the host and the time.
-
-An earlier reading of this VM — that it belonged to the remote Claude session — was wrong, and was asserted before the audit log was consulted.
-
-### It served nothing
-
-```bash
-gcloud logging read 'resource.type="http_load_balancer" AND httpRequest.remoteIp="34.90.221.25"' --freshness=1h
-gcloud logging read 'resource.type="http_load_balancer" AND httpRequest.status=429 AND timestamp>="2026-09-17T21:35:00Z"' --freshness=1h
-```
-
-Both returned no rows. The instance was created at 21:41:00.9Z and generated no request against the load balancer, and no 429 was recorded in the window. Whatever it was created for, no load test ran through it. This is the reason Slice 5 has no result.
-
-### Deleted
-
-```bash
-loadtest/loadgen.sh down
-```
-
-```text
-Deleted [https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-west4-a/instances/loadgen].
-Deleted [https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/global/firewalls/loadgen-allow-iap-ssh].
-Deleted [https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/regions/europe-west4/subnetworks/loadgen].
-Deleted [https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/global/networks/loadgen].
-Networks remaining:
-gke-vpc
-```
-
-The delete, from the audit log, same principal:
-
-```text
-2026-09-17T21:46:09.797160Z	sindre.demetrio@gmail.com
-2026-09-17T21:45:25.329795Z	sindre.demetrio@gmail.com
-```
-
-Verified after:
-
-```bash
-gcloud compute instances list --format='table(name,zone,status)'
-gcloud compute networks list --format='value(name)'
-```
-
-```text
-NAME                              ZONE             STATUS
-gke-k8-lab-general-cf1cb723-jplw  europe-north1-b  RUNNING
-gke-k8-lab-general-7d6bb7c7-0rru  europe-north1-a  RUNNING
-gke-vpc
-```
-
-Only the two node VMs remain, and `gke-vpc` is the only network. The instance existed for roughly five minutes, from 21:41:00.9Z to its delete at 21:45:25.3Z.
-
 ## What this phase leaves open
 
 | # | Item | State |
@@ -546,7 +434,6 @@ Only the two node VMs remain, and `gke-vpc` is the only network. The instance ex
 | 3 | Security Command Center tier | Not started |
 | 4 | CAA record | Derived, not added. Cloudflare proxy question unresolved |
 | 5 | Two protection mechanisms on `k8-lab` main | Consolidate into ruleset 21742516 |
-| 6 | Load generator attribution | Principal, tool and host established; originating agent process not |
 
 ## Notes for the span documents
 

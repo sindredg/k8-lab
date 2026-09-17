@@ -7,9 +7,8 @@ own guidance. The README holds the architecture, `plan.md` the phases,
 
 ## Authority
 
-The cluster is real, public, and costs money. Propose, never apply: no
-`terraform apply`, no `kubectl apply`, no mutating `gcloud`. Open a pull request
-and stop. A human applies it and returns the result.
+The cluster is real, public, and costs money. Propose, never apply. 
+Open a pull request, stop and let the repo owner review and apply it.
 
 A plan that replaces infrastructure is a finding, not a formality. Say so.
 
@@ -40,13 +39,12 @@ its base lands, and never merged while its base is anything but `main`.
 `plan.md` is what will happen, `decisions.md` is why, `worklog/` is what
 happened, `reference/` is how something works.
 
-A worklog needs screenshots you cannot take. Write the prose and leave the
-capture.
-
 ## Conventions
 
 Comments are one line or absent. The bar is not "is this true" but "does the
 code already say this".
 
-Every agent-authored commit carries `Co-Authored-By: Claude Opus 5
-<noreply@anthropic.com>`. Human and Dependabot commits do not.
+Keap writing style consisten with what already is in the repository, 
+avaid long paragraphs, prefer bullets and tables where suitable.
+
+

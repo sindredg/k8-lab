@@ -344,11 +344,17 @@ Alternatives: Stay advisory, which is what let the findings sit. Per-object `ign
 
 ### Merge protection
 
-Decision: Require a pull request and both status checks on `main` through a repository ruleset, with no bypass actors.
+Decision: Require a pull request and the status checks on `main` through a repository ruleset, with no bypass actors. `sky` uses classic protection requiring its two test jobs.
 
-Why: Validation that can be pushed past is documentation, not enforcement.
+Why: Validation that can be pushed past is documentation, not enforcement. `sky` is where production's pinned commit comes from, so it is governed too.
 
-Alternatives: Advisory checks only, or an admin bypass for the repository owner.
+Cost: `k8-lab` now carries a ruleset and a classic rule with disjoint check lists, because Phase 14 read a `404` from the classic endpoint as no protection at all when the ruleset was already in force. GitHub applies both, so nothing is weaker, but one branch governed by two mechanisms is harder to read than it should be. Consolidating into the ruleset is open.
+
+`Public surface` is deliberately not required. It runs on two paths only, so requiring it would leave every pull request that touches neither one pending forever.
+
+`enforce_admins` is off on both. With no required reviewer, turning it on locks the sole owner out of their own repositories.
+
+Alternatives: Advisory checks only, or an admin bypass for the repository owner. `strict` on the classic rule, which would require a branch to be up to date before merging; the ruleset already sets it, and the classic rule was left without it.
 
 ### Initial delivery model
 

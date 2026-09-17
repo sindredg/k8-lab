@@ -1,7 +1,7 @@
 # Worklog: Phase 13 Security Baseline
 
 Date: 2026-09-17
-Status: Complete, one item outside API reach.
+Status: Complete.
 
 ## Goal
 
@@ -186,7 +186,7 @@ Enabling it now would start monitoring from zero, not surface a backlog, so it w
 
 ## Slice 4: Account controls
 
-Status: Complete, one item unresolved
+Status: Complete
 
 Threat model finding 8. Multi-factor authentication, who holds write access, and whether `main` requires status checks and an up-to-date branch. The model assumed all three and no scan reached any of them.
 
@@ -208,14 +208,16 @@ $ gh api repos/sindredg/sky/branches/main/protection
 {"message":"Branch not protected", ... "status":"404"}
 ```
 
-**MFA.** Not answerable from here. `sindredg` is a personal account (`gh api orgs/sindredg` returns 404), and GitHub's REST API no longer reports a personal account's own two-factor status — `GET /user` still returns the field but it is deprecated and always null:
+**MFA.** Not answerable from an API. `sindredg` is a personal account (`gh api orgs/sindredg` returns 404), and GitHub's REST API no longer reports a personal account's own two-factor status — `GET /user` still returns the field but it is deprecated and always null:
 
 ```text
 $ gh api user --jq '{login, two_factor_authentication}'
 {"login":"sindredg","two_factor_authentication":null}
 ```
 
-There is no API path left that answers this; it can only be confirmed at github.com/settings/security.
+No API path answers this. Confirmed instead by the account owner checking github.com/settings/security directly: enabled.
+
+Finding 8 is now fully measured. Write access is scoped to one account, `main` has no protection on either repo, and that one account has MFA enabled — the highest-ranked path's remaining exposure is the missing branch protection, not the credential.
 
 Combined with an unprotected `main` and sole write access on a personal account, finding 8's highest-ranked path is: one set of credentials, unconfirmed second factor, gates a production GCP deployment pipeline with no required review and no required status check.
 

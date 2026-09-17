@@ -15,17 +15,12 @@ spec:
     - sindrg.com
 
   rules:
-    # Gateway API puts filters on a rule, not on a Gateway, so the same header
-    # set is declared on every rule that serves this host.
+    # Filters attach to a rule, so every rule serving this host repeats the set.
     - filters:
         - type: ResponseHeaderModifier
           responseHeaderModifier:
             set:
-              # One day to begin with. Long enough to be a control, short
-              # enough to back out of within a day. Raising it is Phase 14's
-              # last step, once nothing on the domain is found to need plain
-              # HTTP. includeSubDomains and preload stay off: both are one-way
-              # doors, and preload removal takes months.
+              # One day, no includeSubDomains, no preload: both are one-way doors.
               - name: Strict-Transport-Security
                 value: max-age=86400
               - name: X-Content-Type-Options

@@ -1,8 +1,4 @@
-# Attaches the SSL policy to the Gateway. Without this the load balancer runs
-# Google's default, which accepts TLS 1.0 and 1.1.
-#
-# The policy itself is Terraform's, in modules/gateway. This names it, the way
-# the Gateway names the certificate map rather than carrying key material.
+# Names the SSL policy Terraform owns, the way the Gateway names the cert map.
 apiVersion: networking.gke.io/v1
 kind: GCPGatewayPolicy
 metadata:

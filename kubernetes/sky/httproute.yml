@@ -27,8 +27,7 @@ spec:
             path:
               type: ReplacePrefixMatch
               replacePrefixMatch: /
-        # Declared per rule because Gateway API has no Gateway-wide filter.
-        # Kept identical to the nginx route: one host, one header set.
+        # Same set as the nginx route; filters cannot attach to the Gateway.
         - type: ResponseHeaderModifier
           responseHeaderModifier:
             set:

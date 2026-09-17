@@ -1,7 +1,7 @@
 # Worklog: Phase 13 Security Baseline
 
 Date: 2026-09-17
-Status: In progress.
+Status: Complete, one item outside API reach.
 
 ## Goal
 
@@ -74,6 +74,54 @@ Findings the threat model records are listed in the script, so it gates against 
 
 Evidence: run recorded above. Scheduled daily by `.github/workflows/security-scan.yml`.
 
+### Applied and re-verified
+
+The SSL policy, header filters, GCPGatewayPolicy and Cloud Armor rate limit landed on `main` (#93, #95, #98) but had not reached the cluster. Applied in this session:
+
+```text
+$ terraform -chdir=terraform plan
+Plan: 2 to add, 0 to change, 0 to destroy.
+$ terraform -chdir=terraform apply
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+```
+
+`kubectl apply` for `gcpgatewaypolicy.yml`, both `httproute.yml`, and both `gcpbackendpolicy.yml` (the last pair attaches the Cloud Armor policy Terraform created to each backend; not part of this phase's scope but required for #98's rate limit to do anything).
+
+Re-running the script after Google's load balancer config propagated (a few minutes, consistent with the note below):
+
+```text
+$ ./scripts/check-public-surface.sh
+
+ok        tls10-refused    server refused tls1
+ok        tls11-refused    server refused tls1_1
+ok        tls12-accepted   server accepted tls1_2
+ok        tls13-accepted   server accepted tls1_3
+ok        http-redirect    plain HTTP redirects to HTTPS
+ok        hsts             strict-transport-security present on every path
+known     csp              content-security-policy missing on / /sky/
+ok        nosniff          x-content-type-options present on every path
+ok        referrer-policy  referrer-policy present on every path
+known     frame-ancestors  content-security-policy missing on / /sky/
+known     caa              no CAA record
+known     dnssec           no DS record
+
+8 ok, 4 known open, 0 regressed, 0 resolved, 0 inconclusive
+```
+
+Five of the nine findings this slice opened are now closed: `tls10-refused`, `tls11-refused`, `hsts`, `nosniff`, `referrer-policy`. Removed from `KNOWN_OPEN` in `scripts/check-public-surface.sh`, so a regression on any of them now fails the script rather than passing silently. `csp` and `frame-ancestors` stay open until [sky#59](https://github.com/sindredg/sky/pull/59) lands; nginx serves no CSP. `caa` and `dnssec` are unchanged from the first run.
+
+SSL Labs independently confirms the TLS and HSTS state:
+
+```text
+$ curl -sS "https://api.ssllabs.com/api/v3/analyze?host=sindrg.com&all=done" | jq '.endpoints[] | {grade, hstsPolicy: .details.hstsPolicy}'
+{
+  "grade": "A",
+  "hstsPolicy": {"LONG_MAX_AGE": 15552000, "header": "max-age=86400", "status": "present", "maxAge": 86400}
+}
+```
+
+`A`, not `A+`: HSTS is set to one day (`max-age=86400`) rather than the 180 days (`15552000`) A+ requires, and that is deliberate — `includeSubDomains` and preload are both one-way doors, noted where the header is set.
+
 ## Slice 2: Static analysis of the Terraform and the manifests
 
 Status: Complete
@@ -107,15 +155,69 @@ One new finding, low severity and genuine: nginx runs as uid 101 where `CKV_K8S_
 
 ## Slice 3: Cluster assessment
 
-Status: Not started
+Status: Complete
 
-Kubescape against the MITRE ATT&CK and NSA frameworks, one-shot from an operator context rather than as an in-cluster agent, and whatever Security Command Center already reports.
+Kubescape 4.0.14, installed from the GitHub release binary (`kubescape_4.0.14_linux_arm64`, checksum verified against the release's `checksums.sha256`), one-shot against the MITRE and NSA frameworks from an operator kubeconfig. No in-cluster operator: it needs broad cluster-read and this node pool has no headroom under the ResourceQuota.
+
+```bash
+kubescape scan framework mitre,nsa
+```
+
+```text
+Frameworks scanned: MITRE (compliance score: 62.65), NSA (compliance score: 56.40)
+
+Controls: 41   Passed: 11   Failed: 28   Action Required: 2
+
+Failed resources by severity: Critical 0, High 255, Medium 328, Low 47
+Resource Summary: 175/388 failed (61.56% compliance)
+```
+
+Worst-scoring controls: CPU limits (7% compliant, 51/55 resources), admission controller validation (0%, un-configured), access to the container service account (0%, 78/78), ingress/egress network policy coverage (16%, 53/63). Expect noise from `kube-system` and GKE-managed namespaces — those are Google's to fix, not the platform's. Full JSON kept out of git; re-run to reproduce.
+
+**Security Command Center**: not enabled on the project. The threat model's premise that Standard tier had been running since project creation, with an unread backlog, does not hold here.
+
+```text
+$ gcloud scc findings list projects/project-69726555-c4de-48de-a69
+ERROR: PERMISSION_DENIED: Security Command Center API has not been used in project
+project-69726555-c4de-48de-a69 before or it is disabled.
+```
+
+Enabling it now would start monitoring from zero, not surface a backlog, so it was left disabled pending a decision on whether to turn it on going forward. That decision itself is a finding: no free security-posture signal has ever run on this project.
 
 ## Slice 4: Account controls
 
-Status: Not started
+Status: Complete, one item unresolved
 
-Threat model finding 8. Multi-factor authentication, who holds write access, and whether `main` requires status checks and an up-to-date branch. The model assumes all three and no scan reaches any of them.
+Threat model finding 8. Multi-factor authentication, who holds write access, and whether `main` requires status checks and an up-to-date branch. The model assumed all three and no scan reached any of them.
+
+**Write access.** `sindredg` is the sole collaborator on both `k8-lab` and `sky`, with admin permission on each. No other user or team holds access.
+
+```text
+$ gh api repos/sindredg/k8-lab/collaborators --paginate --jq '.[] | .login'
+sindredg
+$ gh api repos/sindredg/sky/collaborators --paginate --jq '.[] | .login'
+sindredg
+```
+
+**Branch protection on `main`.** Unprotected on both repos: no required status checks, no required reviews, no "require branches to be up to date" setting, because none of those settings exist without protection turned on.
+
+```text
+$ gh api repos/sindredg/k8-lab/branches/main/protection
+{"message":"Branch not protected", ... "status":"404"}
+$ gh api repos/sindredg/sky/branches/main/protection
+{"message":"Branch not protected", ... "status":"404"}
+```
+
+**MFA.** Not answerable from here. `sindredg` is a personal account (`gh api orgs/sindredg` returns 404), and GitHub's REST API no longer reports a personal account's own two-factor status — `GET /user` still returns the field but it is deprecated and always null:
+
+```text
+$ gh api user --jq '{login, two_factor_authentication}'
+{"login":"sindredg","two_factor_authentication":null}
+```
+
+There is no API path left that answers this; it can only be confirmed at github.com/settings/security.
+
+Combined with an unprotected `main` and sole write access on a personal account, finding 8's highest-ranked path is: one set of credentials, unconfirmed second factor, gates a production GCP deployment pipeline with no required review and no required status check.
 
 ## Open question raised during the phase
 

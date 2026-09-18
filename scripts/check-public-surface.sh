@@ -25,6 +25,11 @@ PATHS=("/" "/sky/")
 KNOWN_OPEN=(
 )
 
+# Zones known to publish these records, so an empty answer can be told from a
+# resolver that does not answer the query form at all.
+CAA_CONTROL=${CAA_CONTROL:-google.com}
+DNSSEC_CONTROL=${DNSSEC_CONTROL:-cloudflare.com}
+
 # The whole CAA answer, not a sample of it. RFC 8659 takes the union of the
 # records at a name, so a named issuewild entry beside `;` re-authorises the
 # wildcard issuance `;` forbids. A record this list does not name is therefore
@@ -258,7 +263,11 @@ check_caa() {
 
   out=$(dig +short CAA "$HOST" 2>/dev/null || true)
   if [ -z "$out" ]; then
-    report fail "$id" "no CAA record"
+    if [ -z "$(dig +short CAA "$CAA_CONTROL" 2>/dev/null || true)" ]; then
+      report inconclusive "$id" "this resolver returned no CAA for $CAA_CONTROL either, so it does not answer CAA here"
+    else
+      report fail "$id" "no CAA record"
+    fi
     return
   fi
 
@@ -282,8 +291,12 @@ check_caa() {
   fi
 }
 
+# An empty answer is only evidence when the resolver answers this query form at
+# all. Some resolvers, GitHub's runners among them, return nothing for DS
+# whatever the zone, which would read as a missing record. The control is a
+# zone known to publish one.
 check_dns() {
-  local id=$1 type=$2 description=$3 out
+  local id=$1 type=$2 description=$3 control=${4:-} out
   if ! command -v dig >/dev/null 2>&1; then
     report inconclusive "$id" "dig is not installed, so $type was not queried"
     return
@@ -292,6 +305,8 @@ check_dns() {
   out=$(dig +short "$type" "$HOST" 2>/dev/null || true)
   if [ -n "$out" ]; then
     report pass "$id" "$description"
+  elif [ -n "$control" ] && [ -z "$(dig +short "$type" "$control" 2>/dev/null || true)" ]; then
+    report inconclusive "$id" "this resolver returned no $type for $control either, so it does not answer $type here"
   else
     report fail "$id" "no $type record"
   fi
@@ -316,7 +331,7 @@ check_header frame-ancestors content-security-policy 'frame-ancestors'
 check_certificate_expiry
 
 check_caa
-check_dns dnssec DS "the zone is signed"
+check_dns dnssec DS "the zone is signed" "$DNSSEC_CONTROL"
 
 printf '\n%s ok, %s known open, %s regressed, %s resolved, %s inconclusive\n' \
   "$passed" "$known" "$regressions" "$resolved" "$unknown"

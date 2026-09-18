@@ -885,11 +885,11 @@ The residual is unchanged and belongs to the row above it in the threat model: s
 | # | Item | State |
 | --- | --- | --- |
 | 1 | Security Command Center overlap with checkov and kubescape | Open. The first Security Health Analytics scan has not completed |
-| 2 | Provenance, SBOM, signing, admission, threat model finding 10 | Open |
+| 2 | Provenance, SBOM, signing, admission, threat model finding 10 | Accepted for now. A phase of its own, revisited with the threat model after Milestone 4 |
 | 3 | Universal SSL can be switched back on | Open. It is console state, and nothing in this repository prevents it |
 | 4 | Why admitted requests cost ten times what refused ones do | Open, measured. 7 rps of admitted traffic averaged 1.35s where two replicas held 40 rps in [Phase 12a](phase-12a-load-baseline.md) |
 
-Item 2 stays in the threat model's findings table. Item 3 is what closing finding 3 left behind, though the surface check now compares the CAA answer to the pair the platform declared rather than counting records, so a widening is reported rather than missed. Item 4 came out of the isolation run.
+Item 2 is recorded as an acceptance on boundary 8 rather than carried as work. Item 3 is what closing finding 3 left behind, though the surface check now compares the CAA answer to the pair the platform declared rather than counting records, so a widening is reported rather than missed. Item 4 came out of the isolation run.
 
 ## Where this is recorded elsewhere
 

@@ -165,6 +165,8 @@ Evidence: [Phase 13 worklog](../worklog/phase-13-security-baseline.md#slice-4-ac
 
 The last row matters less than it first appears, and the ordering below reflects that. Attestation proves *this pipeline built it*. It says nothing about whether the commit should have been built, which is boundary 5's question and the cheaper one to answer first.
 
+That question is answered, so the last row is accepted for now rather than carried as work in progress. The pipeline identity is the only writer to the registry, the image is pulled by digest, and finding 7 closed the path an unvalidated commit took to get built. Signing and admission enforcement are a phase of their own, and this model is revisited when Phase 15 changes it substantially, so the acceptance is reconsidered there rather than expiring quietly.
+
 ## Attack paths, ranked
 
 Ranked by likelihood multiplied by impact against the assets above, not by how interesting they are. The ranking is as modelled, before Phase 13; the last column records what has since been put on each path.
@@ -208,7 +210,7 @@ Carried into Phase 13 for verification and Phase 14 for the work. Ranked as abov
 | 7 | 5 | The pin bump is the one pull request CI does not validate | Mitigate | Closed. Upstream CI is queried before the pin is proposed |
 | 8 | 7 | Account controls are assumed, not verified | Verify | Closed. Both assumptions that were wrong are fixed: `k8-lab`'s ruleset matched no branch, and `sky`'s `main` was unprotected |
 | 9 | 6 | No DS record, so the zone is unsigned | Decide | Closed. Decided in favour of signing, and signed: DS `2371 13 2`, verified on two resolvers, with the `ad` flag set |
-| 10 | 8 | No provenance, SBOM, signature, or admission policy | Mitigate, after 7 | Open. Carried to Phase 14 |
+| 10 | 8 | No provenance, SBOM, signature, or admission policy | Mitigate, after 7 | Accepted for now, with the reason on [boundary 8](#boundary-8-public-registries-to-the-running-image). Reconsidered when this model is revisited |
 | 11 | 3 | DNS is the one egress channel out of the namespace | Accept | Accepted |
 | 12 | 2 | Shared Google ranges admitted by NetworkPolicy | Accept | Accepted |
 

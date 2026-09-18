@@ -878,6 +878,18 @@ ok        dnssec           the zone is signed
 EXIT=0
 ```
 
+### What the scheduled run cannot see
+
+Deleting the line broke CI, which is the useful part. The GitHub runner reported `REGRESSED dnssec  no DS record` against a zone that publishes one, because its resolver returns no `DS` for any zone at all:
+
+```text
+unknown   dnssec           this resolver returned no DS for cloudflare.com either, so it does not answer DS here
+```
+
+An empty answer is only evidence when the resolver answers the query form, so both DNS checks now query a control zone known to publish the record and report inconclusive when that comes back empty too. Both directions were exercised against `github.com`, which has no DS: `REGRESSED` when the control answers and the host does not, inconclusive when neither does.
+
+The consequence is worth stating rather than leaving implicit. The daily scheduled run cannot verify DNSSEC from a GitHub runner, so a green run is not evidence the zone is still signed. Only a run against a resolver that answers `DS` carries that, which today means running it locally. CAA is unaffected: the runner answers `CAA` and the check passed there.
+
 The residual is unchanged and belongs to the row above it in the threat model: signing authenticates the zone's answers, and it does nothing about a zone edit by someone who holds the Cloudflare account.
 
 ## What this phase leaves open
@@ -888,8 +900,9 @@ The residual is unchanged and belongs to the row above it in the threat model: s
 | 2 | Provenance, SBOM, signing, admission, threat model finding 10 | Accepted for now. A phase of its own, revisited with the threat model after Milestone 4 |
 | 3 | Universal SSL can be switched back on | Open. It is console state, and nothing in this repository prevents it |
 | 4 | Why admitted requests cost ten times what refused ones do | Open, measured. 7 rps of admitted traffic averaged 1.35s where two replicas held 40 rps in [Phase 12a](phase-12a-load-baseline.md) |
+| 5 | DNSSEC is unverifiable from CI | Open. The GitHub runner answers no `DS`, so the scheduled run reports it inconclusive |
 
-Item 2 is recorded as an acceptance on boundary 8 rather than carried as work. Item 3 is what closing finding 3 left behind, though the surface check now compares the CAA answer to the pair the platform declared rather than counting records, so a widening is reported rather than missed. Item 4 came out of the isolation run.
+Item 2 is recorded as an acceptance on boundary 8 rather than carried as work. Item 3 is what closing finding 3 left behind, though the surface check now compares the CAA answer to the pair the platform declared rather than counting records, so a widening is reported rather than missed. Item 4 came out of the isolation run, and item 5 out of deleting the line that closed finding 9.
 
 ## Where this is recorded elsewhere
 

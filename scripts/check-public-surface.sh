@@ -26,6 +26,15 @@ KNOWN_OPEN=(
   "dnssec"           # finding 9, unverified until this runs
 )
 
+# The whole CAA answer, not a sample of it. RFC 8659 takes the union of the
+# records at a name, so a named issuewild entry beside `;` re-authorises the
+# wildcard issuance `;` forbids. A record this list does not name is therefore
+# a weakening, whoever added it.
+CAA_EXPECTED=(
+  '0 issue "pki.goog"'
+  '0 issuewild ";"'
+)
+
 passed=0
 regressions=0
 known=0
@@ -234,6 +243,46 @@ check_certificate_expiry() {
   fi
 }
 
+# A CAA value can itself hold a comma or a semicolon, so the records are joined
+# for reporting rather than passed through a delimiter-splitting tool.
+join_records() {
+  awk '{ printf "%s%s", sep, $0; sep = ", " } END { if (NR) print "" }'
+}
+
+# Presence is not the control here, so this compares the answer to CAA_EXPECTED.
+check_caa() {
+  local id=caa out actual expected extra missing
+  if ! command -v dig >/dev/null 2>&1; then
+    report inconclusive "$id" "dig is not installed, so CAA was not queried"
+    return
+  fi
+
+  out=$(dig +short CAA "$HOST" 2>/dev/null || true)
+  if [ -z "$out" ]; then
+    report fail "$id" "no CAA record"
+    return
+  fi
+
+  # One record per line, spacing squeezed and both sides sorted before they are
+  # compared. A value can hold a space of its own, as
+  # `0 issue "digicert.com; cansignhttpexchanges=yes"` does, so the line is the
+  # unit here rather than the field.
+  actual=$(printf '%s\n' "$out" | sed 's/[[:space:]]\{1,\}/ /g; s/^ //; s/ $//' \
+    | sed '/^$/d' | sort)
+  expected=$(printf '%s\n' "${CAA_EXPECTED[@]}" | sort)
+
+  extra=$(comm -23 <(printf '%s\n' "$actual") <(printf '%s\n' "$expected") | join_records)
+  missing=$(comm -13 <(printf '%s\n' "$actual") <(printf '%s\n' "$expected") | join_records)
+
+  if [ -n "$extra" ]; then
+    report fail "$id" "CAA authorises more than the platform declared: $extra"
+  elif [ -n "$missing" ]; then
+    report fail "$id" "CAA is missing $missing"
+  else
+    report pass "$id" "certificate issuance is restricted"
+  fi
+}
+
 check_dns() {
   local id=$1 type=$2 description=$3 out
   if ! command -v dig >/dev/null 2>&1; then
@@ -267,7 +316,7 @@ check_header frame-ancestors content-security-policy 'frame-ancestors'
 
 check_certificate_expiry
 
-check_dns caa CAA "certificate issuance is restricted"
+check_caa
 check_dns dnssec DS "the zone is signed"
 
 printf '\n%s ok, %s known open, %s regressed, %s resolved, %s inconclusive\n' \

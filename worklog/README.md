@@ -29,11 +29,11 @@ What was run, what came back, and what it proves. `plan.md` holds the intent,
 
 | Record | What it is |
 | --- | --- |
-| [Availability drill postmortem](postmortem-availability-drill.md) | Incident write-up from the Phase 10 drill |
-| [Repository review](repository-review.md) | A pass over the repository itself rather than the platform |
-| [Manifest linting](manifest-linting.md) | How the manifest checks were chosen and tuned |
-| [Shared smoke test](shared-smoke-test.md) | Why both delivery workflows call one composite action |
-| [Upstream pin automation](upstream-pin-automation.md) | How the `sky` pin is proposed and what reviews it |
+| [Availability drill postmortem](notes/postmortem-availability-drill.md) | Incident write-up from the Phase 10 drill |
+| [Repository review](notes/repository-review.md) | A pass over the repository itself rather than the platform |
+| [Manifest linting](notes/manifest-linting.md) | How the manifest checks were chosen and tuned |
+| [Shared smoke test](notes/shared-smoke-test.md) | Why both delivery workflows call one composite action |
+| [Upstream pin automation](notes/upstream-pin-automation.md) | How the `sky` pin is proposed and what reviews it |
 
 ## Reading one
 

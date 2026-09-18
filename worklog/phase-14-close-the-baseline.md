@@ -7,7 +7,7 @@ Status: Complete. Six slices measured, two findings raised.
 
 Close the findings [Phase 13](phase-13-security-baseline.md) measured, in the order the [threat model](../reference/threat-model.md) ranked them. See [Phase 14](../plan.md#phase-14-close-the-baseline).
 
-Three claims are not measured here, and each is marked where it is made: the causal half of the rate limit claim, whether the availability alert fired during the flood, and the overlap between Security Command Center and the static analysers.
+One claim is not measured here, and it is marked where it is made: the overlap between Security Command Center and the static analysers.
 
 ## Slice 1: Federation scoped to refs/heads/main
 
@@ -448,7 +448,7 @@ Twelve checks passing, and finding 9 is the one the surface still carries.
 
 ## Slice 5: The rate limit under flood
 
-Status: Complete. The throttle engaged where the policy says it should, and finding 1 is closed. One claim in it is not isolated.
+Status: Complete. The throttle engaged where the policy says it should, finding 1 is closed, and a second run at 125 rps isolates the throttle and corrects what the first implied.
 
 This is the phase's exit criterion and the threat model's outstanding claim on [boundary 1](../reference/threat-model.md#boundary-1-internet-to-gateway).
 
@@ -526,7 +526,7 @@ Two numbers qualify it. Window 0 allowed 319 against a documented 300, about 6% 
 
 ### The quota never moved
 
-The claim to test is that the throttle keeps the HPA from scaling, so `demo-budget` stays at its resting `pods: 4/16` and `requests.cpu: 800m/5`. Sampled every 5 seconds for the duration of the run:
+At this offered rate `demo-budget` stayed at its resting `pods: 4/16` and `requests.cpu: 800m/5`. Sampled every 5 seconds for the duration of the run:
 
 ```bash
 while kill -0 "$FLOOD" 2>/dev/null; do
@@ -548,46 +548,98 @@ demo-budget   pods: 4/16, requests.cpu: 800m/5, requests.memory: 384Mi/2Gi   lim
 sky   Deployment/sky   cpu: 1%/70%   2     8     2     2d23h
 ```
 
-The Pods are the same four the run started with:
-
-```bash
-kubectl get pods -n demo --no-headers | awk '{print $1, $3, $5}'
-```
-
-```text
-nginx-845dd5f676-gg6pc Running 17h
-nginx-845dd5f676-lgqlc Running 17h
-sky-7c57fd7d9b-f6whh Running 78m
-sky-7c57fd7d9b-jjwz6 Running 77m
-```
-
 No Pod was created during the run, the HPA held at 2 replicas, and CPU stayed at 1% against a 70% target.
 
-### What this run does not prove
+### The same rate, with the limit live
 
-The offered rate was 15 rps, which is what ten concurrent curls from one host over TLS produce. Three times the ceiling is enough to make the throttle engage and to measure where, and not enough to reproduce the load Phase 12 used to drive this namespace to its quota. The flat quota is therefore consistent with the claim that the rate limit keeps the HPA from scaling without isolating the rate limit as the cause: at 1% CPU the HPA would not have scaled at this offered rate unthrottled either. Settling that needs the offered rate from `loadtest/loadgen.sh`.
-
-What the run settles is the control: a single address held above 300 requests a minute is refused, the refusals begin when the budget is spent, and the excess never reaches a backend.
-
-The availability alert is enabled:
+At 15 rps the HPA would not have scaled unthrottled either, so that run cannot isolate the throttle. This one offers the rate [Phase 12d](phase-12d-autoscaling.md#slice-6-eight-pods-across-zones) used, with the limit live:
 
 ```bash
-gcloud alpha monitoring policies list --format='value(displayName,enabled)'
+k6 run -e RUN=rl-isolation -e STEPS=125 -e STEP_SECONDS=120 -e SETTLE_SECONDS=75 ramp.js
 ```
 
 ```text
-sindrg.com is not serving	True
+running (1m25.9s), 000/140 VUs, 10485 complete and 17 interrupted iterations
+background      ✗ [==================>-----] 00/05 VUs   1m25.8s/2m0s  2.00 iters/s
+step01_125rps   ✗ [==================>-----] 002/135 VUs  1m25.8s/2m0s  125.00 iters/s
 ```
 
-Whether it opened an incident during the run was not captured, and that is a gap in this slice. `gcloud alpha monitoring time-series` does not exist in this SDK, so the probe results across the window were never read. It should not have fired: `enforce_on_key = "IP"` gives each prober address its own 300-a-minute budget, and a probe sends a few requests a minute. The site answered from this host as soon as the flood stopped, which is consistent with that rather than a measurement of it:
+![k6 stopped 86 seconds into a 120 second step, both scenarios failed](../images/rl-isolation-progress.png)
+
+It ends at 86s of 120 because `delayAbortEval` judges the settled window at `SETTLE_SECONDS + 10`, where `http_req_failed` returned 100% against a `rate<0.01` threshold carrying `abortOnFail`. That is the script judging the step failed, by design, not an interrupted run.
+
+`handleSummary`'s JSON was not kept, so the figures below come from the printed summary and `results/rl-isolation-*-k6.json` is a gap.
+
+![k6 summary: 10,486 requests, 92.52% failed, 391 dropped iterations](../images/rl-isolation-summary.png)
+
+| Metric | Value |
+| --- | --- |
+| Requests | 10,486, offered at 122.1/s against 125 configured |
+| Refused | 9,702, 92.52% |
+| Allowed | 784: 611 on sky, 172 on nginx, 1 from `setup()` |
+| Settled window | 1,329 requests, 100% failed, p95 137.81ms |
+| Dropped iterations | 391, against a `count==0` threshold |
+
+The error rate ended the step, not latency. Dropped iterations are the second failed threshold, and `ramp.js` says one means "the result describes the generator, not sky". All 135 allocated VUs were in use, which is why the rate landed at 122.1.
+
+### sky scaled to three
+
+The workload did not stay at rest.
+
+```text
+2026-09-18T17:10:51Z   Normal   SuccessfulRescale   sky   New size: 3; reason: cpu resource utilization (percentage of request) above target
+2026-09-18T17:10:51Z   Normal   ScalingReplicaSet   sky   Scaled up replica set sky-7c57fd7d9b from 2 to 3
+```
+
+The quota reads `pods: 5/16, requests.cpu: 1150m/5` from `17:10:48Z`, against `4/16` and `800m/5` at rest. The HPA read `cpu: 92%/70%` at `17:10:58Z` and held 3 replicas to the end of recording. No Pod passed 0.078 of its CPU limit or 0.082 of memory, so it is the 350m request the HPA scales on, not the limit.
+
+![sky replicas rising from 2 to 3 shortly after 7:10 PM and holding](../images/rl-isolation-replicas.png)
+
+![Pod CPU and memory as a fraction of limit, peaking under 0.09](../images/rl-isolation-utilization.png)
+
+Phase 12d offered the same rate with nothing in the path and reached [8 of 8](phase-12d-autoscaling.md#result). Throttled it reached 3 of 8, inside `demo-budget`.
+
+This corrects what the 15 rps slice implied. Finding 1's mitigation holds, because the blast radius stayed bounded and the quota was never reached. The causal claim does not: the throttle is not what keeps the HPA from scaling, it is what caps how far it scales.
+
+### Each backend counts separately
+
+The background scenario held 2 rps against `/` throughout and lost nothing, 172 of 172 served, while the step was refused 94% of the time. One policy is attached to each Service by its own `GCPBackendPolicy`:
 
 ```bash
-curl -s -o /dev/null -w '%{http_code}\n' https://sindrg.com/
+grep -h 'securityPolicy\|name: ' kubernetes/*/gcpbackendpolicy.yml | grep -v 'app\.'
 ```
 
 ```text
-200
+  name: nginx
+    securityPolicy: k8-lab-gateway-rate-limit
+    name: nginx
+  name: sky
+    securityPolicy: k8-lab-gateway-rate-limit
+    name: sky
 ```
+
+Two backend services mean two per-IP counters, so spending sky's budget leaves the same address's budget on nginx untouched.
+
+### The allowed count against the budget
+
+The run spanned 85.8s, touching two 60-second windows granted 300 each. sky allowed 611 against that 600, about 2% over, where the flood allowed 319 against 300, about 6% over. At 125 rps a window is spent within seconds of opening, so both fall almost entirely inside the run. The per-window split cannot be recovered, as no per-request log was kept.
+
+### The uptime check held
+
+Every probe passed across the window, so `sindrg.com is not serving` had nothing to fire on. This is inferred from probe success rather than read from an incident record.
+
+![Dashboard: uptime passing flat at 100%, responses dominated by the 400 class peaking near 130 a second](../images/rl-isolation-dashboard.png)
+
+The dashboard reports the refusals as a 400 class and nothing here carries the exact status, so this run claims 4xx where the flood read `429`.
+
+### Open: allowed requests were ten times slower than refused ones
+
+| Sub-metric | avg | med | p95 | max |
+| --- | --- | --- | --- | --- |
+| Settled step, almost all refused | 135.55ms | 135.21ms | 137.81ms | 158.98ms |
+| `{expected_response:true}`, the 784 allowed | 1.35s | 1.4s | 3.12s | 4.81s |
+
+The edge latency chart agrees, p50 and p95 both rising to about 1.5s. Why 611 requests over 85.8s, about 7 rps, cost this much is unanswered, given two replicas held 40 rps in [Phase 12a](phase-12a-load-baseline.md). It stays open.
 
 ## Slice 6: Security Command Center
 
@@ -764,12 +816,13 @@ API V2 as an alternative.
 
 | # | Item | State |
 | --- | --- | --- |
-| 1 | The causal half of the rate limit claim | Open. 15 rps does not isolate the throttle as what keeps the HPA from scaling |
-| 2 | Whether the availability alert fired during the flood | Open. Not captured, and not readable from this SDK |
+| 1 | The causal half of the rate limit claim | Closed. At 125 rps the throttle caps scale-out at 3 of 8 rather than preventing it |
+| 2 | Whether the availability alert fired during the flood | Closed. The uptime check passed every probe across the window |
 | 3 | Security Command Center overlap with checkov and kubescape | Open. The first Security Health Analytics scan has not completed |
 | 4 | DNSSEC, threat model finding 9 | Open, measured. The zone is unsigned and no decision has been taken |
 | 5 | Provenance, SBOM, signing, admission, threat model finding 10 | Open |
 | 6 | Universal SSL can be switched back on | Open. It is console state, and the surface check reads CAA for presence rather than contents, so it would not report the set widening again |
+| 7 | Why admitted requests cost ten times what refused ones do | Open, measured. 7 rps of admitted traffic averaged 1.35s where two replicas held 40 rps in Phase 12a |
 
 Items 4 and 5 stay in the threat model's findings table. Item 6 is a consequence of closing finding 3.
 

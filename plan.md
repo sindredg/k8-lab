@@ -299,7 +299,7 @@ A second was overstated and is corrected here. Scoping federation to a ref does 
 | DNSSEC | Not decided |
 | Security Command Center | Premium trial active to 2026-10-18, then Standard. One finding, which is its own onboarding. The first Security Health Analytics scan has not completed |
 | Provenance, SBOM, signing, admission policy | Not started |
-| Single-client flood | Run 2026-09-18. 593 of 1200 requests refused, the namespace quota unmoved. The exit criterion is met |
+| Single-client flood | Run twice on 2026-09-18. 593 of 1200 refused at 15 rps, and at 125 rps the throttle held sky to 3 of 8 replicas against 8 of 8 unthrottled. The exit criterion is met |
 
 **Exit criteria:** The public endpoint survives a single-client flood without reaching the namespace quota. The TLS scan grades `A` or better. Every finding in the threat model is closed or carries a recorded acceptance.
 
@@ -362,4 +362,4 @@ Documentation: [Kustomize](https://kubernetes.io/docs/tasks/manage-kubernetes-ob
 
 Milestones 1 and 2 are closed. The platform is guarded, delivery is keyless, the workloads are public through Gateway API, rollouts drop no requests, and sky scales from two to eight replicas across nodes in three zones, with every claim above backed by evidence.
 
-Milestone 3 is under way. [The threat model](reference/threat-model.md) ranks twelve findings, Phase 13 measured the platform against that frame rather than against a reading of it, and Phase 14 is closing what the measurement confirmed. What Phase 14 has not done is listed in its own entry above; the single-client flood is its exit criterion and has not been run. The AI reference workload follows in Milestone 4, on a platform whose security posture has been tested rather than described.
+Milestone 3 is under way. [The threat model](reference/threat-model.md) ranks twelve findings, Phase 13 measured the platform against that frame rather than against a reading of it, and Phase 14 is closing what the measurement confirmed. The single-client flood that is its exit criterion has been run, and a second run at 125 rps isolated the throttle. What remains is listed in its own entry above: DNSSEC, and provenance, SBOM, signing and admission. The AI reference workload follows in Milestone 4, on a platform whose security posture has been tested rather than described.

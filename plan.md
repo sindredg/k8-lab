@@ -296,7 +296,7 @@ A second was overstated and is corrected here. Scoping federation to a ref does 
 | Certificate renewal alerting | Done, as `cert-expiry` in the surface script rather than a Cloud Monitoring alert |
 | Content Security Policy | Served on both paths |
 | CAA records | Added and verified. Universal SSL disabled, because it was widening the set |
-| DNSSEC | Not decided |
+| DNSSEC | Signed 2026-09-18. DS published in `.com`, verified on two resolvers |
 | Security Command Center | Premium trial active to 2026-10-18, then Standard. One finding, which is its own onboarding. The first Security Health Analytics scan has not completed |
 | Provenance, SBOM, signing, admission policy | Not started |
 | Single-client flood | Run twice on 2026-09-18. 593 of 1200 refused at 15 rps, and at 125 rps the throttle held sky to 3 of 8 replicas against 8 of 8 unthrottled. The exit criterion is met |

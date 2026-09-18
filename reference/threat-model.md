@@ -133,7 +133,7 @@ The boundary nothing in either repository currently touches.
 | | Threat | State |
 | --- | --- | --- |
 | S | A certificate issued for this domain by another CA | **Mitigated 2026-09-18, measured.** `sindrg.com` now publishes `0 issue "pki.goog"` and `0 issuewild ";"`, verified on two public resolvers, so Google Trust Services is the only authorised CA and no CA may issue a wildcard. The residual is unchanged in kind: CAA binds a compliant CA at issuance, and anyone with access to the Cloudflare zone can still edit the record before proving control. None of the cluster's hardening is on this path |
-| T | Redirecting the domain | **Open, measured.** A zone edit points the name anywhere, and the same run reports no DS record, so the zone is unsigned and its answers are not authenticated |
+| T | Redirecting the domain | **Mitigated 2026-09-18, measured.** The zone is signed: the DS is published in `.com`, two public resolvers return it, and `dig +dnssec` sets `ad`, so the answers are authenticated. The residual is a zone edit, which signing does not address. Anyone holding the Cloudflare account can still point the name anywhere, and sign it |
 | D | Silent renewal failure | **Mitigated.** Google renews automatically, so a broken authorization would otherwise surface only at expiry, and there is precedent: `PER_PROJECT_RECORD` is in the Terraform because `FIXED_RECORD` collided with Cloudflare's own TXT at `_acme-challenge`. `cert-expiry` now reads the served certificate daily and fails below 21 days, which is a stalled renewal rather than a healthy one |
 
 The record only means what it says while Cloudflare's Universal SSL is off. With it on, Cloudflare adds CAA records for its own partner CAs to any zone that has one, does not show them in its dashboard, and documents the list as not exhaustive. Phase 14 measured eleven records where the zone held two, and RFC 8659 takes the union at a name, so the injected `issuewild` entries re-authorised the issuance `issuewild ";"` exists to forbid. Turning Universal SSL back on silently reverses this row. Evidence: [Phase 14](../worklog/phase-14-close-the-baseline.md#finding-universal-ssl-makes-the-authorised-issuer-set-cloudflares-to-change).
@@ -173,7 +173,7 @@ Ranked by likelihood multiplied by impact against the assets above, not by how i
 | --- | --- | --- | --- | --- |
 | Exhaustion from an unrated public endpoint | Happening continuously | Cost and availability | **Highest** | Rate limiting, 300 a minute per address |
 | Account compromise to arbitrary content on the domain | Low | Crown jewel | **High** | MFA and a ruleset that now matches `main`. `sky` still open |
-| Certificate issued through the DNS zone | Low | Crown jewel, and invisible from inside the platform | **High** | CAA restricting issuance to `pki.goog`. Finding 9 still open |
+| Certificate issued through the DNS zone | Low | Crown jewel, and invisible from inside the platform | **High** | CAA restricting issuance to `pki.goog`, on a signed zone |
 | Downgrade against TLS 1.0 or 1.1 | Low | Low; nothing confidential in transit | Medium, and visibly wrong | TLS 1.2 floor. Closed |
 | An upstream commit reaching production unvalidated | Moderate | Depends entirely on the commit | Medium | Upstream CI queried before the pin is proposed |
 | RCE in the application | Low | Very low; the Pod is close to inert | **Lowest** | Six overlapping, unchanged |
@@ -207,12 +207,12 @@ Carried into Phase 13 for verification and Phase 14 for the work. Ranked as abov
 | 6 | 1 | No HSTS, and no other response security headers | Mitigate | Closed. HSTS, `nosniff` and `Referrer-Policy` live, and both paths serve a policy: the nginx root's from #100, sky's own once #106 moved the pin |
 | 7 | 5 | The pin bump is the one pull request CI does not validate | Mitigate | Closed. Upstream CI is queried before the pin is proposed |
 | 8 | 7 | Account controls are assumed, not verified | Verify | Closed. Both assumptions that were wrong are fixed: `k8-lab`'s ruleset matched no branch, and `sky`'s `main` was unprotected |
-| 9 | 6 | No DS record, so the zone is unsigned | Decide | Open, measured. Carried to Phase 14 |
+| 9 | 6 | No DS record, so the zone is unsigned | Decide | Closed. Decided in favour of signing, and signed: DS `2371 13 2`, verified on two resolvers, with the `ad` flag set |
 | 10 | 8 | No provenance, SBOM, signature, or admission policy | Mitigate, after 7 | Open. Carried to Phase 14 |
 | 11 | 3 | DNS is the one egress channel out of the namespace | Accept | Accepted |
 | 12 | 2 | Shared Google ranges admitted by NetworkPolicy | Accept | Accepted |
 
-Findings 1, 3, 5, 6 and 9 are measured rather than reasoned: [the Phase 13 worklog](../worklog/phase-13-security-baseline.md) records every run, and [Phase 14](../worklog/phase-14-close-the-baseline.md) records the runs that closed 1 and 3. Findings 3 and 9 were written here as unverified and might have turned out closed; both were open when measured, and 9 still is.
+Findings 1, 3, 5, 6 and 9 are measured rather than reasoned: [the Phase 13 worklog](../worklog/phase-13-security-baseline.md) records every run, and [Phase 14](../worklog/phase-14-close-the-baseline.md) records the runs that closed 1, 3 and 9. Findings 3 and 9 were written here as unverified and might have turned out closed. Both were open when measured, and both are closed now.
 
 Finding 8 was the one the highest ranked path rests on, and verifying it found the assumption false. `k8-lab`'s ruleset had been active for three weeks while matching no branch. Nothing in this repository would have shown that, which is the argument for the phase.
 

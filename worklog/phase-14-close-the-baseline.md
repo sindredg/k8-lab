@@ -1,7 +1,7 @@
 # Worklog: Phase 14 Close the Baseline
 
 Date: 2026-09-17
-Status: Complete. Six slices measured, two findings raised.
+Status: Complete. Seven slices measured, two findings raised.
 
 ## Goal
 
@@ -285,7 +285,7 @@ With both paths covered, the surface check reported the closure instead of a pas
 
 ![The gate reporting two findings resolved, and naming the lines to delete](../images/surface-resolved.png)
 
-Deleting both lines from `KNOWN_OPEN` leaves `caa` and `dnssec`, which belong to Slice 4:
+Deleting both lines from `KNOWN_OPEN` leaves `caa` and `dnssec`, which Slices 4 and 7 close:
 
 ![Eleven checks passing, with CAA and DNSSEC the only findings open](../images/surface-clean.png)
 
@@ -444,7 +444,7 @@ known     dnssec           no DS record
 EXIT=0
 ```
 
-Twelve checks passing, and finding 9 is the one the surface still carries.
+Twelve checks passing, and `dnssec` the only entry left, which [Slice 7](#slice-7-dnssec) closes.
 
 ## Slice 5: The rate limit under flood
 
@@ -812,19 +812,84 @@ ERROR: (gcloud.scc.findings.list) INVALID_ARGUMENT: This API is no longer availa
 API V2 as an alternative.
 ```
 
+## Slice 7: DNSSEC
+
+Status: Complete. The zone is signed, the chain validates, and finding 9 is closed.
+
+Finding 9's proposed response was Decide rather than Mitigate, so it closes on a recorded decision either way. The decision was to sign, and the reasoning is in [decisions.md](../decisions.md#zone-signing).
+
+Cloudflare is the registrar, so it signs the zone and publishes the DS in `.com` itself. There is no key to carry and no second panel to edit:
+
+![Cloudflare reporting the zone protected with DNSSEC](../images/dnssec-cloudflare.png)
+
+The parent publishes the DS, read back from two public resolvers:
+
+```bash
+dig +short DS sindrg.com @1.1.1.1; dig +short DS sindrg.com @8.8.8.8
+```
+
+```text
+2371 13 2 4FB2EFEC5EEDD841AB7C90E6AD790B7A8CA8BFF1C17AE0509F2BFBFD CC3FE31D
+2371 13 2 4FB2EFEC5EEDD841AB7C90E6AD790B7A8CA8BFF1C17AE0509F2BFBFD CC3FE31D
+```
+
+![The same DS record from 1.1.1.1 and 8.8.8.8](../images/dnssec-resolvers.png)
+
+Key tag 2371, algorithm 13 for ECDSA P-256 SHA-256, digest type 2 for SHA-256.
+
+### The answers validate
+
+A DS in the parent proves publication. It does not prove the chain resolves, which is the `ad` flag:
+
+```bash
+dig +dnssec sindrg.com @1.1.1.1 | grep -E 'flags:|RRSIG'
+```
+
+```text
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+sindrg.com.  300  IN  RRSIG  A 13 2 300 20260919200317 20260917180317 34505 sindrg.com. ...
+```
+
+![The ad flag set, with the A record's RRSIG beside it](../images/dnssec-validating.png)
+
+`ad` means the resolver validated the answer rather than merely receiving one, and both paths kept serving `200` throughout.
+
+### The same cache, the same answer
+
+The workstation's resolver reported the zone unsigned for several minutes after the DS was live, which is the behaviour [Slice 4](#a-cached-negative-answer-outlived-the-records) recorded for CAA. The `.com` negative TTL is `900` rather than the zone's `1800`, so it cleared sooner:
+
+![The system resolver returning the DS once its negative answer expired](../images/dnssec-cache-expired.png)
+
+The gate was re-run once it expired rather than pointed at a public resolver.
+
+```bash
+./scripts/check-public-surface.sh
+```
+
+![The gate reporting dnssec resolved and naming the line to delete](../images/surface-dnssec-resolved.png)
+
+Deleting `dnssec` from `KNOWN_OPEN` empties the list, which is the first run of this script with nothing known open:
+
+```text
+ok        caa              certificate issuance is restricted
+ok        dnssec           the zone is signed
+
+13 ok, 0 known open, 0 regressed, 0 resolved, 0 inconclusive
+EXIT=0
+```
+
+The residual is unchanged and belongs to the row above it in the threat model: signing authenticates the zone's answers, and it does nothing about a zone edit by someone who holds the Cloudflare account.
+
 ## What this phase leaves open
 
 | # | Item | State |
 | --- | --- | --- |
-| 1 | The causal half of the rate limit claim | Closed. At 125 rps the throttle caps scale-out at 3 of 8 rather than preventing it |
-| 2 | Whether the availability alert fired during the flood | Closed. The uptime check passed every probe across the window |
-| 3 | Security Command Center overlap with checkov and kubescape | Open. The first Security Health Analytics scan has not completed |
-| 4 | DNSSEC, threat model finding 9 | Open, measured. The zone is unsigned and no decision has been taken |
-| 5 | Provenance, SBOM, signing, admission, threat model finding 10 | Open |
-| 6 | Universal SSL can be switched back on | Open. It is console state, and the surface check reads CAA for presence rather than contents, so it would not report the set widening again |
-| 7 | Why admitted requests cost ten times what refused ones do | Open, measured. 7 rps of admitted traffic averaged 1.35s where two replicas held 40 rps in Phase 12a |
+| 1 | Security Command Center overlap with checkov and kubescape | Open. The first Security Health Analytics scan has not completed |
+| 2 | Provenance, SBOM, signing, admission, threat model finding 10 | Open |
+| 3 | Universal SSL can be switched back on | Open. It is console state, and nothing in this repository prevents it |
+| 4 | Why admitted requests cost ten times what refused ones do | Open, measured. 7 rps of admitted traffic averaged 1.35s where two replicas held 40 rps in [Phase 12a](phase-12a-load-baseline.md) |
 
-Items 4 and 5 stay in the threat model's findings table. Item 6 is a consequence of closing finding 3.
+Item 2 stays in the threat model's findings table. Item 3 is what closing finding 3 left behind, though the surface check now compares the CAA answer to the pair the platform declared rather than counting records, so a widening is reported rather than missed. Item 4 came out of the isolation run.
 
 ## Where this is recorded elsewhere
 

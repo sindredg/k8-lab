@@ -23,7 +23,6 @@ PATHS=("/" "/sky/")
 
 # Findings the threat model records. Delete a line when its finding closes.
 KNOWN_OPEN=(
-  "dnssec"           # finding 9, unverified until this runs
 )
 
 # The whole CAA answer, not a sample of it. RFC 8659 takes the union of the

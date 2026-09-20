@@ -9,7 +9,7 @@ Read the findings Security Command Center has produced since 2026-09-18, correla
 
 This worklog covers the infrastructure and the transport. The overlap measurement the exit criteria name is open, both exit-criteria drills are open, and the agent source in [ai-k8s](https://github.com/sindredg/ai-k8s) is empty.
 
-Two decisions came out of the transport and are open rather than settled: which of a finding's three names is the verdict key, and whether the idempotency key in the contract should distinguish an attribute change from a redelivery. Slice 4 has the evidence for both.
+The transport changed no decision and added evidence to two. [Triage idempotency](../decisions.md#triage-idempotency) now carries what `eventTime` was measured to track, and the warning that a finding cannot be written back at the name it is read at.
 
 ## What the findings look like before anything reads them
 
@@ -166,6 +166,8 @@ set by default.
     "reason": "SERVICE_DISABLED"
 ```
 
+![The 403 naming a project that is not this one](../images/phase15-quota-project-403.png)
+
 `securitycenter.googleapis.com` is enabled in this project, and `764086051850` is not this project. It is Google's shared gcloud client project. Some APIs bill the caller's quota project rather than the resource's, user Application Default Credentials carry no quota project, so the call was billed to Google's own client project, where the API is disabled. The message names the wrong project and the wrong cause.
 
 `gcloud auth application-default set-quota-project` fixes it for one machine. The provider carries it instead:
@@ -181,6 +183,8 @@ The next apply produced a different error:
 Error: Error creating ProjectNotificationConfig: googleapi: Error 400:
 Precondition check failed.
 ```
+
+![The whole of the second error](../images/phase15-precondition-failed.png)
 
 No precondition named, and nothing about what was already true. Read back from the API rather than from state:
 
@@ -203,6 +207,8 @@ Importing it forced a replacement:
 ```text
 ~ project = "421458901689" -> "project-69726555-c4de-48de-a69" # forces replacement
 ```
+
+![The plan showing a destroy before it ran](../images/phase15-import-replacement.png)
 
 The API returns `project` as the number, the configuration supplies the id, and `project` is `ForceNew`. This is the same project-number-against-project-id mismatch as Slice 1, arriving by a different route: Slice 1 was a value unknown at plan time, this is two spellings of a known one. The plan showed the replacement before it ran, which is the only reason it was a decision rather than a surprise.
 
@@ -239,7 +245,7 @@ The module uses `google_pubsub_topic_iam_member`, which is additive, so the two 
 
 ## Slice 4: What a finding looks like when it arrives
 
-Status: Delivery proven, and the idempotency key the contract specifies does not survive it.
+Status: Delivery proven. The idempotency key in the contract survives, for a reason the contract did not state.
 
 A topic with a subscription and no traffic proves nothing, so one active finding was muted and unmuted to produce real events from a real detector.
 
@@ -282,7 +288,7 @@ canonicalName  projects/421458901689/sources/1405720631579532947/locations/globa
 parent         organizations/550178366891/sources/1405720631579532947/locations/global
 ```
 
-Organization scope, project number scope, and the parent. The contract keys every verdict on the finding, so which of these is that key is a decision rather than a detail. It is open, and belongs in [decisions.md](../decisions.md) before the worker is written, because Phase 18 turns these keys into the names of Kubernetes objects.
+Organization scope, project number scope, and the parent. [Triage idempotency](../decisions.md#triage-idempotency) already keys on the canonical name, which is the project number form, and the project number is immutable. What that decision did not know is that the three forms are not interchangeable: the worker cannot write back at the name it reads. The key and the address for a write are separate values, and the decision now says so.
 
 ### Delivery latency
 
@@ -323,9 +329,38 @@ mute        MUTED
 
 That is not automatically wrong. A mute is a human saying "stop showing me this", not a change in posture, so collapsing it may be the correct behaviour. What is wrong is that it was never a decision. `muteUpdateTime` is in the payload and would separate them if separation is wanted.
 
-Recorded rather than patched. The resolution is open and belongs in [decisions.md](../decisions.md) before the worker is written.
+### What `eventTime` actually tracks
 
-The proposal on the table is to keep the key and have the ledger additionally carry a digest of the finding body, so a redelivery whose key matches and whose digest differs is recorded as attribute drift without a model call. It would keep triage idempotent, stop attribute changes being invisible, and accumulate the evidence to answer a question neither the plan nor this worklog can answer today, which is whether anything triage-relevant ever changes without `eventTime` moving.
+The question the mute raised is whether `eventTime` is reliable at all, or whether it is a scan timestamp that happens to look stable. Read the same detectors a day after the values at the top of this worklog were recorded:
+
+```bash
+gcloud scc findings list projects/421458901689 --location=global \
+  --format='value(finding.state,finding.category,finding.eventTime,finding.createTime)' \
+  | grep -viE 'SOFTWARE_|OS_VULN' | sort -k2
+```
+
+```text
+ACTIVE    BINARY_AUTHORIZATION_DISABLED        2026-09-19T22:05:22.735Z  2026-09-19T22:05:23.940Z
+ACTIVE    BUCKET_LOGGING_DISABLED              2026-09-20T13:18:15.286Z  2026-09-20T13:18:17.107Z
+ACTIVE    CLUSTER_SECRETS_ENCRYPTION_DISABLED  2026-09-19T22:05:22.735Z  2026-09-19T22:05:24.154Z
+ACTIVE    INTRANODE_VISIBILITY_DISABLED        2026-09-19T22:05:22.735Z  2026-09-19T22:05:24.399Z
+ACTIVE    MASTER_AUTHORIZED_NETWORKS_DISABLED  2026-09-19T22:05:22.735Z  2026-09-19T22:05:24.695Z
+ACTIVE    PRIMITIVE_ROLES_USED                 2026-09-19T00:13:03.532Z  2026-09-19T00:13:05.018Z
+```
+
+Unchanged findings hold their `eventTime` across re-evaluation. It is not a scan timestamp. It moves when the finding's substance moves, which is what the key needs it to do.
+
+So the key holds after all, for the thing it exists to do. `(name, eventTime, state)` collapses exactly the events that should not cost a model call, and a mute is one of them. It would not collapse a real change. The mute looked like a counterexample and is instead a demonstration.
+
+The digest stays worth adding, demoted from a fix to a cheap safety net: it records that something moved without paying for a verdict, and it is the evidence that would catch a detector that does mutate substance without advancing `eventTime`, which is a thing this worklog has now checked for and not found rather than assumed away.
+
+### The apply produced a finding about itself
+
+`BUCKET_LOGGING_DISABLED` is new, at `2026-09-20T13:18:15.286Z`. The ledger bucket was created at `13:18:10`. Security Command Center detected this phase's own storage bucket five seconds after Terraform made it, and raised a finding about it.
+
+It is already priced. `CKV_GCP_62`, "Bucket should log access", is the check this branch added to `.checkov.baseline` for the same resource, before Security Command Center had seen it.
+
+That is the overlap thesis demonstrated on a resource created during the measurement: two tools, one property, one accepted decision, reached independently. It is also the first honest addition to the overlap count since the hand check above, and it moves the arithmetic rather than confirming it.
 
 ### A message nobody acknowledges is parked, not lost
 
@@ -395,7 +430,8 @@ One notification channel, which is the requirement: verdicts reach the address t
 | Findings reach the topic, subscription and dead letter | Proven. A real finding from a real detector arrived about two seconds after the change, on both a mute and an unmute |
 | Findings reach the cluster | Not started. There is no worker and nothing consumes the subscription |
 | A message nobody acknowledges is parked rather than lost | Proven. Five attempts, then republished to `scc-findings-dead` with the body intact |
-| The idempotency key in the contract distinguishes a change from a redelivery | No. A mute produces a message identical under `(name, eventTime, state)`. Open, with a proposal in Slice 4 |
+| The idempotency key in the contract distinguishes a change from a redelivery | Yes, for substance. `eventTime` holds across re-evaluation and moves on a real change. Attribute-only changes such as a mute collapse into a redelivery, deliberately |
+| Security Command Center and `.checkov.baseline` overlap | Three of seven active misconfigurations, after this phase's own bucket raised `BUCKET_LOGGING_DISABLED` against the `CKV_GCP_62` already in the baseline. Still by hand, not the provenanced measurement |
 | The overlap is measured with provenance | Open. Two of six by hand, which is not the measurement the exit criteria ask for |
 | A finding arriving while the worker is stopped is triaged afterwards | Open, and there is no worker |
 | A finding carrying an instruction is triaged to the same verdict | Open |

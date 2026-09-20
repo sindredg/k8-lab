@@ -1,13 +1,15 @@
 # Worklog: Phase 15 Security Command Center triage
 
 Date: 2026-09-20
-Status: In progress. The notification path is applied. No findings are triaged, and no worker exists.
+Status: In progress. Findings reach the subscription in about two seconds and park in the dead letter topic when nothing acknowledges them. No findings are triaged, and no worker exists.
 
 ## Goal
 
 Read the findings Security Command Center has produced since 2026-09-18, correlate them against this repository's own records, and notify through the existing email channel. See [Phase 15](../plan.md#phase-15-security-command-center-triage). The contract the work is held to was settled first, in [#113](https://github.com/sindredg/k8-lab/pull/113).
 
-This worklog covers the infrastructure only. The overlap measurement the exit criteria name is open, both drills are open, and the agent source in [ai-k8s](https://github.com/sindredg/ai-k8s) is empty.
+This worklog covers the infrastructure and the transport. The overlap measurement the exit criteria name is open, both exit-criteria drills are open, and the agent source in [ai-k8s](https://github.com/sindredg/ai-k8s) is empty.
+
+Two decisions came out of the transport and are open rather than settled: which of a finding's three names is the verdict key, and whether the idempotency key in the contract should distinguish an attribute change from a redelivery. Slice 4 has the evidence for both.
 
 ## What the findings look like before anything reads them
 
@@ -147,6 +149,210 @@ global	new
 
 A hand written entry lands as `global`. The metric counted it, because the metric filters on `logName` and the verdict only. The alert did not fire, because the alert requires `k8s_container`. So a worker that writes the wrong monitored resource is counted and never paged, which is the silent failure the original reasoning was trying to avoid and the filter now makes explicit.
 
+## Slice 3: The apply that succeeded and reported failure
+
+Status: Closed. The path is applied. Three errors, and two of them were about something other than what they said.
+
+`modules/findings` was written in [#114](https://github.com/sindredg/k8-lab/pull/114) and never called from the root. Terraform does not evaluate a module directory that no configuration calls, so CI's `terraform validate` had been passing for two days without reading a line of it. Wiring it was therefore the first time any of it ran.
+
+Seven of the nine resources created. Then:
+
+```text
+Error: Error creating ProjectNotificationConfig: googleapi: Error 403: Your
+application is authenticating by using local Application Default Credentials.
+The securitycenter.googleapis.com API requires a quota project, which is not
+set by default.
+    "consumer": "projects/764086051850",
+    "reason": "SERVICE_DISABLED"
+```
+
+`securitycenter.googleapis.com` is enabled in this project, and `764086051850` is not this project. It is Google's shared gcloud client project. Some APIs bill the caller's quota project rather than the resource's, user Application Default Credentials carry no quota project, so the call was billed to Google's own client project, where the API is disabled. The message names the wrong project and the wrong cause.
+
+`gcloud auth application-default set-quota-project` fixes it for one machine. The provider carries it instead:
+
+```hcl
+billing_project       = var.project_id
+user_project_override = true
+```
+
+The next apply produced a different error:
+
+```text
+Error: Error creating ProjectNotificationConfig: googleapi: Error 400:
+Precondition check failed.
+```
+
+No precondition named, and nothing about what was already true. Read back from the API rather than from state:
+
+```bash
+curl -s -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+  -H "X-Goog-User-Project: project-69726555-c4de-48de-a69" \
+  "https://securitycenter.googleapis.com/v2/projects/project-69726555-c4de-48de-a69/locations/global/notificationConfigs"
+```
+
+```text
+"name": "projects/421458901689/locations/global/notificationConfigs/k8-lab-triage",
+"pubsubTopic": "projects/project-69726555-c4de-48de-a69/topics/scc-findings",
+"updateTime": "2026-09-20T13:21:29.056431Z"
+```
+
+The config existed, with the filter and topic the module specifies. The ledger bucket from the first apply reports `creation_time 2026-09-20T13:18:10`, three minutes earlier, which places the config in the second apply rather than the first. So the apply that reported a failure had already done the work, and `400 Precondition check failed` is how Security Command Center answers a create for a config that exists. The obvious response is to run it again, and running it again only reproduces it.
+
+Importing it forced a replacement:
+
+```text
+~ project = "421458901689" -> "project-69726555-c4de-48de-a69" # forces replacement
+```
+
+The API returns `project` as the number, the configuration supplies the id, and `project` is `ForceNew`. This is the same project-number-against-project-id mismatch as Slice 1, arriving by a different route: Slice 1 was a value unknown at plan time, this is two spellings of a known one. The plan showed the replacement before it ran, which is the only reason it was a decision rather than a surprise.
+
+It is an import artifact and not standing drift. After the replacement, the provider keeps the configured value:
+
+```bash
+terraform -chdir=terraform plan -detailed-exitcode; echo "EXIT=$?"
+```
+
+```text
+No changes. Your infrastructure matches the configuration.
+EXIT=0
+```
+
+What each error said against what it meant:
+
+| Reported | Actual |
+| --- | --- |
+| `403 SERVICE_DISABLED` on `projects/764086051850` | The API is enabled here. No quota project was set on the credentials |
+| `400 Precondition check failed` | The config had just been created by the apply reporting the failure |
+| `project` forces replacement | Two spellings of the same project, one from the API and one from the configuration |
+
+One thing the apply did that the configuration does not: Security Command Center granted itself `roles/securitycenter.notificationServiceAgent` on the topic, alongside the `roles/pubsub.publisher` the module grants.
+
+```bash
+gcloud pubsub topics get-iam-policy scc-findings --format='value(bindings.role,bindings.members)'
+```
+
+```text
+roles/pubsub.publisher;roles/securitycenter.notificationServiceAgent	service-org-550178366891@gcp-sa-scc-notification.iam.gserviceaccount.com
+```
+
+The module uses `google_pubsub_topic_iam_member`, which is additive, so the two coexist. `google_pubsub_topic_iam_binding` is authoritative and would have stripped the self-granted role on every apply, then Security Command Center would have restored it, forever. The additive resource was already the right choice and now there is a reason on the record for it.
+
+## Slice 4: What a finding looks like when it arrives
+
+Status: Delivery proven, and the idempotency key the contract specifies does not survive it.
+
+A topic with a subscription and no traffic proves nothing, so one active finding was muted and unmuted to produce real events from a real detector.
+
+`gcloud` cannot do it. Every documented flag combination reaches the v1 API:
+
+```bash
+gcloud scc findings set-mute e5d7b4d99d652ee96c3016210cc73a37 \
+  --organization=organizations/550178366891 --source=1405720631579532947 \
+  --location=global --mute=MUTED
+```
+
+```text
+ERROR: (gcloud.scc.findings.set-mute) INVALID_ARGUMENT: Security Command Center
+Legacy has been permanently disabled as of June 7, 2021.
+```
+
+This is the second unusable `gcloud scc` surface in this phase, after `notifications list`. Treat `gcloud` as unavailable for Security Command Center v2 here and call the REST API.
+
+The REST call works, but only at one of the two scopes:
+
+```bash
+curl -s -X POST "https://securitycenter.googleapis.com/v2/${NAME}:setMute" \
+  -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+  -H "X-Goog-User-Project: project-69726555-c4de-48de-a69" \
+  -H "Content-Type: application/json" -d '{"mute":"MUTED"}'
+```
+
+| `NAME` | Result |
+| --- | --- |
+| `projects/project-69726555-c4de-48de-a69/sources/1405720631579532947/locations/global/findings/e5d7…` | 200 |
+| `organizations/550178366891/sources/1405720631579532947/locations/global/findings/e5d7…` | 400, the same legacy error |
+
+The organization-scoped name is the one Security Command Center returns as `name`. So a finding cannot be written back at the name it is read at. Reads answer at organization scope, writes are accepted at project scope.
+
+### One finding, three names
+
+```text
+name           organizations/550178366891/sources/1405720631579532947/locations/global/findings/e5d7b4…
+canonicalName  projects/421458901689/sources/1405720631579532947/locations/global/findings/e5d7b4…
+parent         organizations/550178366891/sources/1405720631579532947/locations/global
+```
+
+Organization scope, project number scope, and the parent. The contract keys every verdict on the finding, so which of these is that key is a decision rather than a detail. It is open, and belongs in [decisions.md](../decisions.md) before the worker is written, because Phase 18 turns these keys into the names of Kubernetes objects.
+
+### Delivery latency
+
+Measured against `publishTime`, which Pub/Sub sets, rather than against the polling interval, which only bounds detection:
+
+```text
+mute returned   14:00:19 (approximate, see below)
+publishTime     2026-09-20T14:00:21.034Z
+```
+
+About two seconds. The recorded start was taken one to two seconds after the successful call, so the true figure is slightly higher than the one second the arithmetic gives. Two seconds is the honest number and the precision beyond that is not worth chasing: it is the floor on how quickly a verdict can follow a finding, and the model call after it will dominate.
+
+Both state changes notify. The mute published at `14:00:21.034Z` and the unmute at `14:02:11.734Z`.
+
+### The envelope
+
+```text
+top-level      notificationConfigName, finding, resource
+finding keys   canonicalName, category, compliances, createTime, description,
+               eventTime, externalUri, findingClass, iamBindings, mute,
+               muteInfo, muteInitiator, muteUpdateTime, name, parent,
+               parentDisplayName, resourceName, securityMarks,
+               sourceProperties, state
+```
+
+### The key the contract specifies does not hold
+
+[Phase 15](../plan.md#phase-15-security-command-center-triage) requires redelivery to be safe by keying on the finding, its event time and its state. The message produced by muting carries:
+
+```text
+name        organizations/550178366891/sources/…/findings/e5d7b4…
+state       ACTIVE
+eventTime   2026-09-19T00:13:03.532143Z
+mute        MUTED
+```
+
+`eventTime` is the previous day. A mute does not advance it, and `state` does not change either. Under `(name, eventTime, state)` this message is indistinguishable from a redelivery of a finding already triaged, so the worker as specified would discard it.
+
+That is not automatically wrong. A mute is a human saying "stop showing me this", not a change in posture, so collapsing it may be the correct behaviour. What is wrong is that it was never a decision. `muteUpdateTime` is in the payload and would separate them if separation is wanted.
+
+Recorded rather than patched. The resolution is open and belongs in [decisions.md](../decisions.md) before the worker is written.
+
+The proposal on the table is to keep the key and have the ledger additionally carry a digest of the finding body, so a redelivery whose key matches and whose digest differs is recorded as attribute drift without a model call. It would keep triage idempotent, stop attribute changes being invisible, and accumulate the evidence to answer a question neither the plan nor this worklog can answer today, which is whether anything triage-relevant ever changes without `eventTime` moving.
+
+### A message nobody acknowledges is parked, not lost
+
+The contract has the worker acknowledge last, so what happens to a message it never acknowledges decides whether one bad finding costs a finding or costs the queue. Both messages were pulled and negatively acknowledged repeatedly:
+
+```text
+round 3:   attempt 3 2026-09-20T14:00:21.034Z
+round 5:   attempt 4 2026-09-20T14:00:21.034Z
+round 7:   attempt 5 2026-09-20T14:00:21.034Z
+round 9:   empty
+```
+
+```text
+=== dead letter subscription ===
+messages: 2
+   2026-09-20T14:16:10.323Z PRIMITIVE_ROLES_USED mute=UNDEFINED
+   2026-09-20T14:15:49.504Z PRIMITIVE_ROLES_USED mute=MUTED
+=== scc-triage after ===
+messages: 0
+```
+
+Five attempts, then both were republished to `scc-findings-dead` with their bodies intact, and `scc-triage` drained. `max_delivery_attempts = 5` is behaviour rather than configuration.
+
+One detail that matters for the worker: the dead letter copies carry new `publishTime` values, `14:15:49` and `14:16:10`, not the originals. Nothing may key on `publishTime`.
+
+`deliveryAttempt` was not reliable to read. An earlier pass observed it at 2, then back at 1 after several more pulls, before incrementing cleanly from 3 to 5 here. Google documents it as approximate. The worker should treat it as a hint and rely on the dead letter topic as the actual boundary.
+
 ## What is applied
 
 ```bash
@@ -186,7 +392,10 @@ One notification channel, which is the requirement: verdicts reach the address t
 | Verdicts reach the existing email channel and no second channel exists | Partly. The channel and policy exist. No verdict has travelled the path |
 | `k8s_container` is required, and the wrong resource type fails silently | Proven, by writing an entry that landed as `global` |
 | A replacement of the public certificate cannot happen as a side effect | Proven for the cause found, and guarded by `prevent_destroy` |
-| Findings reach the cluster | Not started. The topic, subscription, bucket and notification config are written but not wired into the root |
+| Findings reach the topic, subscription and dead letter | Proven. A real finding from a real detector arrived about two seconds after the change, on both a mute and an unmute |
+| Findings reach the cluster | Not started. There is no worker and nothing consumes the subscription |
+| A message nobody acknowledges is parked rather than lost | Proven. Five attempts, then republished to `scc-findings-dead` with the body intact |
+| The idempotency key in the contract distinguishes a change from a redelivery | No. A mute produces a message identical under `(name, eventTime, state)`. Open, with a proposal in Slice 4 |
 | The overlap is measured with provenance | Open. Two of six by hand, which is not the measurement the exit criteria ask for |
 | A finding arriving while the worker is stopped is triaged afterwards | Open, and there is no worker |
 | A finding carrying an instruction is triaged to the same verdict | Open |

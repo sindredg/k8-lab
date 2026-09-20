@@ -65,6 +65,27 @@ resource "google_pubsub_subscription_iam_member" "dead_letter_subscriber" {
   member       = local.pubsub_agent
 }
 
+# A topic with no subscription discards every message published to it,
+# immediately. Without this, a finding that exhausts max_delivery_attempts
+# is gone rather than dead-lettered. Nothing consumes it by design: it
+# exists so a dead-lettered finding is inspectable when somebody looks.
+resource "google_pubsub_subscription" "dead_letter" {
+  project = var.project_id
+  name    = "${var.topic_name}-dead-sub"
+  topic   = google_pubsub_topic.dead_letter.id
+
+  # Same reason as the main subscription: without this the subscription
+  # itself is deleted after 31 days of inactivity, which is exactly what
+  # a dead letter subscription is.
+  expiration_policy {
+    ttl = ""
+  }
+
+  # The Pub/Sub maximum. Nothing consumes this, so the only bound on how
+  # long a dead-lettered finding stays readable is this duration.
+  message_retention_duration = "2678400s"
+}
+
 # v2 at project scope. The v1 API is gone: gcloud scc notifications list
 # answers "This API is no longer available. Please use API V2", and the
 # account cannot read at organization scope anyway, which Phase 14 measured.

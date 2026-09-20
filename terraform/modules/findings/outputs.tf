@@ -9,8 +9,13 @@ output "subscription_name" {
 }
 
 output "dead_letter_topic_id" {
-  description = "Where a message goes after five failed deliveries. Read it when a verdict never appears."
+  description = "Where a message goes after five failed deliveries. The topic itself has no subscription and is not readable; pull from dead_letter_subscription_name instead."
   value       = google_pubsub_topic.dead_letter.id
+}
+
+output "dead_letter_subscription_name" {
+  description = "Where to pull from when a verdict never appeared for a finding."
+  value       = google_pubsub_subscription.dead_letter.name
 }
 
 output "bucket_name" {

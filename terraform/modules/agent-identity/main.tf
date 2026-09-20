@@ -15,16 +15,21 @@ resource "google_pubsub_subscription_iam_member" "subscriber" {
   member       = "serviceAccount:${google_service_account.triage.email}"
 }
 
-# objectUser covers read, create and delete on objects, and grants nothing
-# over the bucket itself. The ledger is written twice per verdict.
+# objectUser covers read, create and delete on objects. It also carries
+# storage.buckets.get and storage.buckets.list, so it is not scoped to
+# objects alone. The ledger is written twice per verdict.
 resource "google_storage_bucket_iam_member" "ledger_writer" {
   bucket = var.ledger_bucket_name
   role   = "roles/storage.objectUser"
   member = "serviceAccount:${google_service_account.triage.email}"
 }
 
-# Vertex AI has no per-model binding, so this is project scoped. The token
-# and call budgets in the worker are what bound it.
+# roles/aiplatform.user is broader than what this worker calls: a
+# publisher model needs only aiplatform.endpoints.predict, and a custom
+# role holding that one permission would be narrower than this, which
+# also allows creating training jobs, pipelines, endpoints and notebooks.
+# Deferred rather than fixed, because a custom role needs a definition
+# and an apply to verify against, and this branch is not applied yet.
 resource "google_project_iam_member" "vertex_user" {
   project = var.project_id
   role    = "roles/aiplatform.user"

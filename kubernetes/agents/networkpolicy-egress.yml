@@ -51,10 +51,24 @@ spec:
     - Egress
 
   egress:
+    # Workload Identity resolves credentials through the GKE metadata
+    # server, which the gke-metadata-server DaemonSet proxies on 988 as
+    # well as the standard 80. Without this the identity cannot be
+    # assumed at all, so it stands apart from the API traffic below.
+    - to:
+        - ipBlock:
+            cidr: 169.254.169.254/32
+      ports:
+        - protocol: TCP
+          port: 80
+        - protocol: TCP
+          port: 988
+
     # NetworkPolicy cannot match hostnames and Google publishes no stable
     # address list for these APIs, so this is everything outside the
-    # cluster's own address space rather than named ranges. Recorded as
-    # an open gap in the threat model, not an oversight.
+    # cluster's own address space rather than named ranges. Accepted for
+    # now and rated at the Phase 16 pass:
+    # reference/threat-model.md#boundary-3-pod-to-cluster.
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0

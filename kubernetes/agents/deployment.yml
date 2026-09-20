@@ -85,6 +85,12 @@ spec:
             - name: CONTAINER_NAME
               value: worker
 
+            # An image cannot learn its own digest during its own build, and the worker holds no
+            # cluster credential to read its Pod status with, so provenance takes it from here.
+            # Keep it in step with the image above; a rollout changes both.
+            - name: IMAGE_DIGEST
+              value: sha256:74579fde97cfa8bbc715c19ec94213b48b76d2eb7be680d28b29758ff2ccc87a
+
           # The worker handles no traffic, so nothing outside it could otherwise tell a process that
           # is triaging from one that is up and triaging nothing.
           readinessProbe:

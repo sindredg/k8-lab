@@ -64,3 +64,65 @@ resource "google_pubsub_subscription_iam_member" "dead_letter_subscriber" {
   role         = "roles/pubsub.subscriber"
   member       = local.pubsub_agent
 }
+
+# v2 at project scope. The v1 API is gone: gcloud scc notifications list
+# answers "This API is no longer available. Please use API V2", and the
+# account cannot read at organization scope anyway, which Phase 14 measured.
+resource "google_scc_v2_project_notification_config" "findings" {
+  project      = var.project_id
+  config_id    = "k8-lab-triage"
+  location     = "global"
+  description  = "Streams finding changes to the triage worker"
+  pubsub_topic = google_pubsub_topic.findings.id
+
+  # Deliberately wide. The worker filters and counts what it drops, so the
+  # vulnerability volume is recorded rather than discarded upstream where
+  # nothing could report it.
+  streaming_config {
+    filter = "state = \"ACTIVE\" OR state = \"INACTIVE\""
+  }
+}
+
+# The config publishes as its own agent, which Google names only after the
+# config exists. Hence the reference rather than a literal.
+resource "google_pubsub_topic_iam_member" "scc_publisher" {
+  project = var.project_id
+  topic   = google_pubsub_topic.findings.name
+  role    = "roles/pubsub.publisher"
+  member  = "serviceAccount:${google_scc_v2_project_notification_config.findings.service_account}"
+}
+
+# One object per verdict, keyed on the finding, its event time and its
+# state. Versioning keeps a corrected verdict from erasing the first one.
+resource "google_storage_bucket" "ledger" {
+  project                     = var.project_id
+  name                        = var.ledger_bucket_name
+  location                    = var.region
+  force_destroy               = false
+  uniform_bucket_level_access = true
+  public_access_prevention    = "enforced"
+
+  versioning {
+    enabled = true
+  }
+
+  # A verdict older than a year is history, not state.
+  lifecycle_rule {
+    condition {
+      age = 365
+    }
+    action {
+      type = "Delete"
+    }
+  }
+
+  # Noncurrent versions are the audit trail, and a short tail is enough.
+  lifecycle_rule {
+    condition {
+      num_newer_versions = 5
+    }
+    action {
+      type = "Delete"
+    }
+  }
+}

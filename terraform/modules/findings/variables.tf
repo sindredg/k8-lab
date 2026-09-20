@@ -52,3 +52,9 @@ variable "max_delivery_attempts" {
     error_message = "The max_delivery_attempts must be between 5 and 100"
   }
 }
+
+variable "region" {
+  description = "Region the ledger bucket is created in"
+  type        = string
+  default     = "europe-north1"
+}

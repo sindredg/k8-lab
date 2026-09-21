@@ -442,7 +442,7 @@ Every write uses a create-only precondition, so the ledger is append-only and tw
 - [x] Set `resource.type` to `k8s_container` explicitly on every log entry. A client library reports `global`, the metric still counts it, and the alert never fires.
 - [x] Emit the verdict string in exactly the spelling `triage.tf` filters on. Any other spelling pages the platform owner.
 - [x] Run as one replica in `agents`, pulling continuously.
-- [ ] Triage misconfiguration, external exposure and threat findings. Record the vulnerability volume and why it is out of scope rather than dropping it silently. Unticked: all three classes have now been through the worker, the first external exposure finding in [slice 8](worklog/phase-15-scc-triage.md#a-verdict-through-the-narrowed-role). The vulnerability volume it records is 598 skipped, and the 653 offline count has not been reconciled with it.
+- [ ] Triage misconfiguration, external exposure and threat findings. Record the vulnerability volume and why it is out of scope rather than dropping it silently. All three classes have been through the worker, external exposure last in [slice 8](worklog/phase-15-scc-triage.md#a-verdict-through-the-narrowed-role). The worker counted 598 vulnerabilities skipped, and [slice 9](worklog/phase-15-scc-triage.md#slice-9-where-598-vulnerabilities-came-from) reconciles them with the 653 counted offline. Unticked: why vulnerabilities are out of scope is not recorded anywhere.
 - [x] Count how many findings the rules settled without a model. That number says whether the rules are doing their job.
 
 **Increment 2, the model:**

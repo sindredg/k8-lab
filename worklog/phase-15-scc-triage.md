@@ -1128,6 +1128,55 @@ Both muted findings were unmuted afterwards.
 
 Six probe objects remain under `drill/ledger-grant/`, and the worker identity cannot remove them, which is the point of the slice. They sit outside every finding prefix, and the bucket's 365-day lifecycle rule removes them.
 
+## Slice 9: Where 598 vulnerabilities came from
+
+The worker's counters jumped from 0 to 598 on 2026-09-21, all vulnerabilities, with no drill running:
+
+```bash
+gcloud logging read 'resource.labels.namespace_name="agents" AND jsonPayload.msg="counters"'   --freshness=2d --order=asc --format='value(timestamp,jsonPayload.counts.received,jsonPayload.counts.vulnerabilities_skipped)'
+```
+
+```text
+2026-09-21T01:29:40Z  received 0    vulnerabilities_skipped 0
+2026-09-21T10:39:40Z  received 486  vulnerabilities_skipped 486
+2026-09-21T10:44:40Z  received 598  vulnerabilities_skipped 598
+```
+
+Security Command Center did not republish anything. The 598 are one state change, read back from the v2 API:
+
+```text
+category    SOFTWARE_VULNERABILITY, all 598
+state       INACTIVE, all 598
+eventTime   2026-09-21T10:36:28.701Z -> 10:37:32.669Z
+createTime  2026-09-18T20:47 -> 20:51
+resources   gke-k8-lab-general-cf1cb723-jplw  299
+            gke-k8-lab-general-7d6bb7c7-0rru  299
+```
+
+Both resources are node VMs that no longer exist. GKE upgraded the cluster on the `REGULAR` channel overnight, and the upgrade replaced them:
+
+```text
+UPGRADE_MASTER  DONE  2026-09-21T01:08:33Z  2026-09-21T01:17:37Z
+UPGRADE_NODES   DONE  2026-09-21T01:18:42Z  2026-09-21T01:32:04Z
+01:22:46Z  instances/gke-k8-lab-general-7d6bb7c7-0rru deleted  container-engine-robot
+01:27:58Z  instances/gke-k8-lab-general-cf1cb723-jplw deleted  container-engine-robot
+```
+
+The findings closed at 10:36Z, about nine hours after the VMs were deleted. The worker Pod was rescheduled by the same upgrade at 01:24:08Z and resumed with nothing lost. Nothing in this repository recorded the upgrade until the counters were read.
+
+The vulnerability volume now reconciles with the offline count:
+
+| Vulnerability findings | Count | Reached the worker |
+| --- | --- | --- |
+| Node VMs, INACTIVE at 10:36Z on 2026-09-21 | 598 | Yes, as `vulnerabilities_skipped 598` |
+| Cluster, INACTIVE at 02Z on 2026-09-20 | 17 | No. Before the worker existed |
+| Cluster, ACTIVE and unchanged | 38 | No. Nothing has published them |
+| Total | 653 | |
+
+The worker only sees changes. A stock count and a delivery count are different numbers, and the difference is findings that have not moved since the worker started. That is also why the overlap measurement needs a backfill: Security Command Center does not republish on its own.
+
+The two replacement nodes carried no vulnerability findings when this was read, about thirteen hours after they were created.
+
 ## What is applied
 
 ```bash

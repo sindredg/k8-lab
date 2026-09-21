@@ -1,7 +1,7 @@
 # Worklog: Phase 15 Security Command Center triage
 
 Date: 2026-09-20, extended 2026-09-21
-Status: In progress. The transport, the identity and the worker are applied, and the worker has triaged findings from all three in-scope classes end to end. The crash boundaries and a ledger write failure are drilled against the live worker. The overlap measurement and the injection drill are open, and the model is not called yet.
+Status: Closed on 2026-09-21, apart from re-reading the Security Command Center tier when the trial ends. The worker triages all three in-scope classes with a model for what the rules leave unmatched, and every failure path is drilled against the live system.
 
 ## Goal
 
@@ -1370,6 +1370,50 @@ terraform plan -detailed-exitcode                  exit 0, No changes
 ```
 
 Terraform's own change was detected too. Creating `k8_lab_model_invoker` raised an Event Threat Detection finding at 17:03:38Z, "Persistence: Sensitive AI Permission Added to Custom Role", which the worker settled as `new` six minutes before the model was turned on.
+
+## Slice 12: Does the model change anything
+
+Fourteen live verdicts were all `new`, which is what the rules would have said. So the question was run on purpose, with [`triage-eval`](https://github.com/sindredg/ai-k8s/pull/5): the worker's own settler, checks and budgets, over twelve real findings whose expected answers were written before the first run. It writes nothing to the ledger.
+
+| Cases | Expected | Why |
+| --- | --- | --- |
+| Privileged container launched, `agents` | `insufficient_evidence` or `contradicts_decision` | The corpus says admission refuses one, and the finding does not say whether it was refused. `new` is wrong |
+| Sensitive AI permission added to a custom role | `new` or `insufficient_evidence` | `agent-permission-boundary` records the grant, so the decision holds. `contradicts_decision` is wrong |
+| Service account in a sensitive namespace | `new` or `insufficient_evidence` | Nothing in the corpus covers it |
+| Seven misconfigurations and four inactive `loadgen` findings | `new` | Nothing in the corpus summaries covers them, and the model cannot accept |
+| `MASTER_AUTHORIZED_NETWORKS_DISABLED` | `accepted`, by rules | The control case: a reviewed pairing exists, so the model is never asked |
+
+The set was run four times, the last three on the committed file with the owner's address replaced:
+
+```text
+run 1  12 of 12 right
+run 2  11 of 12 right   sensitive AI permission: contradicts_decision, cites decision:agent-permission-boundary
+run 3  12 of 12 right
+run 4  11 of 12 right   sensitive AI permission: contradicts_decision, cites decision:agent-permission-boundary
+```
+
+Forty-four model calls, 42 as expected, about 0.13 USD.
+
+### The one outcome the model changes
+
+```text
+privileged container launched  contradicts_decision  cites control:pod-security-restricted-agents   4 of 4 runs
+  The finding asserts that a privileged container was launched in the 'agents' namespace. This contradicts
+  the 'control:pod-security-restricted-agents' decision, which states that the 'agents' namespace enforces
+  the Pod Security restricted standard at admission, meaning a privileged container should be refused.
+```
+
+The rules settle this finding as `new`. The model found the namespace in the finding body, tied it to the control, and cited it, and the citation resolved. That is the first live model citation, and the only case in the set where the model reaches an outcome the rules cannot.
+
+It is also a false alarm in fact. Admission refused that Pod, as [slice 5](#the-drill-produced-the-finding-it-then-consumed) recorded, and Event Threat Detection reports the request, not the outcome. From the finding alone, "your control appears not to have held" is the right escalation.
+
+### Temperature 0 does not fix the verdict
+
+The custom role finding flipped between `new` and `contradicts_decision` across runs on identical input. The other eleven never moved. Gemini at temperature 0 is not guaranteed to be deterministic, and here it was not.
+
+Both wrong answers were false alarms: a contradiction of a decision that holds. The failure went in the direction [model scope](../decisions.md#model-scope) chose, louder and not quieter.
+
+What it costs: a recorded verdict names everything needed to ask the same question again, and asking again can get a different answer on a borderline finding. A fixed `seed` in the generation config, or two calls that must agree before a contradiction is raised, are the known mitigations. Neither is built.
 
 ## What is applied
 

@@ -1177,6 +1177,39 @@ The worker only sees changes. A stock count and a delivery count are different n
 
 The two replacement nodes carried no vulnerability findings when this was read, about thirteen hours after they were created.
 
+## Slice 10: The backfill, and the overlap measured by the worker
+
+Eight findings had never reached the worker. Each was muted and unmuted, which is the [triage backfill](../decisions.md#triage-backfill) decision, on 2026-09-21. Afterwards:
+
+```text
+non-vulnerability findings: 15  in ledger: 15
+muted: 0
+```
+
+| Class | Findings | `accepted` | `new` |
+| --- | --- | --- | --- |
+| Misconfiguration, active | 7 | 3 | 4 |
+| Misconfiguration, inactive (`loadgen`) | 4 | 0 | 4 |
+| External exposure | 2 | 2 | 0 |
+| Threat | 2 | 0 | 2 |
+| Total | 15 | 5 | 10 |
+
+The three active misconfigurations the rules settled as `accepted`:
+
+```text
+BUCKET_LOGGING_DISABLED           the verdict ledger bucket
+BINARY_AUTHORIZATION_DISABLED     k8-lab
+MASTER_AUTHORIZED_NETWORKS_DISABLED  k8-lab   checkov:CKV_GCP_20:module.gke.google_container_cluster.main
+```
+
+**Three of seven** active Security Health Analytics findings name something `.checkov.baseline` already prices. That is the number the hand count and the offline run reached, now read from the ledger the deployed worker wrote.
+
+**Fifteen of fifteen** were settled by rules. `settled_by_model` is 0, because the model is not wired in yet. The number means something once Increment 2 exists.
+
+Fourteen verdicts carry image `sha256:b3770360` and corpus `4b03df8`. The fifteenth, the privileged container threat finding, was triaged on 2026-09-20 by an earlier image against corpus `7c5629c`, and a mute cannot re-triage it. It is not a Security Health Analytics finding, so it does not affect the overlap.
+
+The backfill sent five alert mails, one per `new` verdict it produced.
+
 ## What is applied
 
 ```bash
@@ -1224,7 +1257,7 @@ One notification channel, which is the requirement: verdicts reach the address t
 | A message nobody acknowledges is parked rather than lost | Proven. Five attempts, then republished to `scc-findings-dead` with the body intact |
 | The idempotency key in the contract distinguishes a change from a redelivery | Yes, for substance. `eventTime` holds across re-evaluation and moves on a real change. Attribute-only changes such as a mute collapse into a redelivery, deliberately |
 | Security Command Center and `.checkov.baseline` overlap | Three of seven active misconfigurations, after this phase's own bucket raised `BUCKET_LOGGING_DISABLED` against the `CKV_GCP_62` already in the baseline. Still by hand, not the provenanced measurement |
-| The overlap is measured with provenance | Open. Three of seven, produced offline by the deployed classifier and corpus rather than by the deployed worker, which has seen one finding |
+| The overlap is measured with provenance | Proven. Three of seven, read from verdicts the deployed worker wrote after the [backfill](#slice-10-the-backfill-and-the-overlap-measured-by-the-worker) |
 | A finding arriving while the worker is stopped is triaged afterwards | Proven. Scaled to 0, muted a finding, scaled to 1. The message waited and was triaged after the restart |
 | A finding carrying an instruction is triaged to the same verdict | Open. Covered by a unit test, not by a real finding |
 | A redelivered message produces one verdict, not two | Proven by replaying a real delivery. The unmute arrived under the key already acknowledged, and the ledger did not move |

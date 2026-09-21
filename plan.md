@@ -465,7 +465,7 @@ Measurements:
 
 - [x] The overlap [Phase 14](worklog/phase-14-close-the-baseline.md) left open is measured with provenance: how many Security Health Analytics findings name something `.checkov.baseline` already prices. Three of seven, read from the worker's own verdicts after the [backfill](worklog/phase-15-scc-triage.md#slice-10-the-backfill-and-the-overlap-measured-by-the-worker).
 - [x] The count of findings the rules settled without a model is published alongside it. Fifteen of fifteen, with no model wired in yet. [Slice 10](worklog/phase-15-scc-triage.md#slice-10-the-backfill-and-the-overlap-measured-by-the-worker).
-- [x] Security Command Center cost and Vertex AI cost are reported as separate lines, not as one agent cost. 0 on the trial, and 0.014434 USD estimated for five calls, in [slice 11](worklog/phase-15-scc-triage.md#slice-11-the-model-and-its-failure-paths-drilled). Estimated from token counts; the billing export was not read.
+- [x] Security Command Center cost and Vertex AI cost are reported as separate lines, not as one agent cost. 0 on the trial, and 0.040709 USD estimated for fourteen calls, drills and cleanup, in [slice 11](worklog/phase-15-scc-triage.md#slice-11-the-model-and-its-failure-paths-drilled). Estimated from token counts; the billing export was not read.
 - [ ] The tier is re-read when the trial ends, and the result is recorded. If it drops to Standard, Event Threat Detection goes with it and this phase triages one class fewer, which the plan states rather than the worker quietly seeing less.
 - [x] The idle agent fits on the existing two-node floor. The deployment records whether a third node appeared, and whether the agent caused it.
 

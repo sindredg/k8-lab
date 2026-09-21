@@ -442,7 +442,7 @@ Every write uses a create-only precondition, so the ledger is append-only and tw
 - [x] Set `resource.type` to `k8s_container` explicitly on every log entry. A client library reports `global`, the metric still counts it, and the alert never fires.
 - [x] Emit the verdict string in exactly the spelling `triage.tf` filters on. Any other spelling pages the platform owner.
 - [x] Run as one replica in `agents`, pulling continuously.
-- [ ] Triage misconfiguration, external exposure and threat findings. Record the vulnerability volume and why it is out of scope rather than dropping it silently. All three classes have been through the worker, external exposure last in [slice 8](worklog/phase-15-scc-triage.md#a-verdict-through-the-narrowed-role). The worker counted 598 vulnerabilities skipped, and [slice 9](worklog/phase-15-scc-triage.md#slice-9-where-598-vulnerabilities-came-from) reconciles them with the 653 counted offline. Unticked: why vulnerabilities are out of scope is not recorded anywhere.
+- [x] Triage misconfiguration, external exposure and threat findings. Record the vulnerability volume and why it is out of scope rather than dropping it silently. All three classes have been through the worker, external exposure last in [slice 8](worklog/phase-15-scc-triage.md#a-verdict-through-the-narrowed-role). The worker counted 598 vulnerabilities skipped, and [slice 9](worklog/phase-15-scc-triage.md#slice-9-where-598-vulnerabilities-came-from) reconciles them with the 653 counted offline. Why they are out of scope is recorded in [decisions.md](decisions.md#vulnerability-scope).
 - [x] Count how many findings the rules settled without a model. That number says whether the rules are doing their job.
 
 **Increment 2, the model:**
@@ -456,6 +456,7 @@ Built in [ai-k8s#4](https://github.com/sindredg/ai-k8s/pull/4), with the scope r
 - [x] Emit the token count and the estimated cost of each run, on the verdict record and as a label on the log entry.
 - [x] Stop calling the model when a daily spend ceiling is reached, and record the refusal. Refused at a ceiling of 0.001 USD with 0.0299 reserved. The message prints the ceiling to two places, as `0.00`, which is open in ai-k8s.
 - [x] Alert when a finding is dead-lettered. `Security finding was dead-lettered` opened an incident 8 minutes after the timeout drill parked a finding. Two parkings 6 minutes apart shared one incident.
+- [ ] Give the vulnerabilities in images this repository builds an owner. 38 active in `sky` and `nginx`, 8 CRITICAL, and nothing acts on them. Triage counts them and is not the response, as recorded in [decisions.md](decisions.md#vulnerability-scope).
 - [x] Notify through the existing email channel rather than adding a second one. Proven on a deterministic verdict: the alert fired and the mail arrived at the Platform owner channel. Increment 2 adds nothing to that path.
 
 **Exit criteria:**
@@ -479,7 +480,7 @@ Failure paths, each proven by making it happen:
 - [x] Kill the worker after notification and before acknowledgement. The finding is notified again, and the ledger shows one `notification_attempted` record rather than two verdicts. Three notifications, one record.
 - [x] An input larger than the token budget is refused with `insufficient_evidence` naming the budget, not truncated.
 - [x] Stop the agent while a finding is waiting. After the agent restarts, verify that it processes the finding successfully. Scaled to 0, muted a finding, scaled to 1, and the waiting message was triaged.
-- [ ] A finding carrying an instruction is triaged to the same verdict as one without. Test every untrusted field the worker reads, not the resource name alone: category, resource name, description, external URI, source properties, and the finding's own severity. Use a real finding from a real detector. Live: a real finding carried the instruction in `resourceName`, `externalUri` and `sourceProperties`, and got the same verdict as one without. Unticked: category, description and severity come from the detector and cannot carry one, so they are covered by unit test only, and whether that is enough is a decision.
+- [x] A finding carrying an instruction is triaged to the same verdict as one without. Test every untrusted field the worker reads, not the resource name alone: category, resource name, description, external URI, source properties, and the finding's own severity. Use a real finding from a real detector. Live: a real finding carried the instruction in `resourceName`, `externalUri` and `sourceProperties`, and got the same verdict as one without. Category, description and severity come from the detector and cannot carry one, so they are covered by unit test, as decided in [injection test scope](decisions.md#injection-test-scope).
 
 ### Phase 16: Cluster access through an audited gateway
 
@@ -668,7 +669,7 @@ The crash boundaries are drilled. On 2026-09-21 the worker was stopped at each o
 
 That work needed a deterministic crash point, because the windows are sub-millisecond and deleting a Pod cannot land inside one. It also needed commit signing, which did not exist: `ai-k8s` commits were unsigned, so the pin gate would have refused every bump. Setting it up turned the first automated bump into the evidence the two pin guards were waiting for.
 
-Increment 2 is running. The model settles unmatched findings through a one-permission role, and every failure path it adds was made to happen in [slice 11](worklog/phase-15-scc-triage.md#slice-11-the-model-and-its-failure-paths-drilled): budget, ceiling, invalid output, timeout and permission. The injection drill ran on a real finding. Phase 15 still holds four things open: whether unit tests are enough for the finding fields a real detector cannot set, a citation that no live verdict has made yet, why vulnerabilities are out of scope, and the tier check when the trial ends.
+Increment 2 is running. The model settles unmatched findings through a one-permission role, and every failure path it adds was made to happen in [slice 11](worklog/phase-15-scc-triage.md#slice-11-the-model-and-its-failure-paths-drilled): budget, ceiling, invalid output, timeout and permission. The injection drill ran on a real finding. Phase 15 still holds three things open: a citation that no live verdict has made yet, the tier check when the trial ends, and an owner for the 38 vulnerabilities in `sky` and `nginx`, which triage counts and does not answer.
 
 The agents land on a platform whose security posture has been tested rather than described. All three in Milestone 4 read and none can change the cluster, so the threat model comes back in Phase 16, when an agent first holds cluster credentials.
 

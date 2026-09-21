@@ -76,6 +76,7 @@ Recorded in [model scope](../decisions.md#model-scope).
 | Spend ceiling | 1.00 USD a UTC day. Each call reserves its worst case in the ledger bucket first, so the ceiling survives restarts |
 | Timeout | 30 s. A timeout is an error, not a verdict |
 | Typical call | About 8900 tokens in, 100 out, 0.003 USD, 1.2 s |
+| Repeatability | Not guaranteed. On identical input one borderline verdict flipped between runs, see [slice 12](../worklog/phase-15-scc-triage.md#temperature-0-does-not-fix-the-verdict) |
 
 A reply is refused as `insufficient_evidence`, naming the reason, when it does not decode strictly, cites an id that does not resolve, calls `new` something it also cites, or returns `accepted`. The refusal is still a verdict and still notifies. Every model verdict records the model, parameters, prompt digest, tokens and estimated cost, on the ledger record and as labels on the log entry.
 

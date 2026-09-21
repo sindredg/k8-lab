@@ -806,6 +806,10 @@ agentCommit : f3f931d7665f1fdc5d3c229d5c2022e0c5787c80
 
 This is the first verdict to carry `image_digest`. The field was applied on 2026-09-20 and [no verdict had been produced since](#what-the-image-cannot-know-about-itself).
 
+The verdict reached the owner at 00:35Z:
+
+![The re-inferred verdict reaches the Platform owner](../images/phase15-drill-alert-intranode.png)
+
 ### A redelivery produces one verdict, and the drift net catches the difference
 
 Unmuting the same finding republishes it. A mute does not advance `eventTime`, so the message arrives under the key already in the ledger:
@@ -840,6 +844,10 @@ received.json
 
 7.18ms apart, and the record is first. Two independent clocks, neither of them the worker's own, dating the ordering across a crash rather than inside one process.
 
+The notification the crash delayed arrived at 00:40Z:
+
+![The delayed verdict reaches the Platform owner](../images/phase15-drill-alert-secrets.png)
+
 ### Kill after notification, before acknowledgement
 
 The window the state machine exists to close. At the crash:
@@ -872,7 +880,13 @@ That is the trade the decision names, observed rather than argued. The ledger ho
 
 The same two-clock measurement holds here: the record was written at 00:38:09.611034Z and the first log entry landed at 00:38:09.620937Z, 9.90ms later.
 
-The duplication is bounded by the alert policy rather than by the worker. All three entries carry the same verdict, category and severity, so they group into one incident while it is open.
+The duplication is bounded by the alert policy rather than by the worker. All three entries carry the same verdict, category and severity, so they group into one incident while it is open rather than opening three.
+
+An alert on this finding reached the owner at 00:41Z:
+
+![The repeated verdict reaches the Platform owner](../images/phase15-drill-alert-iam.png)
+
+It carries `severity: HIGH`, extracted from the finding rather than from the verdict. How many mails the three entries produced was not counted, so the grouping claim above stays as [the decision](../decisions.md#triage-idempotency) states it: bounded in the common case, guaranteed in none.
 
 ### A finding that arrives while the worker is stopped
 
@@ -887,11 +901,9 @@ ledger objects for e5d7b4d9: 4, acknowledged present
 
 The message waited with no subscriber, and the worker triaged it after it came back. Nothing was lost and nothing was dropped.
 
-The verdict reached the owner. The alert policy fired on it at 00:45Z, about three minutes after the triage, carrying the labels the metric extracts:
+The verdict reached the owner at 00:45Z, about three minutes after the triage:
 
-![The drill verdict reaches the Platform owner](../images/phase15-drill-alert-firing.png)
-
-`category: PRIMITIVE_ROLES_USED`, `verdict: new`, `severity: MEDIUM`. This is the last link in the chain: the drills did not only write ledger objects and log entries, they reached a human. The condition reads "A finding was triaged to something other than accepted", which is the filter `triage.tf` applies, matched on the exact verdict spelling the worker emits.
+![The stop-while-waiting verdict reaches the Platform owner](../images/phase15-drill-alert-primitive-roles.png)
 
 ### The ledger after the drills
 

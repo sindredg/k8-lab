@@ -887,6 +887,12 @@ ledger objects for e5d7b4d9: 4, acknowledged present
 
 The message waited with no subscriber, and the worker triaged it after it came back. Nothing was lost and nothing was dropped.
 
+The verdict reached the owner. The alert policy fired on it at 00:45Z, about three minutes after the triage, carrying the labels the metric extracts:
+
+![The drill verdict reaches the Platform owner](../images/phase15-drill-alert-firing.png)
+
+`category: PRIMITIVE_ROLES_USED`, `verdict: new`, `severity: MEDIUM`. This is the last link in the chain: the drills did not only write ledger objects and log entries, they reached a human. The condition reads "A finding was triaged to something other than accepted", which is the filter `triage.tf` applies, matched on the exact verdict spelling the worker emits.
+
 ### The ledger after the drills
 
 ```text
@@ -949,7 +955,7 @@ One notification channel, which is the requirement: verdicts reach the address t
 | Claim | State |
 | --- | --- |
 | Four APIs enabled, metric and alert policy applied | Proven, read back from the API |
-| Verdicts reach the existing email channel and no second channel exists | Proven end to end. A real verdict landed with `resource.type = k8s_container`, the alert fired on it at 21:55Z, and the mail arrived at the Platform owner channel |
+| Verdicts reach the existing email channel and no second channel exists | Proven end to end, twice. A real verdict landed with `resource.type = k8s_container`, the alert fired on it at 21:55Z on 2026-09-20, and the mail arrived at the Platform owner channel. The stop-while-waiting drill fired the same policy again at 00:45Z on 2026-09-21 |
 | `k8s_container` is required, and the wrong resource type fails silently | Proven, by writing an entry that landed as `global` |
 | A replacement of the public certificate cannot happen as a side effect | Proven for the cause found, and guarded by `prevent_destroy` |
 | Findings reach the topic, subscription and dead letter | Proven. A real finding from a real detector arrived about two seconds after the change, on both a mute and an unmute |

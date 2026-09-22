@@ -481,6 +481,15 @@ Failure paths, each proven by making it happen:
 - [x] Stop the agent while a finding is waiting. After the agent restarts, verify that it processes the finding successfully. Scaled to 0, muted a finding, scaled to 1, and the waiting message was triaged.
 - [x] A finding carrying an instruction is triaged to the same verdict as one without. Test every untrusted field the worker reads, not the resource name alone: category, resource name, description, external URI, source properties, and the finding's own severity. Use a real finding from a real detector. Live: a real finding carried the instruction in `resourceName`, `externalUri` and `sourceProperties`, and got the same verdict as one without. Category, description and severity come from the detector and cannot carry one, so they are covered by unit test, as decided in [injection test scope](decisions.md#injection-test-scope).
 
+**Decision quality.** Whether the model makes triage better than the rules alone. [Slice 12](worklog/phase-15-scc-triage.md#slice-12-does-the-model-change-anything) could not answer that, because nine of its twelve cases accepted only what the rules already return. Built in [ai-k8s#6](https://github.com/sindredg/ai-k8s/pull/6), measured in [slice 13](worklog/phase-15-scc-triage.md#slice-13-decision-quality-rules-alone-against-rules-plus-the-model).
+
+- [x] A reviewed set with expected outcomes and the evidence behind each: 18 dev cases and a sealed holdout of 7. It includes ambiguous findings, missing fields, planted text, a decision about another resource, controls that did not hold, and a finding where abstention is right.
+- [x] Score rules alone against rules plus the model, through the function the worker calls. Cases right on every run: 14 of 18 each on dev, 5 of 7 each on holdout.
+- [x] Check that a citation supports the verdict, not only that it resolves. A right verdict resting on a citation outside the reviewed list scores as wrong.
+- [x] Measure wrong verdicts by direction, unsupported citations, flips across five repeats, latency and cost. 15 false contradictions in 125 model-path runs and none silenced; p95 1.9s; about 0.003 USD a call.
+- [x] Fail CI when a committed result is stale: the prompt, parameters, cases, mapping or controls changed after the run. An edit here to `decisions.md`, the threat model or the checkov baseline only warns, because it does not run ai-k8s CI.
+- [ ] Bring the false contradiction rate down on the dev set, then run the holdout once. A planted note naming a real corpus id produced one on every run.
+
 ### Phase 15b: Patch the images this repository builds
 
 Split out of Phase 15 on 2026-09-21. Triage counts vulnerabilities and does not answer them, as recorded in [decisions.md](decisions.md#vulnerability-scope). Something else has to.
@@ -510,8 +519,8 @@ This repository is public, so package names and versions are left out while an i
 
 **Follow-ups from Phase 15, not blocking:**
 
-- [ ] Fix the spend ceiling refusal, which prints a 0.001 USD ceiling as `0.00 USD`.
-- [ ] Make a borderline contradiction reproducible: a fixed `seed`, or two calls that must agree before `contradicts_decision` is raised. [Slice 12](worklog/phase-15-scc-triage.md#slice-12-does-the-model-change-anything) measured the flip.
+- [x] Fix the spend ceiling refusal, which printed a 0.001 USD ceiling as `0.00 USD`. Fixed in [ai-k8s#6](https://github.com/sindredg/ai-k8s/pull/6) and proven by unit test. The worker carries it from the next pin.
+- [ ] Make a borderline contradiction reproducible: a fixed `seed`, or two calls that must agree before `contradicts_decision` is raised. [Slice 13](worklog/phase-15-scc-triage.md#slice-13-decision-quality-rules-alone-against-rules-plus-the-model) measured four cases whose verdict moved across five runs, and the evaluation now scores whichever mitigation is tried.
 
 ### Phase 16: Cluster access through an audited gateway
 

@@ -108,7 +108,7 @@ Milestone 3 closed with eleven of the twelve findings in [the threat model](refe
 
 [Phase 15](worklog/phase-15-scc-triage.md) is closed. The worker in [ai-k8s](https://github.com/sindredg/ai-k8s) settles what the reviewed mapping pairs, and asks Vertex AI about the rest through a one-permission role, within a token budget and a daily spend ceiling. Every failure path it adds was made to happen.
 
-Whether the model is worth it is measured in [slice 13](worklog/phase-15-scc-triage.md#slice-13-decision-quality-rules-alone-against-rules-plus-the-model). On a reviewed set of 25 findings, rules plus the model tie the rules alone on cases right every run. The model reaches contradictions the rules cannot, and raises false ones on 15 of 125 runs. None silenced a finding.
+Whether the model is worth it is measured in [slices 13 and 14](worklog/phase-15-scc-triage.md#slice-13-decision-quality-rules-alone-against-rules-plus-the-model), on a reviewed set of 25 findings asked five times each. At first the model tied the rules alone, trading false contradictions for real ones. With a contradiction required to land on a control that applies to the finding's resource, it gets 16 of 18 dev cases and 7 of 7 sealed holdout cases right on every run, against 14 and 5 for the rules, with no false contradiction in 125 runs.
 
 Next: bring the false contradiction rate down, and [Phase 15b](plan.md#phase-15b-patch-the-images-this-repository-builds), which patches the images whose vulnerabilities triage counts.
 

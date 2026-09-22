@@ -1513,6 +1513,71 @@ About 0.003 USD a call, estimated from token counts. Both runs together cost abo
 
 The number to change next is the false contradiction rate, on the dev set only, with the holdout run once afterwards.
 
+## Slice 14: A contradiction has to land on something
+
+All 15 false contradictions in slice 13 had one shape. The model cited an entry that resolved and was about something else:
+
+| Case | Cited | Why it does not hold here |
+| --- | --- | --- |
+| Custom role with an AI permission | `decision:agent-permission-boundary` | The worker's grants, read as covering every role in the project |
+| Primitive roles, planted note | `decision:agent-permission-boundary` | The id came from the finding |
+| Master authorized networks on `k8-lab-staging` | `decision:control-plane-access` | A decision about `k8-lab` |
+| Forwarding rule borrowing the Gateway's name | `decision:ingress-mechanism` | "Gateway, not Ingress" read as a contradiction of exposure |
+| Binary authorization, `locations` spelling | `decision:supply-chain-control-timing` | A deferral read as a promise |
+
+### An instruction first, and it made things worse
+
+The first attempt stayed in the prompt: a contradiction needs an entry naming the same resource, one that states a property holds rather than accepting a gap, and a finding that shows it failing. On the dev set:
+
+```text
+rules+model      90     72        62           8            1        14/18    1274    1614    0.2497
+             errors: false_contradiction 13, overconfident 5
+```
+
+13 false contradictions, against 10. The custom role case went from 3 of 5 to 5 of 5, with the model now quoting the rule and applying it anyway: "holds no broad project role" read as covering any role in the project. The change was reverted, and the holdout was not run against it.
+
+### A check in code instead
+
+[ai-k8s#7](https://github.com/sindredg/ai-k8s/pull/7) moves the boundary out of the prompt, where the model rule says it belongs:
+
+- Every control in `controls.yaml` names what it holds for in `applies_to`, as prefixes of Security Command Center resource names, read from the Terraform and the manifests. The build fails on a control that names none.
+- A model `contradicts_decision` stands only when a cited control applies to the resource the finding is filed against, or to one it lists as affected.
+- Otherwise the verdict is `insufficient_evidence`, naming what the model claimed. It still notifies.
+
+```text
+dev
+rules            18     14        14           0            0        14/18
+rules+model      90     80        61           0            3        16/18    1206    1856    0.2432
+             errors: needless_abstention 5, overconfident 5
+
+holdout, run once
+rules             7      5         4           0            0          5/7
+rules+model      35     35        23           0            1          7/7    1250    2210    0.0763
+```
+
+| | Slice 13 | Slice 14 |
+| --- | --- | --- |
+| Cases right every run, dev | 14 of 18 | 16 of 18 |
+| Cases right every run, holdout | 5 of 7 | 7 of 7 |
+| False contradictions | 15 of 125 runs | 0 of 125 |
+| Unsupported citations | 8 runs | 0 |
+| Contradictions the rules cannot reach, still raised | 5 cases | 5 cases |
+
+The dev set ran twice against the change, before and after it was committed, and scored 16 of 18 both times.
+
+### What is still wrong
+
+| Case | Verdict | Why |
+| --- | --- | --- |
+| Primitive roles, planted note | `insufficient_evidence`, 5 of 5 | The model still claims the planted contradiction, and the check refuses it. Louder than the right `new`, and no false claim reaches the owner |
+| Added binary executed, no workload named | `new`, 5 of 5 | The model never abstains here. The check only acts on contradictions |
+
+### What it costs, and what to discount
+
+- A genuine contradiction of a decision, as opposed to a control, can no longer be raised by the model. It arrives as `insufficient_evidence` naming the claim.
+- `applies_to` on the TLS control was written after the weak SSL holdout case, by someone who knew the resource that case uses. The name is `terraform/modules/gateway`'s, but the holdout is not blind on that point.
+- The affected resources come from `sourceProperties`, which a resource's creator can partly shape. A forged entry can only anchor a contradiction, which notifies. It cannot quiet a finding.
+
 ## What is applied
 
 ```bash

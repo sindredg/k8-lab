@@ -1,0 +1,2409 @@
+google_project_service.required["iamcredentials.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/iamcredentials.googleapis.com]
+google_project_service.required["sts.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/sts.googleapis.com]
+google_project_service.required["serviceusage.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/serviceusage.googleapis.com]
+google_project_service.required["storage.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/storage.googleapis.com]
+google_project_service.required["monitoring.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/monitoring.googleapis.com]
+google_project_service.required["cloudresourcemanager.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/cloudresourcemanager.googleapis.com]
+google_project_service.required["securitycenter.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/securitycenter.googleapis.com]
+google_project_service.required["container.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/container.googleapis.com]
+google_project_service.required["iam.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/iam.googleapis.com]
+google_project_service.required["certificatemanager.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/certificatemanager.googleapis.com]
+google_project_service.required["compute.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/compute.googleapis.com]
+google_project_service.required["containerscanning.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/containerscanning.googleapis.com]
+google_project_service.required["logging.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/logging.googleapis.com]
+google_project_service.required["pubsub.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/pubsub.googleapis.com]
+google_project_service.required["aiplatform.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/aiplatform.googleapis.com]
+google_project_service.required["artifactregistry.googleapis.com"]: Refreshing state... [id=project-69726555-c4de-48de-a69/artifactregistry.googleapis.com]
+module.gateway.google_certificate_manager_certificate_map.default: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/locations/global/certificateMaps/k8-lab-gateway-cert-map]
+module.gateway.google_certificate_manager_dns_authorization.default: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/locations/global/dnsAuthorizations/k8-lab-gateway-dns-auth]
+module.findings.google_storage_bucket.ledger: Refreshing state... [id=k8-lab-verdicts-project-69726555-c4de-48de-a69]
+module.network.google_compute_network.main: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/global/networks/gke-vpc]
+module.findings.google_pubsub_topic.findings: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/topics/scc-findings]
+module.agent_identity.google_service_account.triage: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.gateway.google_compute_ssl_policy.default: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/global/sslPolicies/k8-lab-gateway-ssl-policy]
+module.agent_identity.google_project_iam_custom_role.model_invoker: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/roles/k8_lab_model_invoker]
+module.registry.google_artifact_registry_repository.main: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/locations/europe-north1/repositories/k8-lab]
+module.gateway.google_compute_security_policy.default: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/global/securityPolicies/k8-lab-gateway-rate-limit]
+module.agent_identity.google_project_iam_custom_role.ledger_appender: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/roles/k8_lab_ledger_appender]
+module.findings.google_pubsub_topic.dead_letter: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/topics/scc-findings-dead]
+module.gateway.google_compute_global_address.gateway: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/global/addresses/k8-lab-gateway]
+module.findings.google_scc_v2_project_notification_config.findings: Refreshing state... [id=projects/421458901689/locations/global/notificationConfigs/k8-lab-triage]
+module.network.google_compute_router.main: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/regions/europe-north1/routers/gke-vpc-router]
+module.network.google_compute_subnetwork.main: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/regions/europe-north1/subnetworks/gke-subnet]
+module.findings.google_pubsub_subscription.dead_letter: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/subscriptions/scc-findings-dead-sub]
+module.findings.google_pubsub_topic_iam_member.dead_letter_publisher: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/topics/scc-findings-dead/roles/pubsub.publisher/serviceAccount:service-421458901689@gcp-sa-pubsub.iam.gserviceaccount.com]
+module.findings.google_pubsub_subscription.triage: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/subscriptions/scc-triage]
+module.network.google_compute_router_nat.main: Refreshing state... [id=project-69726555-c4de-48de-a69/europe-north1/gke-vpc-router/gke-vpc-nat]
+module.agent_identity.google_project_iam_member.log_writer: Refreshing state... [id=project-69726555-c4de-48de-a69/roles/logging.logWriter/serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.agent_identity.google_service_account_iam_member.workload_identity: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com/roles/iam.workloadIdentityUser/serviceAccount:project-69726555-c4de-48de-a69.svc.id.goog[agents/triage-worker]]
+module.agent_identity.google_project_iam_member.vertex_user: Refreshing state... [id=project-69726555-c4de-48de-a69/projects/project-69726555-c4de-48de-a69/roles/k8_lab_model_invoker/serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.agent_identity.google_storage_bucket_iam_member.ledger_writer: Refreshing state... [id=b/k8-lab-verdicts-project-69726555-c4de-48de-a69/projects/project-69726555-c4de-48de-a69/roles/k8_lab_ledger_appender/serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.gateway.google_certificate_manager_certificate.default: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/locations/global/certificates/k8-lab-gateway-cert]
+module.gke.google_service_account.nodes: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.gke.google_container_cluster.main: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/locations/europe-north1-a/clusters/k8-lab]
+module.gke.google_project_iam_member.nodes: Refreshing state... [id=project-69726555-c4de-48de-a69/roles/container.defaultNodeServiceAccount/serviceAccount:k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.registry.google_artifact_registry_repository_iam_member.node_reader: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/locations/europe-north1/repositories/k8-lab/roles/artifactregistry.reader/serviceAccount:k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.findings.google_pubsub_subscription_iam_member.dead_letter_subscriber: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/subscriptions/scc-triage/roles/pubsub.subscriber/serviceAccount:service-421458901689@gcp-sa-pubsub.iam.gserviceaccount.com]
+module.agent_identity.google_pubsub_subscription_iam_member.subscriber: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/subscriptions/scc-triage/roles/pubsub.subscriber/serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.findings.google_pubsub_topic_iam_member.scc_publisher: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/topics/scc-findings/roles/pubsub.publisher/serviceAccount:service-org-550178366891@gcp-sa-scc-notification.iam.gserviceaccount.com]
+module.delivery.google_iam_workload_identity_pool.github: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/locations/global/workloadIdentityPools/github]
+module.delivery.google_service_account.deploy: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.delivery.google_project_iam_member.deploy_cluster_viewer: Refreshing state... [id=project-69726555-c4de-48de-a69/roles/container.clusterViewer/serviceAccount:k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.delivery.google_artifact_registry_repository_iam_member.deploy_writer: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/locations/europe-north1/repositories/k8-lab/roles/artifactregistry.writer/serviceAccount:k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.gateway.google_certificate_manager_certificate_map_entry.default: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/locations/global/certificateMaps/k8-lab-gateway-cert-map/certificateMapEntries/k8-lab-gateway-cert-entry]
+module.gke.google_container_node_pool.general: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/locations/europe-north1-a/clusters/k8-lab/nodePools/general]
+module.delivery.google_service_account_iam_member.github_impersonation: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com/roles/iam.workloadIdentityUser/principalSet://iam.googleapis.com/projects/421458901689/locations/global/workloadIdentityPools/github/attribute.repository/sindredg/k8-lab]
+module.delivery.google_iam_workload_identity_pool_provider.github: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/locations/global/workloadIdentityPools/github/providers/github-oidc]
+module.observability.google_logging_project_bucket_config.default: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/locations/global/buckets/_Default]
+module.observability.google_logging_metric.nginx_errors: Refreshing state... [id=nginx-error-level]
+module.observability.google_monitoring_notification_channel.email: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/notificationChannels/5886169687490354841]
+module.observability.google_monitoring_dashboard.workload_health: Refreshing state... [id=projects/421458901689/dashboards/5312ec64-59ff-4fc5-adca-5ec0b81a26ca]
+module.observability.google_logging_metric.triage_verdict: Refreshing state... [id=triage/verdicts]
+module.observability.google_monitoring_uptime_check_config.public: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/uptimeCheckConfigs/sindrg-com-healthz-btf-MZocEX8]
+module.observability.google_monitoring_alert_policy.triage_dead_letter: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/alertPolicies/16683288236348030013]
+module.observability.google_monitoring_alert_policy.triage_verdict: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/alertPolicies/12749957823457624217]
+module.observability.google_monitoring_alert_policy.site_unavailable: Refreshing state... [id=projects/project-69726555-c4de-48de-a69/alertPolicies/7230741399146436293]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # google_project_service.required["aiplatform.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/aiplatform.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "aiplatform.googleapis.com" -> null
+    }
+
+  # google_project_service.required["artifactregistry.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/artifactregistry.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "artifactregistry.googleapis.com" -> null
+    }
+
+  # google_project_service.required["certificatemanager.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/certificatemanager.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "certificatemanager.googleapis.com" -> null
+    }
+
+  # google_project_service.required["cloudresourcemanager.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/cloudresourcemanager.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "cloudresourcemanager.googleapis.com" -> null
+    }
+
+  # google_project_service.required["compute.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/compute.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "compute.googleapis.com" -> null
+    }
+
+  # google_project_service.required["container.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/container.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "container.googleapis.com" -> null
+    }
+
+  # google_project_service.required["containerscanning.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/containerscanning.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "containerscanning.googleapis.com" -> null
+    }
+
+  # google_project_service.required["iam.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/iam.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "iam.googleapis.com" -> null
+    }
+
+  # google_project_service.required["iamcredentials.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/iamcredentials.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "iamcredentials.googleapis.com" -> null
+    }
+
+  # google_project_service.required["logging.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/logging.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "logging.googleapis.com" -> null
+    }
+
+  # google_project_service.required["monitoring.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/monitoring.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "monitoring.googleapis.com" -> null
+    }
+
+  # google_project_service.required["pubsub.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/pubsub.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "pubsub.googleapis.com" -> null
+    }
+
+  # google_project_service.required["securitycenter.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/securitycenter.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "securitycenter.googleapis.com" -> null
+    }
+
+  # google_project_service.required["serviceusage.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/serviceusage.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "serviceusage.googleapis.com" -> null
+    }
+
+  # google_project_service.required["storage.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/storage.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "storage.googleapis.com" -> null
+    }
+
+  # google_project_service.required["sts.googleapis.com"] will be destroyed
+  - resource "google_project_service" "required" {
+      - deletion_policy    = "DELETE" -> null
+      - disable_on_destroy = false -> null
+      - id                 = "project-69726555-c4de-48de-a69/sts.googleapis.com" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - service            = "sts.googleapis.com" -> null
+    }
+
+  # module.agent_identity.google_project_iam_custom_role.ledger_appender will be destroyed
+  - resource "google_project_iam_custom_role" "ledger_appender" {
+      - deleted         = false -> null
+      - deletion_policy = "DELETE" -> null
+      - description     = "Create, read and list ledger objects. No delete, so no overwrite either." -> null
+      - id              = "projects/project-69726555-c4de-48de-a69/roles/k8_lab_ledger_appender" -> null
+      - name            = "projects/project-69726555-c4de-48de-a69/roles/k8_lab_ledger_appender" -> null
+      - permissions     = [
+          - "storage.objects.create",
+          - "storage.objects.get",
+          - "storage.objects.list",
+        ] -> null
+      - project         = "project-69726555-c4de-48de-a69" -> null
+      - role_id         = "k8_lab_ledger_appender" -> null
+      - stage           = "GA" -> null
+      - title           = "Ledger appender" -> null
+    }
+
+  # module.agent_identity.google_project_iam_custom_role.model_invoker will be destroyed
+  - resource "google_project_iam_custom_role" "model_invoker" {
+      - deleted         = false -> null
+      - deletion_policy = "DELETE" -> null
+      - description     = "Call a Vertex AI publisher model. Nothing else." -> null
+      - id              = "projects/project-69726555-c4de-48de-a69/roles/k8_lab_model_invoker" -> null
+      - name            = "projects/project-69726555-c4de-48de-a69/roles/k8_lab_model_invoker" -> null
+      - permissions     = [
+          - "aiplatform.endpoints.predict",
+        ] -> null
+      - project         = "project-69726555-c4de-48de-a69" -> null
+      - role_id         = "k8_lab_model_invoker" -> null
+      - stage           = "GA" -> null
+      - title           = "Model invoker" -> null
+    }
+
+  # module.agent_identity.google_project_iam_member.log_writer will be destroyed
+  - resource "google_project_iam_member" "log_writer" {
+      - etag    = "BwZcFU8gME0=" -> null
+      - id      = "project-69726555-c4de-48de-a69/roles/logging.logWriter/serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - member  = "serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - project = "project-69726555-c4de-48de-a69" -> null
+      - role    = "roles/logging.logWriter" -> null
+    }
+
+  # module.agent_identity.google_project_iam_member.vertex_user will be destroyed
+  - resource "google_project_iam_member" "vertex_user" {
+      - etag    = "BwZcFU8gME0=" -> null
+      - id      = "project-69726555-c4de-48de-a69/projects/project-69726555-c4de-48de-a69/roles/k8_lab_model_invoker/serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - member  = "serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - project = "project-69726555-c4de-48de-a69" -> null
+      - role    = "projects/project-69726555-c4de-48de-a69/roles/k8_lab_model_invoker" -> null
+    }
+
+  # module.agent_identity.google_pubsub_subscription_iam_member.subscriber will be destroyed
+  - resource "google_pubsub_subscription_iam_member" "subscriber" {
+      - etag         = "BwZb7Kh6lfc=" -> null
+      - id           = "projects/project-69726555-c4de-48de-a69/subscriptions/scc-triage/roles/pubsub.subscriber/serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - member       = "serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - project      = "project-69726555-c4de-48de-a69" -> null
+      - role         = "roles/pubsub.subscriber" -> null
+      - subscription = "scc-triage" -> null
+    }
+
+  # module.agent_identity.google_service_account.triage will be destroyed
+  - resource "google_service_account" "triage" {
+      - account_id      = "k8-lab-triage" -> null
+      - deletion_policy = "DELETE" -> null
+      - description     = "Pulls findings, calls Vertex AI, writes verdicts. No cluster access." -> null
+      - disabled        = false -> null
+      - display_name    = "Security Command Center triage worker" -> null
+      - email           = "k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - id              = "projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - member          = "serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - name            = "projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - project         = "project-69726555-c4de-48de-a69" -> null
+      - unique_id       = "101582366181360584143" -> null
+    }
+
+  # module.agent_identity.google_service_account_iam_member.workload_identity will be destroyed
+  - resource "google_service_account_iam_member" "workload_identity" {
+      - etag               = "BwZb7KhobZA=" -> null
+      - id                 = "projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com/roles/iam.workloadIdentityUser/serviceAccount:project-69726555-c4de-48de-a69.svc.id.goog[agents/triage-worker]" -> null
+      - member             = "serviceAccount:project-69726555-c4de-48de-a69.svc.id.goog[agents/triage-worker]" -> null
+      - role               = "roles/iam.workloadIdentityUser" -> null
+      - service_account_id = "projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+    }
+
+  # module.agent_identity.google_storage_bucket_iam_member.ledger_writer will be destroyed
+  - resource "google_storage_bucket_iam_member" "ledger_writer" {
+      - bucket = "b/k8-lab-verdicts-project-69726555-c4de-48de-a69" -> null
+      - etag   = "CAQ=" -> null
+      - id     = "b/k8-lab-verdicts-project-69726555-c4de-48de-a69/projects/project-69726555-c4de-48de-a69/roles/k8_lab_ledger_appender/serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - member = "serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - role   = "projects/project-69726555-c4de-48de-a69/roles/k8_lab_ledger_appender" -> null
+    }
+
+  # module.delivery.google_artifact_registry_repository_iam_member.deploy_writer will be destroyed
+  - resource "google_artifact_registry_repository_iam_member" "deploy_writer" {
+      - etag       = "BwZah8o9JII=" -> null
+      - id         = "projects/project-69726555-c4de-48de-a69/locations/europe-north1/repositories/k8-lab/roles/artifactregistry.writer/serviceAccount:k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - location   = "europe-north1" -> null
+      - member     = "serviceAccount:k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - project    = "project-69726555-c4de-48de-a69" -> null
+      - repository = "projects/project-69726555-c4de-48de-a69/locations/europe-north1/repositories/k8-lab" -> null
+      - role       = "roles/artifactregistry.writer" -> null
+    }
+
+  # module.delivery.google_iam_workload_identity_pool.github will be destroyed
+  - resource "google_iam_workload_identity_pool" "github" {
+      - deletion_policy           = "DELETE" -> null
+      - description               = "Federates GitHub Actions workflows into this project" -> null
+      - disabled                  = false -> null
+      - display_name              = "GitHub Actions" -> null
+      - id                        = "projects/project-69726555-c4de-48de-a69/locations/global/workloadIdentityPools/github" -> null
+      - name                      = "projects/421458901689/locations/global/workloadIdentityPools/github" -> null
+      - project                   = "project-69726555-c4de-48de-a69" -> null
+      - state                     = "ACTIVE" -> null
+      - workload_identity_pool_id = "github" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.delivery.google_iam_workload_identity_pool_provider.github will be destroyed
+  - resource "google_iam_workload_identity_pool_provider" "github" {
+      - attribute_condition                = "assertion.repository == 'sindredg/k8-lab' && assertion.ref == 'refs/heads/main'" -> null
+      - attribute_mapping                  = {
+          - "attribute.ref"        = "assertion.ref"
+          - "attribute.repository" = "assertion.repository"
+          - "google.subject"       = "assertion.sub"
+        } -> null
+      - deletion_policy                    = "DELETE" -> null
+      - disabled                           = false -> null
+      - display_name                       = "GitHub OIDC" -> null
+      - id                                 = "projects/project-69726555-c4de-48de-a69/locations/global/workloadIdentityPools/github/providers/github-oidc" -> null
+      - name                               = "projects/421458901689/locations/global/workloadIdentityPools/github/providers/github-oidc" -> null
+      - project                            = "project-69726555-c4de-48de-a69" -> null
+      - state                              = "ACTIVE" -> null
+      - workload_identity_pool_id          = "github" -> null
+      - workload_identity_pool_provider_id = "github-oidc" -> null
+        # (1 unchanged attribute hidden)
+
+      - oidc {
+          - allowed_audiences = [] -> null
+          - issuer_uri        = "https://token.actions.githubusercontent.com" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # module.delivery.google_project_iam_member.deploy_cluster_viewer will be destroyed
+  - resource "google_project_iam_member" "deploy_cluster_viewer" {
+      - etag    = "BwZcFU8gME0=" -> null
+      - id      = "project-69726555-c4de-48de-a69/roles/container.clusterViewer/serviceAccount:k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - member  = "serviceAccount:k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - project = "project-69726555-c4de-48de-a69" -> null
+      - role    = "roles/container.clusterViewer" -> null
+    }
+
+  # module.delivery.google_service_account.deploy will be destroyed
+  - resource "google_service_account" "deploy" {
+      - account_id      = "k8-lab-deploy" -> null
+      - deletion_policy = "DELETE" -> null
+      - disabled        = false -> null
+      - display_name    = "Delivery pipeline identity for sindredg/k8-lab" -> null
+      - email           = "k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - id              = "projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - member          = "serviceAccount:k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - name            = "projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - project         = "project-69726555-c4de-48de-a69" -> null
+      - unique_id       = "117095927361260717687" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.delivery.google_service_account_iam_member.github_impersonation will be destroyed
+  - resource "google_service_account_iam_member" "github_impersonation" {
+      - etag               = "BwZah8o8Duo=" -> null
+      - id                 = "projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com/roles/iam.workloadIdentityUser/principalSet://iam.googleapis.com/projects/421458901689/locations/global/workloadIdentityPools/github/attribute.repository/sindredg/k8-lab" -> null
+      - member             = "principalSet://iam.googleapis.com/projects/421458901689/locations/global/workloadIdentityPools/github/attribute.repository/sindredg/k8-lab" -> null
+      - role               = "roles/iam.workloadIdentityUser" -> null
+      - service_account_id = "projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+    }
+
+  # module.findings.google_pubsub_subscription.dead_letter will be destroyed
+  - resource "google_pubsub_subscription" "dead_letter" {
+      - ack_deadline_seconds         = 10 -> null
+      - deletion_policy              = "DELETE" -> null
+      - effective_labels             = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - enable_exactly_once_delivery = false -> null
+      - enable_message_ordering      = false -> null
+      - id                           = "projects/project-69726555-c4de-48de-a69/subscriptions/scc-findings-dead-sub" -> null
+      - labels                       = {} -> null
+      - message_retention_duration   = "2678400s" -> null
+      - name                         = "scc-findings-dead-sub" -> null
+      - project                      = "project-69726555-c4de-48de-a69" -> null
+      - retain_acked_messages        = false -> null
+      - terraform_labels             = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - topic                        = "projects/project-69726555-c4de-48de-a69/topics/scc-findings-dead" -> null
+        # (1 unchanged attribute hidden)
+
+      - expiration_policy {
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # module.findings.google_pubsub_subscription.triage will be destroyed
+  - resource "google_pubsub_subscription" "triage" {
+      - ack_deadline_seconds         = 120 -> null
+      - deletion_policy              = "DELETE" -> null
+      - effective_labels             = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - enable_exactly_once_delivery = false -> null
+      - enable_message_ordering      = false -> null
+      - id                           = "projects/project-69726555-c4de-48de-a69/subscriptions/scc-triage" -> null
+      - labels                       = {} -> null
+      - message_retention_duration   = "604800s" -> null
+      - name                         = "scc-triage" -> null
+      - project                      = "project-69726555-c4de-48de-a69" -> null
+      - retain_acked_messages        = false -> null
+      - terraform_labels             = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - topic                        = "projects/project-69726555-c4de-48de-a69/topics/scc-findings" -> null
+        # (1 unchanged attribute hidden)
+
+      - dead_letter_policy {
+          - dead_letter_topic     = "projects/project-69726555-c4de-48de-a69/topics/scc-findings-dead" -> null
+          - max_delivery_attempts = 5 -> null
+        }
+
+      - expiration_policy {
+            # (1 unchanged attribute hidden)
+        }
+
+      - retry_policy {
+          - maximum_backoff = "600s" -> null
+          - minimum_backoff = "10s" -> null
+        }
+    }
+
+  # module.findings.google_pubsub_subscription_iam_member.dead_letter_subscriber will be destroyed
+  - resource "google_pubsub_subscription_iam_member" "dead_letter_subscriber" {
+      - etag         = "BwZb7Kh6lfc=" -> null
+      - id           = "projects/project-69726555-c4de-48de-a69/subscriptions/scc-triage/roles/pubsub.subscriber/serviceAccount:service-421458901689@gcp-sa-pubsub.iam.gserviceaccount.com" -> null
+      - member       = "serviceAccount:service-421458901689@gcp-sa-pubsub.iam.gserviceaccount.com" -> null
+      - project      = "project-69726555-c4de-48de-a69" -> null
+      - role         = "roles/pubsub.subscriber" -> null
+      - subscription = "scc-triage" -> null
+    }
+
+  # module.findings.google_pubsub_topic.dead_letter will be destroyed
+  - resource "google_pubsub_topic" "dead_letter" {
+      - deletion_policy            = "DELETE" -> null
+      - effective_labels           = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - id                         = "projects/project-69726555-c4de-48de-a69/topics/scc-findings-dead" -> null
+      - labels                     = {} -> null
+      - name                       = "scc-findings-dead" -> null
+      - project                    = "project-69726555-c4de-48de-a69" -> null
+      - terraform_labels           = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # module.findings.google_pubsub_topic.findings will be destroyed
+  - resource "google_pubsub_topic" "findings" {
+      - deletion_policy            = "DELETE" -> null
+      - effective_labels           = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - id                         = "projects/project-69726555-c4de-48de-a69/topics/scc-findings" -> null
+      - labels                     = {} -> null
+      - name                       = "scc-findings" -> null
+      - project                    = "project-69726555-c4de-48de-a69" -> null
+      - terraform_labels           = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # module.findings.google_pubsub_topic_iam_member.dead_letter_publisher will be destroyed
+  - resource "google_pubsub_topic_iam_member" "dead_letter_publisher" {
+      - etag    = "BwZb6fdFk7s=" -> null
+      - id      = "projects/project-69726555-c4de-48de-a69/topics/scc-findings-dead/roles/pubsub.publisher/serviceAccount:service-421458901689@gcp-sa-pubsub.iam.gserviceaccount.com" -> null
+      - member  = "serviceAccount:service-421458901689@gcp-sa-pubsub.iam.gserviceaccount.com" -> null
+      - project = "project-69726555-c4de-48de-a69" -> null
+      - role    = "roles/pubsub.publisher" -> null
+      - topic   = "projects/project-69726555-c4de-48de-a69/topics/scc-findings-dead" -> null
+    }
+
+  # module.findings.google_pubsub_topic_iam_member.scc_publisher will be destroyed
+  - resource "google_pubsub_topic_iam_member" "scc_publisher" {
+      - etag    = "BwZb6iDfWQ0=" -> null
+      - id      = "projects/project-69726555-c4de-48de-a69/topics/scc-findings/roles/pubsub.publisher/serviceAccount:service-org-550178366891@gcp-sa-scc-notification.iam.gserviceaccount.com" -> null
+      - member  = "serviceAccount:service-org-550178366891@gcp-sa-scc-notification.iam.gserviceaccount.com" -> null
+      - project = "project-69726555-c4de-48de-a69" -> null
+      - role    = "roles/pubsub.publisher" -> null
+      - topic   = "projects/project-69726555-c4de-48de-a69/topics/scc-findings" -> null
+    }
+
+  # module.findings.google_scc_v2_project_notification_config.findings will be destroyed
+  - resource "google_scc_v2_project_notification_config" "findings" {
+      - config_id       = "k8-lab-triage" -> null
+      - deletion_policy = "DELETE" -> null
+      - description     = "Streams finding changes to the triage worker" -> null
+      - id              = "projects/421458901689/locations/global/notificationConfigs/k8-lab-triage" -> null
+      - location        = "global" -> null
+      - name            = "projects/421458901689/locations/global/notificationConfigs/k8-lab-triage" -> null
+      - project         = "project-69726555-c4de-48de-a69" -> null
+      - pubsub_topic    = "projects/project-69726555-c4de-48de-a69/topics/scc-findings" -> null
+      - service_account = "service-org-550178366891@gcp-sa-scc-notification.iam.gserviceaccount.com" -> null
+
+      - streaming_config {
+          - filter = "state = \"ACTIVE\" OR state = \"INACTIVE\"" -> null
+        }
+    }
+
+  # module.findings.google_storage_bucket.ledger will be destroyed
+  - resource "google_storage_bucket" "ledger" {
+      - default_event_based_hold    = false -> null
+      - deletion_policy             = "DELETE" -> null
+      - effective_labels            = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - enable_object_retention     = false -> null
+      - force_destroy               = true -> null
+      - id                          = "k8-lab-verdicts-project-69726555-c4de-48de-a69" -> null
+      - labels                      = {} -> null
+      - location                    = "EUROPE-NORTH1" -> null
+      - name                        = "k8-lab-verdicts-project-69726555-c4de-48de-a69" -> null
+      - project                     = "project-69726555-c4de-48de-a69" -> null
+      - project_number              = 421458901689 -> null
+      - public_access_prevention    = "enforced" -> null
+      - requester_pays              = false -> null
+      - self_link                   = "https://www.googleapis.com/storage/v1/b/k8-lab-verdicts-project-69726555-c4de-48de-a69" -> null
+      - storage_class               = "STANDARD" -> null
+      - terraform_labels            = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - time_created                = "2026-09-20T13:18:10.270Z" -> null
+      - uniform_bucket_level_access = true -> null
+      - updated                     = "2026-09-21T12:13:37.838Z" -> null
+      - url                         = "gs://k8-lab-verdicts-project-69726555-c4de-48de-a69" -> null
+
+      - hierarchical_namespace {
+          - enabled = false -> null
+        }
+
+      - lifecycle_rule {
+          - action {
+              - type          = "Delete" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - condition {
+              - age                                     = 365 -> null
+              - days_since_custom_time                  = 0 -> null
+              - days_since_noncurrent_time              = 0 -> null
+              - matches_prefix                          = [] -> null
+              - matches_storage_class                   = [] -> null
+              - matches_suffix                          = [] -> null
+              - num_newer_versions                      = 0 -> null
+              - send_age_if_zero                        = false -> null
+              - send_days_since_custom_time_if_zero     = false -> null
+              - send_days_since_noncurrent_time_if_zero = false -> null
+              - send_num_newer_versions_if_zero         = false -> null
+              - size_above_bytes                        = 0 -> null
+              - size_below_bytes                        = 0 -> null
+              - with_state                              = "ANY" -> null
+                # (3 unchanged attributes hidden)
+            }
+        }
+      - lifecycle_rule {
+          - action {
+              - type          = "Delete" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - condition {
+              - age                                     = 0 -> null
+              - days_since_custom_time                  = 0 -> null
+              - days_since_noncurrent_time              = 0 -> null
+              - matches_prefix                          = [] -> null
+              - matches_storage_class                   = [] -> null
+              - matches_suffix                          = [] -> null
+              - num_newer_versions                      = 5 -> null
+              - send_age_if_zero                        = false -> null
+              - send_days_since_custom_time_if_zero     = false -> null
+              - send_days_since_noncurrent_time_if_zero = false -> null
+              - send_num_newer_versions_if_zero         = false -> null
+              - size_above_bytes                        = 0 -> null
+              - size_below_bytes                        = 0 -> null
+              - with_state                              = "ANY" -> null
+                # (3 unchanged attributes hidden)
+            }
+        }
+
+      - soft_delete_policy {
+          - effective_time             = "2026-09-20T13:18:10.270Z" -> null
+          - retention_duration_seconds = 604800 -> null
+        }
+
+      - versioning {
+          - enabled = true -> null
+        }
+    }
+
+  # module.gateway.google_certificate_manager_certificate.default will be destroyed
+  - resource "google_certificate_manager_certificate" "default" {
+      - deletion_policy  = "DELETE" -> null
+      - effective_labels = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - id               = "projects/project-69726555-c4de-48de-a69/locations/global/certificates/k8-lab-gateway-cert" -> null
+      - labels           = {} -> null
+      - location         = "global" -> null
+      - name             = "k8-lab-gateway-cert" -> null
+      - project          = "project-69726555-c4de-48de-a69" -> null
+      - san_dnsnames     = [
+          - "sindrg.com",
+        ] -> null
+      - terraform_labels = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+        # (2 unchanged attributes hidden)
+
+      - managed {
+          - authorization_attempt_info = [
+              - {
+                  - domain         = "sindrg.com"
+                  - state          = "AUTHORIZED"
+                    # (2 unchanged attributes hidden)
+                },
+            ] -> null
+          - dns_authorizations         = [
+              - "projects/421458901689/locations/global/dnsAuthorizations/k8-lab-gateway-dns-auth",
+            ] -> null
+          - domains                    = [
+              - "sindrg.com",
+            ] -> null
+          - provisioning_issue         = [] -> null
+          - state                      = "ACTIVE" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # module.gateway.google_certificate_manager_certificate_map.default will be destroyed
+  - resource "google_certificate_manager_certificate_map" "default" {
+      - create_time      = "2026-09-03T19:46:27.019328801Z" -> null
+      - deletion_policy  = "DELETE" -> null
+      - effective_labels = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - gclb_targets     = [
+          - {
+              - ip_configs         = [
+                  - {
+                      - ip_address = "8.232.183.150"
+                      - ports      = [
+                          - 443,
+                        ]
+                    },
+                ]
+              - target_https_proxy = "//compute.googleapis.com/projects/421458901689/global/targetHttpsProxies/gkegw1-zs1b-demo-external-r4uki07lgmii"
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - id               = "projects/project-69726555-c4de-48de-a69/locations/global/certificateMaps/k8-lab-gateway-cert-map" -> null
+      - labels           = {} -> null
+      - name             = "k8-lab-gateway-cert-map" -> null
+      - project          = "project-69726555-c4de-48de-a69" -> null
+      - terraform_labels = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - update_time      = "2026-09-04T00:54:54.823449375Z" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.gateway.google_certificate_manager_certificate_map_entry.default will be destroyed
+  - resource "google_certificate_manager_certificate_map_entry" "default" {
+      - certificates     = [
+          - "projects/421458901689/locations/global/certificates/k8-lab-gateway-cert",
+        ] -> null
+      - create_time      = "2026-09-04T13:13:30.406842999Z" -> null
+      - deletion_policy  = "DELETE" -> null
+      - effective_labels = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - hostname         = "sindrg.com" -> null
+      - id               = "projects/project-69726555-c4de-48de-a69/locations/global/certificateMaps/k8-lab-gateway-cert-map/certificateMapEntries/k8-lab-gateway-cert-entry" -> null
+      - labels           = {} -> null
+      - map              = "k8-lab-gateway-cert-map" -> null
+      - name             = "k8-lab-gateway-cert-entry" -> null
+      - project          = "project-69726555-c4de-48de-a69" -> null
+      - state            = "ACTIVE" -> null
+      - terraform_labels = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - update_time      = "2026-09-04T13:13:32.448950290Z" -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # module.gateway.google_certificate_manager_dns_authorization.default will be destroyed
+  - resource "google_certificate_manager_dns_authorization" "default" {
+      - deletion_policy     = "DELETE" -> null
+      - dns_resource_record = [
+          - {
+              - data = "94660de9-f817-408f-b65b-7e59cfbfebac.2.authorize.certificatemanager.goog."
+              - name = "_acme-challenge_pudjghfvbokjg65x.sindrg.com."
+              - type = "CNAME"
+            },
+        ] -> null
+      - domain              = "sindrg.com" -> null
+      - effective_labels    = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - id                  = "projects/project-69726555-c4de-48de-a69/locations/global/dnsAuthorizations/k8-lab-gateway-dns-auth" -> null
+      - labels              = {} -> null
+      - location            = "global" -> null
+      - name                = "k8-lab-gateway-dns-auth" -> null
+      - project             = "project-69726555-c4de-48de-a69" -> null
+      - terraform_labels    = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - type                = "PER_PROJECT_RECORD" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.gateway.google_compute_global_address.gateway will be destroyed
+  - resource "google_compute_global_address" "gateway" {
+      - address            = "8.232.183.150" -> null
+      - address_type       = "EXTERNAL" -> null
+      - creation_timestamp = "2026-09-03T09:01:33.279-07:00" -> null
+      - deletion_policy    = "DELETE" -> null
+      - description        = "Static frontend address for the external Gateway" -> null
+      - effective_labels   = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - id                 = "projects/project-69726555-c4de-48de-a69/global/addresses/k8-lab-gateway" -> null
+      - label_fingerprint  = "vezUS-42LLM=" -> null
+      - labels             = {} -> null
+      - name               = "k8-lab-gateway" -> null
+      - prefix_length      = 0 -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - self_link          = "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/global/addresses/k8-lab-gateway" -> null
+      - terraform_labels   = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+        # (3 unchanged attributes hidden)
+    }
+
+  # module.gateway.google_compute_security_policy.default will be destroyed
+  - resource "google_compute_security_policy" "default" {
+      - deletion_policy   = "DELETE" -> null
+      - effective_labels  = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - fingerprint       = "JazQQGCJJzc=" -> null
+      - id                = "projects/project-69726555-c4de-48de-a69/global/securityPolicies/k8-lab-gateway-rate-limit" -> null
+      - label_fingerprint = "vezUS-42LLM=" -> null
+      - labels            = {} -> null
+      - name              = "k8-lab-gateway-rate-limit" -> null
+      - project           = "project-69726555-c4de-48de-a69" -> null
+      - self_link         = "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/global/securityPolicies/k8-lab-gateway-rate-limit" -> null
+      - terraform_labels  = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - type              = "CLOUD_ARMOR" -> null
+        # (1 unchanged attribute hidden)
+
+      - rule {
+          - action      = "allow" -> null
+          - description = "Default rule, allow everything the rules above did not" -> null
+          - preview     = false -> null
+          - priority    = 2147483647 -> null
+
+          - match {
+              - versioned_expr = "SRC_IPS_V1" -> null
+
+              - config {
+                  - src_ip_ranges = [
+                      - "*",
+                    ] -> null
+                }
+            }
+        }
+      - rule {
+          - action      = "throttle" -> null
+          - description = "Throttle a single address rather than banning it" -> null
+          - preview     = false -> null
+          - priority    = 1000 -> null
+
+          - match {
+              - versioned_expr = "SRC_IPS_V1" -> null
+
+              - config {
+                  - src_ip_ranges = [
+                      - "*",
+                    ] -> null
+                }
+            }
+
+          - rate_limit_options {
+              - ban_duration_sec    = 0 -> null
+              - conform_action      = "allow" -> null
+              - enforce_on_key      = "IP" -> null
+              - exceed_action       = "deny(429)" -> null
+                # (1 unchanged attribute hidden)
+
+              - rate_limit_threshold {
+                  - count        = 300 -> null
+                  - interval_sec = 60 -> null
+                }
+            }
+        }
+    }
+
+  # module.gateway.google_compute_ssl_policy.default will be destroyed
+  - resource "google_compute_ssl_policy" "default" {
+      - creation_timestamp        = "2026-09-17T11:05:00.235-07:00" -> null
+      - custom_features           = [] -> null
+      - deletion_policy           = "DELETE" -> null
+      - enabled_features          = [
+          - "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
+          - "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+          - "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA",
+          - "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+          - "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
+          - "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+          - "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+          - "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA",
+          - "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+          - "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256",
+        ] -> null
+      - fingerprint               = "4JopUddr0yY=" -> null
+      - id                        = "projects/project-69726555-c4de-48de-a69/global/sslPolicies/k8-lab-gateway-ssl-policy" -> null
+      - min_tls_version           = "TLS_1_2" -> null
+      - name                      = "k8-lab-gateway-ssl-policy" -> null
+      - profile                   = "MODERN" -> null
+      - project                   = "project-69726555-c4de-48de-a69" -> null
+      - self_link                 = "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/global/sslPolicies/k8-lab-gateway-ssl-policy" -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # module.gke.google_container_cluster.main will be destroyed
+  - resource "google_container_cluster" "main" {
+      - autopilot_privileged_admission           = [] -> null
+      - cluster_ipv4_cidr                        = "10.20.0.0/16" -> null
+      - datapath_provider                        = "ADVANCED_DATAPATH" -> null
+      - default_max_pods_per_node                = 110 -> null
+      - deletion_policy                          = "DELETE" -> null
+      - deletion_protection                      = false -> null
+      - disable_l4_lb_firewall_reconciliation    = false -> null
+      - effective_labels                         = {
+          - "environment"                = "dev"
+          - "goog-terraform-provisioned" = "true"
+          - "managed_by"                 = "terraform"
+        } -> null
+      - enable_autopilot                         = false -> null
+      - enable_cilium_clusterwide_network_policy = false -> null
+      - enable_fqdn_network_policy               = false -> null
+      - enable_intranode_visibility              = false -> null
+      - enable_kubernetes_alpha                  = false -> null
+      - enable_l4_ilb_subsetting                 = false -> null
+      - enable_legacy_abac                       = false -> null
+      - enable_multi_networking                  = false -> null
+      - enable_shielded_nodes                    = true -> null
+      - enable_tpu                               = false -> null
+      - endpoint                                 = "gke-fa262c863c1049a4b45c7ebc3e0a237f37c6-421458901689.europe-north1-a.gke.goog" -> null
+      - id                                       = "projects/project-69726555-c4de-48de-a69/locations/europe-north1-a/clusters/k8-lab" -> null
+      - initial_node_count                       = 1 -> null
+      - label_fingerprint                        = "1fe9b3fc" -> null
+      - location                                 = "europe-north1-a" -> null
+      - logging_service                          = "logging.googleapis.com/kubernetes" -> null
+      - master_version                           = "1.35.8-gke.1036000" -> null
+      - monitoring_service                       = "monitoring.googleapis.com/kubernetes" -> null
+      - name                                     = "k8-lab" -> null
+      - network                                  = "projects/project-69726555-c4de-48de-a69/global/networks/gke-vpc" -> null
+      - networking_mode                          = "VPC_NATIVE" -> null
+      - node_locations                           = [
+          - "europe-north1-b",
+          - "europe-north1-c",
+        ] -> null
+      - node_version                             = "1.35.8-gke.1036000" -> null
+      - project                                  = "project-69726555-c4de-48de-a69" -> null
+      - remove_default_node_pool                 = true -> null
+      - resource_labels                          = {
+          - "environment" = "dev"
+          - "managed_by"  = "terraform"
+        } -> null
+      - self_link                                = "https://container.googleapis.com/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-a/clusters/k8-lab" -> null
+      - services_ipv4_cidr                       = "34.118.224.0/20" -> null
+      - subnetwork                               = "projects/project-69726555-c4de-48de-a69/regions/europe-north1/subnetworks/gke-subnet" -> null
+      - terraform_labels                         = {
+          - "environment"                = "dev"
+          - "goog-terraform-provisioned" = "true"
+          - "managed_by"                 = "terraform"
+        } -> null
+        # (5 unchanged attributes hidden)
+
+      - addons_config {
+          - dns_cache_config {
+              - enabled = true -> null
+            }
+          - gce_persistent_disk_csi_driver_config {
+              - enabled = true -> null
+            }
+          - network_policy_config {
+              - disabled = true -> null
+            }
+          - node_readiness_config {
+              - enabled = false -> null
+            }
+        }
+
+      - anonymous_authentication_config {
+          - mode = "LIMITED" -> null
+        }
+
+      - binary_authorization {
+          - enabled         = false -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - cluster_autoscaling {
+          - auto_provisioning_locations   = [] -> null
+          - autoscaling_profile           = "BALANCED" -> null
+          - default_compute_class_enabled = false -> null
+          - enabled                       = false -> null
+
+          - auto_provisioning_defaults {
+              - disk_size         = 0 -> null
+              - image_type        = "COS_CONTAINERD" -> null
+              - oauth_scopes      = [
+                  - "https://www.googleapis.com/auth/devstorage.read_only",
+                  - "https://www.googleapis.com/auth/logging.write",
+                  - "https://www.googleapis.com/auth/monitoring",
+                  - "https://www.googleapis.com/auth/service.management.readonly",
+                  - "https://www.googleapis.com/auth/servicecontrol",
+                  - "https://www.googleapis.com/auth/trace.append",
+                ] -> null
+              - service_account   = "default" -> null
+                # (3 unchanged attributes hidden)
+
+              - management {
+                  - auto_repair     = true -> null
+                  - auto_upgrade    = true -> null
+                  - upgrade_options = [] -> null
+                }
+            }
+        }
+
+      - control_plane_endpoints_config {
+          - dns_endpoint_config {
+              - allow_external_traffic    = true -> null
+              - enable_k8s_certs_via_dns  = false -> null
+              - enable_k8s_tokens_via_dns = false -> null
+              - endpoint                  = "gke-fa262c863c1049a4b45c7ebc3e0a237f37c6-421458901689.europe-north1-a.gke.goog" -> null
+            }
+          - ip_endpoints_config {
+              - enabled = false -> null
+            }
+        }
+
+      - database_encryption {
+          - state    = "DECRYPTED" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - default_snat_status {
+          - disabled = false -> null
+        }
+
+      - enterprise_config {
+          - cluster_tier = "STANDARD" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - gateway_api_config {
+          - channel = "CHANNEL_STANDARD" -> null
+        }
+
+      - ip_allocation_policy {
+          - cluster_ipv4_cidr_block       = "10.20.0.0/16" -> null
+          - cluster_secondary_range_name  = "gke-subnet-pods" -> null
+          - services_ipv4_cidr_block      = "34.118.224.0/20" -> null
+          - stack_type                    = "IPV4" -> null
+            # (1 unchanged attribute hidden)
+
+          - network_tier_config {
+              - network_tier = "NETWORK_TIER_DEFAULT" -> null
+            }
+
+          - pod_cidr_overprovision_config {
+              - disabled = false -> null
+            }
+        }
+
+      - logging_config {
+          - enable_components = [
+              - "SYSTEM_COMPONENTS",
+              - "WORKLOADS",
+            ] -> null
+        }
+
+      - maintenance_policy {
+          - daily_maintenance_window {
+              - duration   = "PT4H0M0S" -> null
+              - start_time = "01:00" -> null
+            }
+        }
+
+      - master_auth {
+          - cluster_ca_certificate = "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMRENDQXBTZ0F3SUJBZ0lRUm5SemZMblVrY1l1T3F0ZnZ0eXA0akFOQmdrcWhraUc5dzBCQVFzRkFEQXYKTVMwd0t3WURWUVFERXlRek16QTRaV015WXkwell6WmxMVFJrWlRZdFlUYzFOUzAwTjJNeU56Y3pNVEpqTURjdwpJQmNOTWpZd09ESTNNakUwT1RJNVdoZ1BNakExTmpBNE1Ua3lNalE1TWpsYU1DOHhMVEFyQmdOVkJBTVRKRE16Ck1EaGxZekpqTFROak5tVXROR1JsTmkxaE56VTFMVFEzWXpJM056TXhNbU13TnpDQ0FhSXdEUVlKS29aSWh2Y04KQVFFQkJRQURnZ0dQQURDQ0FZb0NnZ0dCQU9MU05EWXVOdmNNKzVkRkFvTHlCL25lWEF4WndoYnVnWklETTJCeQppOE9mVDNoRXBBbUNCU1NZYy9GN29YSW9kcUN6bGUrZVpEY1JKZyttbWdLbjd5ZnV3SEQ1ekRyN21PenVObVNVClppY3JLM0ZLbVhjaUtoa09KRk5VM2pHM3BRWUtDQ1g3N0d0LzVoVk1CS2twb3ZTck5UZzQvYjFkMXlWOHBTSWYKWHh0dzJFaUpNaXpESmJib1E5WG5pdmVhUjZKZi9rbHRlT1ZldTRtaWEwZ3dJNFYza0x2T2dMM1ROd05QRzlQcgpiMS9rVThqb0xNdVhEbnZndm9JeGtqa1JzKzFMRUc0TGFGVE04WURQRC9YNGNoU0hManNqMFdXWkUxQjQ0ZU5ZCk5sN0EvbEgwR0tmR2lqdXVCNUw0ZWV6dFdaY0NMNVpSWlVONTlzUU4rcTNTbGFqVGZoWjVodmliMFlWSFU4aXkKaVdvVnd6MDdDenovRUFQb2JZYkU1YzdmNEJJd1dSbXNCUzQzSHpsYlM5ZXpscEZGL2VGdXhySnl4anlSNmFUVQptb1JYV2ZUUFBlbllzVC9rZEIrSkNkZnZXZ1k0R3FWd3VHMzNHTS9WVFpJb1phMlRpdXdoc1oweFdWL2pOZmhQCk9ZRUNVUTNzazZKNjRYZTVzZWcra0hnaGl3SURBUUFCbzBJd1FEQU9CZ05WSFE4QkFmOEVCQU1DQWdRd0R3WUQKVlIwVEFRSC9CQVV3QXdFQi96QWRCZ05WSFE0RUZnUVVkTU1QUGNTMkJrS2pCNmZrNGVCZmtYZjFQTGt3RFFZSgpLb1pJaHZjTkFRRUxCUUFEZ2dHQkFOS2s3bmIreEp4WmdCK2JYMkQycVVEZC9iSll0Y1JvSkhxejR0SlNQQ2pVCm01UXZsMndqRXJGVnV6TjZvcUhSVnRDMXZJSUVzd3RTS1VaR1NzVmJWaWVCbXBBUlhtc3UzdVFRczU0VDBEbUoKakQ4eXVpZXowMFZybHArZXlzdzhCQnl2RmRSdFd1OXFCOGQvUE1Ca1hBRXRTeU9uaVNMclMzQnhPNmloUVJkZgpNemQ5VlVQSW5WU1Z3WDZNWVFOTjY2MkppdFplbU11bmlIRmdtaHU4eUU2MjQ3OTNXMXoxbDFwRUEwMFhqakNDCmg2aUo3dDR5eEp4ZklSRk1IWWhrcWxBemJuNWx4MmZNbXJtd0hhNkNEZXhTM2luTWR3WXE4V3EyV0lEdlExYnQKaEg1K3Exc2NlcXUyYzNHRzNBNlhhVnN5NlByc29FY284RW5idFNLam9rOEFGZU5QZllPKzhyeVY4eC81T1hFegpma0ErKzlISWlyaG5FZEh6ek52c25VRnh6bE1FVW5vQ3ZyczI4Q1pTM0JPckJaUEwwVWFlZGNlWnlwVEVYRUZaCmtnTVlGYlpZVHZrbGxHVU1PN1ZteUxOU1k4SStRRkFtdFk3ZmVsMU90T0JrRkVjTi96cTB1cHZsbDdIVEpZclAKdWhvMm8xbG9OUjJTMEMvSWdjVlpJUT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K" -> null
+            # (2 unchanged attributes hidden)
+
+          - client_certificate_config {
+              - issue_client_certificate = false -> null
+            }
+        }
+
+      - monitoring_config {
+          - enable_components = [
+              - "SYSTEM_COMPONENTS",
+              - "HPA",
+              - "POD",
+              - "DEPLOYMENT",
+              - "CADVISOR",
+            ] -> null
+
+          - advanced_datapath_observability_config {
+              - enable_metrics = false -> null
+              - enable_relay   = false -> null
+            }
+
+          - managed_prometheus {
+              - enabled = true -> null
+            }
+        }
+
+      - network_policy {
+          - enabled  = false -> null
+          - provider = "PROVIDER_UNSPECIFIED" -> null
+        }
+
+      - node_config {
+          - disk_size_gb                = 50 -> null
+          - disk_type                   = "pd-balanced" -> null
+          - effective_taints            = [] -> null
+          - enable_confidential_storage = false -> null
+          - flex_start                  = false -> null
+          - image_type                  = "COS_CONTAINERD" -> null
+          - labels                      = {
+              - "environment" = "dev"
+              - "managed_by"  = "terraform"
+              - "node_pool"   = "general"
+            } -> null
+          - local_ssd_count             = 0 -> null
+          - logging_variant             = "DEFAULT" -> null
+          - machine_type                = "e2-medium" -> null
+          - metadata                    = {
+              - "disable-legacy-endpoints" = "true"
+            } -> null
+          - oauth_scopes                = [
+              - "https://www.googleapis.com/auth/cloud-platform",
+            ] -> null
+          - preemptible                 = false -> null
+          - resource_labels             = {
+              - "goog-gke-node-pool-provisioning-model" = "on-demand"
+            } -> null
+          - resource_manager_tags       = {} -> null
+          - service_account             = "k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+          - spot                        = false -> null
+          - storage_pools               = [] -> null
+          - tags                        = [] -> null
+            # (6 unchanged attributes hidden)
+
+          - boot_disk {
+              - disk_type              = "pd-balanced" -> null
+              - provisioned_iops       = 0 -> null
+              - provisioned_throughput = 0 -> null
+              - size_gb                = 50 -> null
+            }
+
+          - kubelet_config {
+              - allowed_unsafe_sysctls                      = [] -> null
+              - container_log_max_files                     = 0 -> null
+              - cpu_cfs_quota                               = false -> null
+              - eviction_max_pod_grace_period_seconds       = 0 -> null
+              - image_gc_high_threshold_percent             = 0 -> null
+              - image_gc_low_threshold_percent              = 0 -> null
+              - insecure_kubelet_readonly_port_enabled      = "FALSE" -> null
+              - max_parallel_image_pulls                    = 3 -> null
+              - pod_pids_limit                              = 0 -> null
+              - shutdown_grace_period_critical_pods_seconds = 0 -> null
+              - shutdown_grace_period_seconds               = 0 -> null
+              - single_process_oom_kill                     = false -> null
+                # (5 unchanged attributes hidden)
+            }
+
+          - node_image_config {
+              - image         = "gke-1358-gke1036000-cos-125-19216-532-123-c-pre" -> null
+              - image_project = "gke-node-images" -> null
+            }
+
+          - shielded_instance_config {
+              - enable_integrity_monitoring = true -> null
+              - enable_secure_boot          = true -> null
+            }
+
+          - windows_node_config {
+                # (1 unchanged attribute hidden)
+            }
+
+          - workload_metadata_config {
+              - mode = "GKE_METADATA" -> null
+            }
+        }
+
+      - node_creation_config {
+          - node_creation_mode = "VIA_KUBELET" -> null
+        }
+
+      - node_pool {
+          - ignore_node_count_changes   = false -> null
+          - initial_node_count          = 2 -> null
+          - instance_group_urls         = [
+              - "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-a/instanceGroupManagers/gke-k8-lab-general-7d6bb7c7-grp",
+              - "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-b/instanceGroupManagers/gke-k8-lab-general-cf1cb723-grp",
+              - "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-c/instanceGroupManagers/gke-k8-lab-general-da533e0f-grp",
+            ] -> null
+          - managed_instance_group_urls = [
+              - "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-a/instanceGroups/gke-k8-lab-general-7d6bb7c7-grp",
+              - "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-b/instanceGroups/gke-k8-lab-general-cf1cb723-grp",
+              - "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-c/instanceGroups/gke-k8-lab-general-da533e0f-grp",
+            ] -> null
+          - max_pods_per_node           = 110 -> null
+          - name                        = "general" -> null
+          - node_count                  = 1 -> null
+          - node_locations              = [
+              - "europe-north1-a",
+              - "europe-north1-b",
+              - "europe-north1-c",
+            ] -> null
+          - version                     = "1.35.8-gke.1036000" -> null
+            # (1 unchanged attribute hidden)
+
+          - autoscaling {
+              - location_policy      = "BALANCED" -> null
+              - max_node_count       = 0 -> null
+              - min_node_count       = 0 -> null
+              - total_max_node_count = 3 -> null
+              - total_min_node_count = 2 -> null
+            }
+
+          - management {
+              - auto_repair  = true -> null
+              - auto_upgrade = true -> null
+            }
+
+          - network_config {
+              - create_pod_range            = false -> null
+              - enable_private_nodes        = true -> null
+              - pod_ipv4_cidr_block         = "10.20.0.0/16" -> null
+              - pod_range                   = "gke-subnet-pods" -> null
+              - subnetwork                  = "projects/project-69726555-c4de-48de-a69/regions/europe-north1/subnetworks/gke-subnet" -> null
+                # (1 unchanged attribute hidden)
+            }
+
+          - node_config {
+              - disk_size_gb                = 50 -> null
+              - disk_type                   = "pd-balanced" -> null
+              - effective_taints            = [] -> null
+              - enable_confidential_storage = false -> null
+              - flex_start                  = false -> null
+              - image_type                  = "COS_CONTAINERD" -> null
+              - labels                      = {
+                  - "environment" = "dev"
+                  - "managed_by"  = "terraform"
+                  - "node_pool"   = "general"
+                } -> null
+              - local_ssd_count             = 0 -> null
+              - logging_variant             = "DEFAULT" -> null
+              - machine_type                = "e2-medium" -> null
+              - metadata                    = {
+                  - "disable-legacy-endpoints" = "true"
+                } -> null
+              - oauth_scopes                = [
+                  - "https://www.googleapis.com/auth/cloud-platform",
+                ] -> null
+              - preemptible                 = false -> null
+              - resource_labels             = {
+                  - "goog-gke-node-pool-provisioning-model" = "on-demand"
+                } -> null
+              - resource_manager_tags       = {} -> null
+              - service_account             = "k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+              - spot                        = false -> null
+              - storage_pools               = [] -> null
+              - tags                        = [] -> null
+                # (6 unchanged attributes hidden)
+
+              - boot_disk {
+                  - disk_type              = "pd-balanced" -> null
+                  - provisioned_iops       = 0 -> null
+                  - provisioned_throughput = 0 -> null
+                  - size_gb                = 50 -> null
+                }
+
+              - kubelet_config {
+                  - allowed_unsafe_sysctls                      = [] -> null
+                  - container_log_max_files                     = 0 -> null
+                  - cpu_cfs_quota                               = false -> null
+                  - eviction_max_pod_grace_period_seconds       = 0 -> null
+                  - image_gc_high_threshold_percent             = 0 -> null
+                  - image_gc_low_threshold_percent              = 0 -> null
+                  - insecure_kubelet_readonly_port_enabled      = "FALSE" -> null
+                  - max_parallel_image_pulls                    = 3 -> null
+                  - pod_pids_limit                              = 0 -> null
+                  - shutdown_grace_period_critical_pods_seconds = 0 -> null
+                  - shutdown_grace_period_seconds               = 0 -> null
+                  - single_process_oom_kill                     = false -> null
+                    # (5 unchanged attributes hidden)
+                }
+
+              - node_image_config {
+                  - image         = "gke-1358-gke1036000-cos-125-19216-532-123-c-pre" -> null
+                  - image_project = "gke-node-images" -> null
+                }
+
+              - shielded_instance_config {
+                  - enable_integrity_monitoring = true -> null
+                  - enable_secure_boot          = true -> null
+                }
+
+              - windows_node_config {
+                    # (1 unchanged attribute hidden)
+                }
+
+              - workload_metadata_config {
+                  - mode = "GKE_METADATA" -> null
+                }
+            }
+
+          - upgrade_settings {
+              - max_surge       = 1 -> null
+              - max_unavailable = 0 -> null
+              - strategy        = "SURGE" -> null
+            }
+        }
+
+      - node_pool_auto_config {
+          - resource_manager_tags = {} -> null
+
+          - node_kubelet_config {
+              - insecure_kubelet_readonly_port_enabled = "FALSE" -> null
+            }
+        }
+
+      - node_pool_defaults {
+          - node_config_defaults {
+              - insecure_kubelet_readonly_port_enabled = "FALSE" -> null
+              - logging_variant                        = "DEFAULT" -> null
+            }
+        }
+
+      - notification_config {
+          - pubsub {
+              - enabled = false -> null
+                # (1 unchanged attribute hidden)
+            }
+        }
+
+      - pod_autoscaling {
+          - hpa_profile = "PERFORMANCE" -> null
+        }
+
+      - private_cluster_config {
+          - enable_private_endpoint     = true -> null
+          - enable_private_nodes        = true -> null
+            # (5 unchanged attributes hidden)
+
+          - master_global_access_config {
+              - enabled = false -> null
+            }
+        }
+
+      - rbac_binding_config {
+          - enable_insecure_binding_system_authenticated   = true -> null
+          - enable_insecure_binding_system_unauthenticated = true -> null
+        }
+
+      - release_channel {
+          - channel = "REGULAR" -> null
+        }
+
+      - secret_manager_config {
+          - enabled = false -> null
+        }
+
+      - secret_sync_config {
+          - enabled = false -> null
+        }
+
+      - security_posture_config {
+          - mode               = "BASIC" -> null
+          - vulnerability_mode = "VULNERABILITY_BASIC" -> null
+        }
+
+      - service_external_ips_config {
+          - enabled = false -> null
+        }
+
+      - workload_identity_config {
+          - workload_pool = "project-69726555-c4de-48de-a69.svc.id.goog" -> null
+        }
+    }
+
+  # module.gke.google_container_node_pool.general will be destroyed
+  - resource "google_container_node_pool" "general" {
+      - cluster                     = "k8-lab" -> null
+      - deletion_policy             = "DELETE" -> null
+      - id                          = "projects/project-69726555-c4de-48de-a69/locations/europe-north1-a/clusters/k8-lab/nodePools/general" -> null
+      - ignore_node_count_changes   = false -> null
+      - initial_node_count          = 2 -> null
+      - instance_group_urls         = [
+          - "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-a/instanceGroupManagers/gke-k8-lab-general-7d6bb7c7-grp",
+          - "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-b/instanceGroupManagers/gke-k8-lab-general-cf1cb723-grp",
+          - "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-c/instanceGroupManagers/gke-k8-lab-general-da533e0f-grp",
+        ] -> null
+      - location                    = "europe-north1-a" -> null
+      - managed_instance_group_urls = [
+          - "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-a/instanceGroups/gke-k8-lab-general-7d6bb7c7-grp",
+          - "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-b/instanceGroups/gke-k8-lab-general-cf1cb723-grp",
+          - "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-c/instanceGroups/gke-k8-lab-general-da533e0f-grp",
+        ] -> null
+      - max_pods_per_node           = 110 -> null
+      - name                        = "general" -> null
+      - node_count                  = 1 -> null
+      - node_locations              = [
+          - "europe-north1-a",
+          - "europe-north1-b",
+          - "europe-north1-c",
+        ] -> null
+      - project                     = "project-69726555-c4de-48de-a69" -> null
+      - version                     = "1.35.8-gke.1036000" -> null
+        # (1 unchanged attribute hidden)
+
+      - autoscaling {
+          - location_policy      = "BALANCED" -> null
+          - max_node_count       = 0 -> null
+          - min_node_count       = 0 -> null
+          - total_max_node_count = 3 -> null
+          - total_min_node_count = 2 -> null
+        }
+
+      - management {
+          - auto_repair  = true -> null
+          - auto_upgrade = true -> null
+        }
+
+      - network_config {
+          - create_pod_range            = false -> null
+          - enable_private_nodes        = true -> null
+          - pod_ipv4_cidr_block         = "10.20.0.0/16" -> null
+          - pod_range                   = "gke-subnet-pods" -> null
+          - subnetwork                  = "projects/project-69726555-c4de-48de-a69/regions/europe-north1/subnetworks/gke-subnet" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - node_config {
+          - disk_size_gb                = 50 -> null
+          - disk_type                   = "pd-balanced" -> null
+          - effective_taints            = [] -> null
+          - enable_confidential_storage = false -> null
+          - flex_start                  = false -> null
+          - image_type                  = "COS_CONTAINERD" -> null
+          - labels                      = {
+              - "environment" = "dev"
+              - "managed_by"  = "terraform"
+              - "node_pool"   = "general"
+            } -> null
+          - local_ssd_count             = 0 -> null
+          - logging_variant             = "DEFAULT" -> null
+          - machine_type                = "e2-medium" -> null
+          - metadata                    = {
+              - "disable-legacy-endpoints" = "true"
+            } -> null
+          - oauth_scopes                = [
+              - "https://www.googleapis.com/auth/cloud-platform",
+            ] -> null
+          - preemptible                 = false -> null
+          - resource_labels             = {
+              - "goog-gke-node-pool-provisioning-model" = "on-demand"
+            } -> null
+          - resource_manager_tags       = {} -> null
+          - service_account             = "k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+          - spot                        = false -> null
+          - storage_pools               = [] -> null
+          - tags                        = [] -> null
+            # (6 unchanged attributes hidden)
+
+          - boot_disk {
+              - disk_type              = "pd-balanced" -> null
+              - provisioned_iops       = 0 -> null
+              - provisioned_throughput = 0 -> null
+              - size_gb                = 50 -> null
+            }
+
+          - kubelet_config {
+              - allowed_unsafe_sysctls                      = [] -> null
+              - container_log_max_files                     = 0 -> null
+              - cpu_cfs_quota                               = false -> null
+              - eviction_max_pod_grace_period_seconds       = 0 -> null
+              - image_gc_high_threshold_percent             = 0 -> null
+              - image_gc_low_threshold_percent              = 0 -> null
+              - insecure_kubelet_readonly_port_enabled      = "FALSE" -> null
+              - max_parallel_image_pulls                    = 3 -> null
+              - pod_pids_limit                              = 0 -> null
+              - shutdown_grace_period_critical_pods_seconds = 0 -> null
+              - shutdown_grace_period_seconds               = 0 -> null
+              - single_process_oom_kill                     = false -> null
+                # (5 unchanged attributes hidden)
+            }
+
+          - node_image_config {
+              - image         = "gke-1358-gke1036000-cos-125-19216-532-123-c-pre" -> null
+              - image_project = "gke-node-images" -> null
+            }
+
+          - shielded_instance_config {
+              - enable_integrity_monitoring = true -> null
+              - enable_secure_boot          = true -> null
+            }
+
+          - windows_node_config {
+                # (1 unchanged attribute hidden)
+            }
+
+          - workload_metadata_config {
+              - mode = "GKE_METADATA" -> null
+            }
+        }
+
+      - upgrade_settings {
+          - max_surge       = 1 -> null
+          - max_unavailable = 0 -> null
+          - strategy        = "SURGE" -> null
+        }
+    }
+
+  # module.gke.google_project_iam_member.nodes will be destroyed
+  - resource "google_project_iam_member" "nodes" {
+      - etag    = "BwZcFU8gME0=" -> null
+      - id      = "project-69726555-c4de-48de-a69/roles/container.defaultNodeServiceAccount/serviceAccount:k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - member  = "serviceAccount:k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - project = "project-69726555-c4de-48de-a69" -> null
+      - role    = "roles/container.defaultNodeServiceAccount" -> null
+    }
+
+  # module.gke.google_service_account.nodes will be destroyed
+  - resource "google_service_account" "nodes" {
+      - account_id      = "k8-lab-nodes" -> null
+      - deletion_policy = "DELETE" -> null
+      - disabled        = false -> null
+      - display_name    = "GKE node service account for k8-lab" -> null
+      - email           = "k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - id              = "projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - member          = "serviceAccount:k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - name            = "projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - project         = "project-69726555-c4de-48de-a69" -> null
+      - unique_id       = "111598901501462726666" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.network.google_compute_network.main will be destroyed
+  - resource "google_compute_network" "main" {
+      - auto_create_subnetworks                   = false -> null
+      - bgp_always_compare_med                    = false -> null
+      - bgp_best_path_selection_mode              = "LEGACY" -> null
+      - delete_bgp_always_compare_med             = false -> null
+      - delete_default_routes_on_create           = false -> null
+      - deletion_policy                           = "DELETE" -> null
+      - enable_ula_internal_ipv6                  = false -> null
+      - id                                        = "projects/project-69726555-c4de-48de-a69/global/networks/gke-vpc" -> null
+      - mtu                                       = 0 -> null
+      - name                                      = "gke-vpc" -> null
+      - network_firewall_policy_enforcement_order = "AFTER_CLASSIC_FIREWALL" -> null
+      - network_id                                = "3889780526700888135" -> null
+      - numeric_id                                = "3889780526700888135" -> null
+      - project                                   = "project-69726555-c4de-48de-a69" -> null
+      - routing_mode                              = "GLOBAL" -> null
+      - self_link                                 = "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/global/networks/gke-vpc" -> null
+        # (5 unchanged attributes hidden)
+    }
+
+  # module.network.google_compute_router.main will be destroyed
+  - resource "google_compute_router" "main" {
+      - creation_timestamp            = "2026-08-27T15:48:33.850-07:00" -> null
+      - deletion_policy               = "DELETE" -> null
+      - encrypted_interconnect_router = false -> null
+      - id                            = "projects/project-69726555-c4de-48de-a69/regions/europe-north1/routers/gke-vpc-router" -> null
+      - name                          = "gke-vpc-router" -> null
+      - network                       = "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/global/networks/gke-vpc" -> null
+      - project                       = "project-69726555-c4de-48de-a69" -> null
+      - region                        = "europe-north1" -> null
+      - self_link                     = "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/regions/europe-north1/routers/gke-vpc-router" -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # module.network.google_compute_router_nat.main will be destroyed
+  - resource "google_compute_router_nat" "main" {
+      - deletion_policy                      = "DELETE" -> null
+      - drain_nat_ips                        = [] -> null
+      - enable_dynamic_port_allocation       = false -> null
+      - enable_endpoint_independent_mapping  = false -> null
+      - endpoint_types                       = [
+          - "ENDPOINT_TYPE_VM",
+        ] -> null
+      - icmp_idle_timeout_sec                = 30 -> null
+      - id                                   = "project-69726555-c4de-48de-a69/europe-north1/gke-vpc-router/gke-vpc-nat" -> null
+      - max_ports_per_vm                     = 0 -> null
+      - min_ports_per_vm                     = 0 -> null
+      - name                                 = "gke-vpc-nat" -> null
+      - nat_ip_allocate_option               = "AUTO_ONLY" -> null
+      - nat_ips                              = [] -> null
+      - project                              = "project-69726555-c4de-48de-a69" -> null
+      - region                               = "europe-north1" -> null
+      - router                               = "gke-vpc-router" -> null
+      - source_subnetwork_ip_ranges_to_nat   = "LIST_OF_SUBNETWORKS" -> null
+      - tcp_established_idle_timeout_sec     = 1200 -> null
+      - tcp_time_wait_timeout_sec            = 120 -> null
+      - tcp_transitory_idle_timeout_sec      = 30 -> null
+      - type                                 = "PUBLIC" -> null
+      - udp_idle_timeout_sec                 = 30 -> null
+        # (1 unchanged attribute hidden)
+
+      - log_config {
+          - enable = true -> null
+          - filter = "ERRORS_ONLY" -> null
+        }
+
+      - subnetwork {
+          - name                     = "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/regions/europe-north1/subnetworks/gke-subnet" -> null
+          - secondary_ip_range_names = [] -> null
+          - source_ip_ranges_to_nat  = [
+              - "ALL_IP_RANGES",
+            ] -> null
+        }
+    }
+
+  # module.network.google_compute_subnetwork.main will be destroyed
+  - resource "google_compute_subnetwork" "main" {
+      - allow_subnet_cidr_routes_overlap = false -> null
+      - creation_timestamp               = "2026-08-27T15:48:32.425-07:00" -> null
+      - deletion_policy                  = "DELETE" -> null
+      - gateway_address                  = "10.10.0.1" -> null
+      - id                               = "projects/project-69726555-c4de-48de-a69/regions/europe-north1/subnetworks/gke-subnet" -> null
+      - ip_cidr_range                    = "10.10.0.0/20" -> null
+      - name                             = "gke-subnet" -> null
+      - network                          = "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/global/networks/gke-vpc" -> null
+      - private_ip_google_access         = true -> null
+      - private_ipv6_google_access       = "DISABLE_GOOGLE_ACCESS" -> null
+      - project                          = "project-69726555-c4de-48de-a69" -> null
+      - purpose                          = "PRIVATE" -> null
+      - region                           = "europe-north1" -> null
+      - self_link                        = "https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/regions/europe-north1/subnetworks/gke-subnet" -> null
+      - stack_type                       = "IPV4_ONLY" -> null
+      - subnetwork_id                    = 5167672643179839535 -> null
+        # (11 unchanged attributes hidden)
+
+      - secondary_ip_range {
+          - ip_cidr_range           = "10.20.0.0/16" -> null
+          - range_name              = "gke-subnet-pods" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # module.observability.google_logging_metric.nginx_errors will be destroyed
+  - resource "google_logging_metric" "nginx_errors" {
+      - deletion_policy  = "DELETE" -> null
+      - description      = "nginx lines at error level or worse, taken from the container's own log level rather than the severity GKE assigns to stderr." -> null
+      - disabled         = false -> null
+      - filter           = <<-EOT
+            resource.type="k8s_container"
+            resource.labels.namespace_name="demo"
+            resource.labels.container_name="nginx"
+            textPayload=~"\[(error|crit|alert|emerg)\]"
+        EOT -> null
+      - id               = "nginx-error-level" -> null
+      - label_extractors = {} -> null
+      - name             = "nginx-error-level" -> null
+      - project          = "project-69726555-c4de-48de-a69" -> null
+        # (2 unchanged attributes hidden)
+
+      - metric_descriptor {
+          - metric_kind  = "DELTA" -> null
+          - unit         = "1" -> null
+          - value_type   = "INT64" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # module.observability.google_logging_metric.triage_verdict will be destroyed
+  - resource "google_logging_metric" "triage_verdict" {
+      - deletion_policy  = "DELETE" -> null
+      - disabled         = false -> null
+      - filter           = "logName = \"projects/project-69726555-c4de-48de-a69/logs/triage-verdict\" AND jsonPayload.verdict != \"accepted\"" -> null
+      - id               = "triage/verdicts" -> null
+      - label_extractors = {
+          - "category" = "EXTRACT(jsonPayload.finding.category)"
+          - "severity" = "EXTRACT(jsonPayload.finding.severity)"
+          - "verdict"  = "EXTRACT(jsonPayload.verdict)"
+        } -> null
+      - name             = "triage/verdicts" -> null
+      - project          = "project-69726555-c4de-48de-a69" -> null
+        # (3 unchanged attributes hidden)
+
+      - metric_descriptor {
+          - metric_kind  = "DELTA" -> null
+          - unit         = "1" -> null
+          - value_type   = "INT64" -> null
+            # (1 unchanged attribute hidden)
+
+          - labels {
+              - description = "The finding category, as Security Command Center names it" -> null
+              - key         = "category" -> null
+              - value_type  = "STRING" -> null
+            }
+          - labels {
+              - description = "The finding severity, as Security Command Center rates it" -> null
+              - key         = "severity" -> null
+              - value_type  = "STRING" -> null
+            }
+          - labels {
+              - description = "contradicts_decision, new, or insufficient_evidence" -> null
+              - key         = "verdict" -> null
+              - value_type  = "STRING" -> null
+            }
+        }
+    }
+
+  # module.observability.google_logging_project_bucket_config.default will be destroyed
+  - resource "google_logging_project_bucket_config" "default" {
+      - bucket_id        = "_Default" -> null
+      - description      = "Default bucket" -> null
+      - enable_analytics = true -> null
+      - id               = "projects/project-69726555-c4de-48de-a69/locations/global/buckets/_Default" -> null
+      - lifecycle_state  = "ACTIVE" -> null
+      - location         = "global" -> null
+      - locked           = false -> null
+      - name             = "projects/project-69726555-c4de-48de-a69/locations/global/buckets/_Default" -> null
+      - project          = "projects/project-69726555-c4de-48de-a69" -> null
+      - retention_days   = 30 -> null
+    }
+
+  # module.observability.google_monitoring_alert_policy.site_unavailable will be destroyed
+  - resource "google_monitoring_alert_policy" "site_unavailable" {
+      - combiner              = "OR" -> null
+      - creation_record       = [
+          - {
+              - mutate_time = "2026-09-05T23:59:38.154252747Z"
+              - mutated_by  = "sindre.demetrio@gmail.com"
+            },
+        ] -> null
+      - deletion_policy       = "DELETE" -> null
+      - display_name          = "sindrg.com is not serving" -> null
+      - enabled               = true -> null
+      - id                    = "projects/project-69726555-c4de-48de-a69/alertPolicies/7230741399146436293" -> null
+      - name                  = "projects/project-69726555-c4de-48de-a69/alertPolicies/7230741399146436293" -> null
+      - notification_channels = [
+          - "projects/project-69726555-c4de-48de-a69/notificationChannels/5886169687490354841",
+        ] -> null
+      - project               = "project-69726555-c4de-48de-a69" -> null
+      - severity              = "CRITICAL" -> null
+      - user_labels           = {} -> null
+
+      - alert_strategy {
+          - auto_close           = "1800s" -> null
+          - notification_prompts = [] -> null
+        }
+
+      - conditions {
+          - display_name = "Uptime check failing from more than one checker location" -> null
+          - name         = "projects/project-69726555-c4de-48de-a69/alertPolicies/7230741399146436293/conditions/7230741399146435642" -> null
+
+          - condition_threshold {
+              - comparison              = "COMPARISON_GT" -> null
+              - duration                = "60s" -> null
+              - filter                  = "metric.type = \"monitoring.googleapis.com/uptime_check/check_passed\" AND resource.type = \"uptime_url\" AND metric.label.check_id = \"sindrg-com-healthz-btf-MZocEX8\"" -> null
+              - threshold_value         = 1 -> null
+                # (2 unchanged attributes hidden)
+
+              - aggregations {
+                  - alignment_period     = "1200s" -> null
+                  - cross_series_reducer = "REDUCE_COUNT_FALSE" -> null
+                  - group_by_fields      = [
+                      - "resource.label.host",
+                    ] -> null
+                  - per_series_aligner   = "ALIGN_NEXT_OLDER" -> null
+                }
+
+              - trigger {
+                  - count   = 1 -> null
+                  - percent = 0 -> null
+                }
+            }
+        }
+
+      - documentation {
+          - content   = <<-EOT
+                The uptime check for sindrg.com is failing from more than one of Google's checker locations, so the site is not reachable for users rather than unreachable down one network path. Check in this order, from the workload outwards:
+                
+                1. `kubectl get pods -n demo -o wide`:are the Pods Running and Ready? A rollout that failed readiness leaves the previous version serving, so Pods that are all gone means something removed them.
+                2. `kubectl get endpointslices -n demo -l kubernetes.io/service-name=nginx`:does the Service still have endpoints? An empty slice is why the load balancer would return 502.
+                3. `kubectl describe gateway external -n demo`:is the listener still Programmed and the address unchanged?
+                4. Load balancer backend health in the console:are the network endpoint group backends healthy? Unhealthy backends with Ready Pods points at the NetworkPolicy admitting Google's proxy ranges, or at the HealthCheckPolicy target.
+                5. `curl -sSi https://sindrg.com/healthz`:what does the edge actually return? A TLS error rather than a status code moves the search to Certificate Manager.
+            EOT -> null
+          - mime_type = "text/markdown" -> null
+          - subject   = "sindrg.com is not serving" -> null
+        }
+    }
+
+  # module.observability.google_monitoring_alert_policy.triage_dead_letter will be destroyed
+  - resource "google_monitoring_alert_policy" "triage_dead_letter" {
+      - combiner              = "OR" -> null
+      - creation_record       = [
+          - {
+              - mutate_time = "2026-09-21T17:03:12.546117343Z"
+              - mutated_by  = "sindre.demetrio@gmail.com"
+            },
+        ] -> null
+      - deletion_policy       = "DELETE" -> null
+      - display_name          = "Security finding was dead-lettered" -> null
+      - enabled               = true -> null
+      - id                    = "projects/project-69726555-c4de-48de-a69/alertPolicies/16683288236348030013" -> null
+      - name                  = "projects/project-69726555-c4de-48de-a69/alertPolicies/16683288236348030013" -> null
+      - notification_channels = [
+          - "projects/project-69726555-c4de-48de-a69/notificationChannels/5886169687490354841",
+        ] -> null
+      - project               = "project-69726555-c4de-48de-a69" -> null
+      - severity              = "ERROR" -> null
+      - user_labels           = {} -> null
+
+      - alert_strategy {
+          - auto_close           = "1800s" -> null
+          - notification_prompts = [] -> null
+        }
+
+      - conditions {
+          - display_name = "A finding exhausted its deliveries on the triage subscription" -> null
+          - name         = "projects/project-69726555-c4de-48de-a69/alertPolicies/16683288236348030013/conditions/16683288236348027296" -> null
+
+          - condition_threshold {
+              - comparison              = "COMPARISON_GT" -> null
+              - duration                = "0s" -> null
+              - filter                  = "metric.type = \"pubsub.googleapis.com/subscription/dead_letter_message_count\" AND resource.type = \"pubsub_subscription\" AND resource.label.subscription_id = \"scc-triage\"" -> null
+              - threshold_value         = 0 -> null
+                # (2 unchanged attributes hidden)
+
+              - aggregations {
+                  - alignment_period     = "300s" -> null
+                  - cross_series_reducer = "REDUCE_SUM" -> null
+                  - group_by_fields      = [] -> null
+                  - per_series_aligner   = "ALIGN_DELTA" -> null
+                }
+
+              - trigger {
+                  - count   = 1 -> null
+                  - percent = 0 -> null
+                }
+            }
+        }
+
+      - documentation {
+          - content   = <<-EOT
+                A finding failed five deliveries to the triage worker and was moved to the dead letter topic. It has not been triaged, and nothing will retry it.
+                
+                Read the worker's errors first. A ledger or model failure logs `triage failed, leaving the message unacknowledged` once per attempt:
+                
+                ```
+                kubectl logs -n agents deploy/triage-worker --since=1h | grep "triage failed"
+                ```
+                
+                Peek at what is parked, without acknowledging it:
+                
+                ```
+                gcloud pubsub subscriptions pull scc-findings-dead-sub --limit=10 --format=json
+                ```
+                
+                Once the cause is fixed, a real state change re-drives the finding: mute it, then unmute it. The worker triages it under its own key.
+            EOT -> null
+          - mime_type = "text/markdown" -> null
+          - subject   = "Triage: a finding was dead-lettered" -> null
+        }
+    }
+
+  # module.observability.google_monitoring_alert_policy.triage_verdict will be destroyed
+  - resource "google_monitoring_alert_policy" "triage_verdict" {
+      - combiner              = "OR" -> null
+      - creation_record       = [
+          - {
+              - mutate_time = "2026-09-20T12:05:26.828979336Z"
+              - mutated_by  = "sindre.demetrio@gmail.com"
+            },
+        ] -> null
+      - deletion_policy       = "DELETE" -> null
+      - display_name          = "Security finding needs a decision" -> null
+      - enabled               = true -> null
+      - id                    = "projects/project-69726555-c4de-48de-a69/alertPolicies/12749957823457624217" -> null
+      - name                  = "projects/project-69726555-c4de-48de-a69/alertPolicies/12749957823457624217" -> null
+      - notification_channels = [
+          - "projects/project-69726555-c4de-48de-a69/notificationChannels/5886169687490354841",
+        ] -> null
+      - project               = "project-69726555-c4de-48de-a69" -> null
+      - severity              = "WARNING" -> null
+      - user_labels           = {} -> null
+
+      - alert_strategy {
+          - auto_close           = "1800s" -> null
+          - notification_prompts = [] -> null
+        }
+
+      - conditions {
+          - display_name = "A finding was triaged to something other than accepted" -> null
+          - name         = "projects/project-69726555-c4de-48de-a69/alertPolicies/12749957823457624217/conditions/12749957823457626260" -> null
+
+          - condition_threshold {
+              - comparison              = "COMPARISON_GT" -> null
+              - duration                = "0s" -> null
+              - filter                  = "metric.type = \"logging.googleapis.com/user/triage/verdicts\" AND resource.type = \"k8s_container\"" -> null
+              - threshold_value         = 0 -> null
+                # (2 unchanged attributes hidden)
+
+              - aggregations {
+                  - alignment_period     = "300s" -> null
+                  - cross_series_reducer = "REDUCE_SUM" -> null
+                  - group_by_fields      = [
+                      - "metric.label.verdict",
+                      - "metric.label.category",
+                      - "metric.label.severity",
+                    ] -> null
+                  - per_series_aligner   = "ALIGN_DELTA" -> null
+                }
+
+              - trigger {
+                  - count   = 1 -> null
+                  - percent = 0 -> null
+                }
+            }
+        }
+
+      - documentation {
+          - content   = <<-EOT
+                The triage worker returned `${metric.label.verdict}` for a `${metric.label.category}` finding rated `${metric.label.severity}`.
+                
+                The mail carries labels rather than the verdict body, because a logs-based metric bounds label cardinality. The reasoning, the citations and the provenance are in the log entry:
+                
+                ```
+                gcloud logging read \
+                  'logName="projects/project-69726555-c4de-48de-a69/logs/triage-verdict"
+                   AND jsonPayload.finding.category="${metric.label.category}"' \
+                  --limit 5 --format=json
+                ```
+                
+                What each verdict means:
+                
+                - `contradicts_decision`: the finding names something this repository recorded a decision about, and the decision does not hold. Read the cited decision first.
+                - `new`: nothing in `.checkov.baseline`, the threat model or `decisions.md` prices this. It needs a decision, not a fix, before anything else.
+                - `insufficient_evidence`: the worker refused to rule. Either the model cited a corpus entry that does not resolve, or the input exceeded its budget. This is a worker problem, not a platform one.
+            EOT -> null
+          - mime_type = "text/markdown" -> null
+          - subject   = "Triage: ${metric.label.verdict} on ${metric.label.category}" -> null
+        }
+    }
+
+  # module.observability.google_monitoring_dashboard.workload_health will be destroyed
+  - resource "google_monitoring_dashboard" "workload_health" {
+      - dashboard_json  = jsonencode(
+            {
+              - displayName  = "Workload health: sindrg.com"
+              - etag         = "40ff4c6f574abac80f77de332464d6ad"
+              - mosaicLayout = {
+                  - columns = 12
+                  - tiles   = [
+                      - {
+                          - height = 4
+                          - widget = {
+                              - title   = "Uptime check passing (fraction of checks)"
+                              - xyChart = {
+                                  - dataSets = [
+                                      - {
+                                          - legendTemplate  = "${resource.labels.host}"
+                                          - plotType        = "LINE"
+                                          - targetAxis      = "Y1"
+                                          - timeSeriesQuery = {
+                                              - timeSeriesFilter = {
+                                                  - aggregation = {
+                                                      - alignmentPeriod    = "300s"
+                                                      - crossSeriesReducer = "REDUCE_MEAN"
+                                                      - groupByFields      = [
+                                                          - "resource.label.\"host\"",
+                                                        ]
+                                                      - perSeriesAligner   = "ALIGN_FRACTION_TRUE"
+                                                    }
+                                                  - filter      = "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\" resource.label.\"host\"=\"sindrg.com\""
+                                                }
+                                            }
+                                        },
+                                    ]
+                                  - yAxis    = {
+                                      - label = "fraction passing"
+                                      - scale = "LINEAR"
+                                    }
+                                }
+                            }
+                          - width  = 6
+                        },
+                      - {
+                          - height = 4
+                          - widget = {
+                              - title   = "Edge requests by response class"
+                              - xyChart = {
+                                  - dataSets = [
+                                      - {
+                                          - legendTemplate  = "${metric.labels.response_code_class}"
+                                          - plotType        = "STACKED_AREA"
+                                          - targetAxis      = "Y1"
+                                          - timeSeriesQuery = {
+                                              - timeSeriesFilter = {
+                                                  - aggregation = {
+                                                      - alignmentPeriod    = "60s"
+                                                      - crossSeriesReducer = "REDUCE_SUM"
+                                                      - groupByFields      = [
+                                                          - "metric.label.\"response_code_class\"",
+                                                        ]
+                                                      - perSeriesAligner   = "ALIGN_RATE"
+                                                    }
+                                                  - filter      = "metric.type=\"loadbalancing.googleapis.com/https/request_count\" resource.type=\"https_lb_rule\""
+                                                }
+                                            }
+                                        },
+                                    ]
+                                  - yAxis    = {
+                                      - label = "requests/s"
+                                      - scale = "LINEAR"
+                                    }
+                                }
+                            }
+                          - width  = 6
+                          - xPos   = 6
+                        },
+                      - {
+                          - height = 4
+                          - widget = {
+                              - title   = "Edge latency p50 and p95"
+                              - xyChart = {
+                                  - dataSets = [
+                                      - {
+                                          - legendTemplate  = "p50"
+                                          - plotType        = "LINE"
+                                          - targetAxis      = "Y1"
+                                          - timeSeriesQuery = {
+                                              - timeSeriesFilter = {
+                                                  - aggregation = {
+                                                      - alignmentPeriod    = "60s"
+                                                      - crossSeriesReducer = "REDUCE_MEAN"
+                                                      - perSeriesAligner   = "ALIGN_PERCENTILE_50"
+                                                    }
+                                                  - filter      = "metric.type=\"loadbalancing.googleapis.com/https/total_latencies\" resource.type=\"https_lb_rule\""
+                                                }
+                                            }
+                                        },
+                                      - {
+                                          - legendTemplate  = "p95"
+                                          - plotType        = "LINE"
+                                          - targetAxis      = "Y1"
+                                          - timeSeriesQuery = {
+                                              - timeSeriesFilter = {
+                                                  - aggregation = {
+                                                      - alignmentPeriod    = "60s"
+                                                      - crossSeriesReducer = "REDUCE_MEAN"
+                                                      - perSeriesAligner   = "ALIGN_PERCENTILE_95"
+                                                    }
+                                                  - filter      = "metric.type=\"loadbalancing.googleapis.com/https/total_latencies\" resource.type=\"https_lb_rule\""
+                                                }
+                                            }
+                                        },
+                                    ]
+                                  - yAxis    = {
+                                      - label = "ms"
+                                      - scale = "LINEAR"
+                                    }
+                                }
+                            }
+                          - width  = 6
+                          - yPos   = 4
+                        },
+                      - {
+                          - height = 4
+                          - widget = {
+                              - title   = "Backend responses by class (which half is broken)"
+                              - xyChart = {
+                                  - dataSets = [
+                                      - {
+                                          - legendTemplate  = "${metric.labels.response_code_class}"
+                                          - plotType        = "STACKED_AREA"
+                                          - targetAxis      = "Y1"
+                                          - timeSeriesQuery = {
+                                              - timeSeriesFilter = {
+                                                  - aggregation = {
+                                                      - alignmentPeriod    = "60s"
+                                                      - crossSeriesReducer = "REDUCE_SUM"
+                                                      - groupByFields      = [
+                                                          - "metric.label.\"response_code_class\"",
+                                                        ]
+                                                      - perSeriesAligner   = "ALIGN_RATE"
+                                                    }
+                                                  - filter      = "metric.type=\"loadbalancing.googleapis.com/https/backend_request_count\" resource.type=\"https_lb_rule\""
+                                                }
+                                            }
+                                        },
+                                    ]
+                                  - yAxis    = {
+                                      - label = "requests/s"
+                                      - scale = "LINEAR"
+                                    }
+                                }
+                            }
+                          - width  = 6
+                          - xPos   = 6
+                          - yPos   = 4
+                        },
+                      - {
+                          - height = 4
+                          - widget = {
+                              - title   = "Container restarts (the liveness probe's verdict)"
+                              - xyChart = {
+                                  - dataSets = [
+                                      - {
+                                          - legendTemplate  = "${resource.labels.pod_name}"
+                                          - plotType        = "STACKED_BAR"
+                                          - targetAxis      = "Y1"
+                                          - timeSeriesQuery = {
+                                              - timeSeriesFilter = {
+                                                  - aggregation = {
+                                                      - alignmentPeriod    = "300s"
+                                                      - crossSeriesReducer = "REDUCE_SUM"
+                                                      - groupByFields      = [
+                                                          - "resource.label.\"pod_name\"",
+                                                        ]
+                                                      - perSeriesAligner   = "ALIGN_DELTA"
+                                                    }
+                                                  - filter      = "metric.type=\"kubernetes.io/container/restart_count\" resource.type=\"k8s_container\" resource.label.\"cluster_name\"=\"k8-lab\" resource.label.\"namespace_name\"=\"demo\""
+                                                }
+                                            }
+                                        },
+                                    ]
+                                  - yAxis    = {
+                                      - label = "restarts"
+                                      - scale = "LINEAR"
+                                    }
+                                }
+                            }
+                          - width  = 6
+                          - yPos   = 8
+                        },
+                      - {
+                          - height = 4
+                          - widget = {
+                              - title   = "Utilization against the declared limits"
+                              - xyChart = {
+                                  - dataSets = [
+                                      - {
+                                          - legendTemplate  = "cpu ${resource.labels.pod_name}"
+                                          - plotType        = "LINE"
+                                          - targetAxis      = "Y1"
+                                          - timeSeriesQuery = {
+                                              - timeSeriesFilter = {
+                                                  - aggregation = {
+                                                      - alignmentPeriod    = "60s"
+                                                      - crossSeriesReducer = "REDUCE_MEAN"
+                                                      - groupByFields      = [
+                                                          - "resource.label.\"pod_name\"",
+                                                        ]
+                                                      - perSeriesAligner   = "ALIGN_MEAN"
+                                                    }
+                                                  - filter      = "metric.type=\"kubernetes.io/container/cpu/limit_utilization\" resource.type=\"k8s_container\" resource.label.\"cluster_name\"=\"k8-lab\" resource.label.\"namespace_name\"=\"demo\""
+                                                }
+                                            }
+                                        },
+                                      - {
+                                          - legendTemplate  = "memory ${resource.labels.pod_name}"
+                                          - plotType        = "LINE"
+                                          - targetAxis      = "Y1"
+                                          - timeSeriesQuery = {
+                                              - timeSeriesFilter = {
+                                                  - aggregation = {
+                                                      - alignmentPeriod    = "60s"
+                                                      - crossSeriesReducer = "REDUCE_MEAN"
+                                                      - groupByFields      = [
+                                                          - "resource.label.\"pod_name\"",
+                                                        ]
+                                                      - perSeriesAligner   = "ALIGN_MEAN"
+                                                    }
+                                                  - filter      = "metric.type=\"kubernetes.io/container/memory/limit_utilization\" resource.type=\"k8s_container\" resource.label.\"cluster_name\"=\"k8-lab\" resource.label.\"namespace_name\"=\"demo\""
+                                                }
+                                            }
+                                        },
+                                    ]
+                                  - yAxis    = {
+                                      - label = "fraction of limit"
+                                      - scale = "LINEAR"
+                                    }
+                                }
+                            }
+                          - width  = 6
+                          - xPos   = 6
+                          - yPos   = 8
+                        },
+                      - {
+                          - height = 4
+                          - widget = {
+                              - title   = "sky replicas: declared against available (a stall is the gap)"
+                              - xyChart = {
+                                  - dataSets = [
+                                      - {
+                                          - legendTemplate  = "declared"
+                                          - plotType        = "LINE"
+                                          - targetAxis      = "Y1"
+                                          - timeSeriesQuery = {
+                                              - prometheusQuery = "max(kube_deployment_spec_replicas{cluster=\"k8-lab\",namespace=\"demo\",deployment=\"sky\"})"
+                                            }
+                                        },
+                                      - {
+                                          - legendTemplate  = "available"
+                                          - plotType        = "LINE"
+                                          - targetAxis      = "Y1"
+                                          - timeSeriesQuery = {
+                                              - prometheusQuery = "max(kube_deployment_status_replicas_available{cluster=\"k8-lab\",namespace=\"demo\",deployment=\"sky\"})"
+                                            }
+                                        },
+                                      - {
+                                          - legendTemplate  = "HPA desired"
+                                          - plotType        = "LINE"
+                                          - targetAxis      = "Y1"
+                                          - timeSeriesQuery = {
+                                              - prometheusQuery = "max(kube_horizontalpodautoscaler_status_desired_replicas{cluster=\"k8-lab\",namespace=\"demo\",horizontalpodautoscaler=\"sky\"})"
+                                            }
+                                        },
+                                    ]
+                                  - yAxis    = {
+                                      - label = "replicas"
+                                      - scale = "LINEAR"
+                                    }
+                                }
+                            }
+                          - width  = 6
+                          - yPos   = 12
+                        },
+                      - {
+                          - height = 4
+                          - widget = {
+                              - title   = "sky CPU throttling (fraction of periods throttled)"
+                              - xyChart = {
+                                  - dataSets = [
+                                      - {
+                                          - legendTemplate  = "${metric.labels.pod}"
+                                          - plotType        = "LINE"
+                                          - targetAxis      = "Y1"
+                                          - timeSeriesQuery = {
+                                              - prometheusQuery = "sum by (pod) (rate(container_cpu_cfs_throttled_periods_total{cluster=\"k8-lab\",namespace=\"demo\",container=\"sky\"}[1m])) / sum by (pod) (rate(container_cpu_cfs_periods_total{cluster=\"k8-lab\",namespace=\"demo\",container=\"sky\"}[1m]))"
+                                            }
+                                        },
+                                    ]
+                                  - yAxis    = {
+                                      - label = "fraction throttled"
+                                      - scale = "LINEAR"
+                                    }
+                                }
+                            }
+                          - width  = 6
+                          - xPos   = 6
+                          - yPos   = 12
+                        },
+                      - {
+                          - height = 6
+                          - widget = {
+                              - logsPanel = {
+                                  - filter        = <<-EOT
+                                        resource.type="k8s_container"
+                                        resource.labels.cluster_name="k8-lab"
+                                        resource.labels.namespace_name="demo"
+                                        severity>=WARNING
+                                    EOT
+                                  - resourceNames = [
+                                      - "projects/project-69726555-c4de-48de-a69",
+                                    ]
+                                }
+                              - title     = "Warnings and errors from the namespace"
+                            }
+                          - width  = 12
+                          - yPos   = 16
+                        },
+                    ]
+                }
+              - name         = "projects/421458901689/dashboards/5312ec64-59ff-4fc5-adca-5ec0b81a26ca"
+            }
+        ) -> null
+      - deletion_policy = "DELETE" -> null
+      - id              = "projects/421458901689/dashboards/5312ec64-59ff-4fc5-adca-5ec0b81a26ca" -> null
+      - project         = "project-69726555-c4de-48de-a69" -> null
+    }
+
+  # module.observability.google_monitoring_notification_channel.email will be destroyed
+  - resource "google_monitoring_notification_channel" "email" {
+      - deletion_policy     = "DELETE" -> null
+      - display_name        = "Platform owner" -> null
+      - enabled             = true -> null
+      - force_delete        = false -> null
+      - id                  = "projects/project-69726555-c4de-48de-a69/notificationChannels/5886169687490354841" -> null
+      - labels              = {
+          - "email_address" = "sindre.demetrio@gmail.com"
+        } -> null
+      - name                = "projects/project-69726555-c4de-48de-a69/notificationChannels/5886169687490354841" -> null
+      - project             = "project-69726555-c4de-48de-a69" -> null
+      - type                = "email" -> null
+      - user_labels         = {} -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # module.observability.google_monitoring_uptime_check_config.public will be destroyed
+  - resource "google_monitoring_uptime_check_config" "public" {
+      - checker_type       = "STATIC_IP_CHECKERS" -> null
+      - deletion_policy    = "DELETE" -> null
+      - display_name       = "sindrg.com healthz" -> null
+      - id                 = "projects/project-69726555-c4de-48de-a69/uptimeCheckConfigs/sindrg-com-healthz-btf-MZocEX8" -> null
+      - log_check_failures = false -> null
+      - name               = "projects/project-69726555-c4de-48de-a69/uptimeCheckConfigs/sindrg-com-healthz-btf-MZocEX8" -> null
+      - period             = "60s" -> null
+      - project            = "project-69726555-c4de-48de-a69" -> null
+      - selected_regions   = [
+          - "EUROPE",
+          - "USA",
+          - "ASIA_PACIFIC",
+        ] -> null
+      - timeout            = "10s" -> null
+      - uptime_check_id    = "sindrg-com-healthz-btf-MZocEX8" -> null
+      - user_labels        = {} -> null
+
+      - content_matchers {
+          - content = "ok" -> null
+          - matcher = "CONTAINS_STRING" -> null
+        }
+
+      - http_check {
+          - headers             = {} -> null
+          - mask_headers        = false -> null
+          - path                = "/healthz" -> null
+          - port                = 443 -> null
+          - request_method      = "GET" -> null
+          - use_ssl             = true -> null
+          - validate_ssl        = true -> null
+            # (3 unchanged attributes hidden)
+
+          - accepted_response_status_codes {
+              - status_class = "STATUS_CLASS_2XX" -> null
+              - status_value = 0 -> null
+            }
+        }
+
+      - monitored_resource {
+          - labels = {
+              - "host"       = "sindrg.com"
+              - "project_id" = "project-69726555-c4de-48de-a69"
+            } -> null
+          - type   = "uptime_url" -> null
+        }
+    }
+
+  # module.registry.google_artifact_registry_repository.main will be destroyed
+  - resource "google_artifact_registry_repository" "main" {
+      - cleanup_policy_dry_run = false -> null
+      - create_time            = "2026-08-31T20:57:50.699188Z" -> null
+      - deletion_policy        = "DELETE" -> null
+      - description            = "Container images built by the k8-lab project" -> null
+      - effective_labels       = {
+          - "environment"                = "dev"
+          - "goog-terraform-provisioned" = "true"
+          - "managed_by"                 = "terraform"
+        } -> null
+      - format                 = "DOCKER" -> null
+      - id                     = "projects/project-69726555-c4de-48de-a69/locations/europe-north1/repositories/k8-lab" -> null
+      - labels                 = {
+          - "environment" = "dev"
+          - "managed_by"  = "terraform"
+        } -> null
+      - location               = "europe-north1" -> null
+      - mode                   = "STANDARD_REPOSITORY" -> null
+      - name                   = "k8-lab" -> null
+      - project                = "project-69726555-c4de-48de-a69" -> null
+      - registry_uri           = "europe-north1-docker.pkg.dev/project-69726555-c4de-48de-a69/k8-lab" -> null
+      - repository_id          = "k8-lab" -> null
+      - terraform_labels       = {
+          - "environment"                = "dev"
+          - "goog-terraform-provisioned" = "true"
+          - "managed_by"                 = "terraform"
+        } -> null
+      - update_time            = "2026-09-25T08:00:17.521658Z" -> null
+        # (1 unchanged attribute hidden)
+
+      - cleanup_policies {
+          - action = "DELETE" -> null
+          - id     = "delete-untagged" -> null
+
+          - condition {
+              - older_than            = "604800s" -> null
+              - package_name_prefixes = [] -> null
+              - tag_prefixes          = [] -> null
+              - tag_state             = "UNTAGGED" -> null
+              - version_name_prefixes = [] -> null
+                # (1 unchanged attribute hidden)
+            }
+        }
+      - cleanup_policies {
+          - action = "KEEP" -> null
+          - id     = "keep-recent" -> null
+
+          - most_recent_versions {
+              - keep_count            = 10 -> null
+              - package_name_prefixes = [] -> null
+            }
+        }
+
+      - docker_config {
+          - immutable_tags = true -> null
+        }
+
+      - vulnerability_scanning_config {
+          - enablement_state        = "SCANNING_ACTIVE" -> null
+            # (2 unchanged attributes hidden)
+        }
+    }
+
+  # module.registry.google_artifact_registry_repository_iam_member.node_reader will be destroyed
+  - resource "google_artifact_registry_repository_iam_member" "node_reader" {
+      - etag       = "BwZah8o9JII=" -> null
+      - id         = "projects/project-69726555-c4de-48de-a69/locations/europe-north1/repositories/k8-lab/roles/artifactregistry.reader/serviceAccount:k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - location   = "europe-north1" -> null
+      - member     = "serviceAccount:k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+      - project    = "project-69726555-c4de-48de-a69" -> null
+      - repository = "projects/project-69726555-c4de-48de-a69/locations/europe-north1/repositories/k8-lab" -> null
+      - role       = "roles/artifactregistry.reader" -> null
+    }
+
+Plan: 0 to add, 0 to change, 65 to destroy.
+
+Changes to Outputs:
+  - alert_policy_name               = "projects/project-69726555-c4de-48de-a69/alertPolicies/7230741399146436293" -> null
+  - certificate_map_name            = "k8-lab-gateway-cert-map" -> null
+  - cluster_location                = "europe-north1-a" -> null
+  - cluster_name                    = "k8-lab" -> null
+  - dashboard_id                    = "projects/421458901689/dashboards/5312ec64-59ff-4fc5-adca-5ec0b81a26ca" -> null
+  - deploy_service_account_email    = "k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+  - dns_authorization_record        = [
+      - {
+          - data = "94660de9-f817-408f-b65b-7e59cfbfebac.2.authorize.certificatemanager.goog."
+          - name = "_acme-challenge_pudjghfvbokjg65x.sindrg.com."
+          - type = "CNAME"
+        },
+    ] -> null
+  - findings_notification_config    = "projects/421458901689/locations/global/notificationConfigs/k8-lab-triage" -> null
+  - findings_topic_id               = "projects/project-69726555-c4de-48de-a69/topics/scc-findings" -> null
+  - gateway_address                 = "8.232.183.150" -> null
+  - network_id                      = "projects/project-69726555-c4de-48de-a69/global/networks/gke-vpc" -> null
+  - node_service_account_email      = "k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+  - pod_secondary_range_name        = "gke-subnet-pods" -> null
+  - registry_url                    = "europe-north1-docker.pkg.dev/project-69726555-c4de-48de-a69/k8-lab" -> null
+  - subnet_id                       = "projects/project-69726555-c4de-48de-a69/regions/europe-north1/subnetworks/gke-subnet" -> null
+  - triage_dead_letter_subscription = "scc-findings-dead-sub" -> null
+  - triage_service_account_email    = "k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com" -> null
+  - triage_subscription_name        = "scc-triage" -> null
+  - uptime_check_id                 = "sindrg-com-healthz-btf-MZocEX8" -> null
+  - verdict_ledger_bucket           = "k8-lab-verdicts-project-69726555-c4de-48de-a69" -> null
+  - workload_identity_provider      = "projects/421458901689/locations/global/workloadIdentityPools/github/providers/github-oidc" -> null
+
+─────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: destroy.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "destroy.tfplan"

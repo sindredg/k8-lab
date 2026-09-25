@@ -1,0 +1,8 @@
+NAME                           NETWORK  DIRECTION  PRIORITY  ALLOW                         DENY  DISABLED
+gke-k8-lab-fa262c86-all        gke-vpc  INGRESS    1000      tcp,udp,icmp,esp,ah,sctp            False
+gke-k8-lab-fa262c86-vms        gke-vpc  INGRESS    1000      icmp,tcp:1-65535,udp:1-65535        False
+gkegw1-zs1b-l7-gke-vpc-global  gke-vpc  INGRESS    1000      tcp:0-65535                         False
+
+To show all fields of the firewall, please show in JSON format: --format=json
+To show all fields in table format, please see the examples in --help.
+

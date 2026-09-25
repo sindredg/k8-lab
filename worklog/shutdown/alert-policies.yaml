@@ -1,0 +1,148 @@
+---
+alertStrategy:
+  autoClose: 1800s
+combiner: OR
+conditions:
+- conditionThreshold:
+    aggregations:
+    - alignmentPeriod: 300s
+      crossSeriesReducer: REDUCE_SUM
+      groupByFields:
+      - metric.label.verdict
+      - metric.label.category
+      - metric.label.severity
+      perSeriesAligner: ALIGN_DELTA
+    comparison: COMPARISON_GT
+    duration: 0s
+    filter: metric.type = "logging.googleapis.com/user/triage/verdicts" AND resource.type
+      = "k8s_container"
+    trigger:
+      count: 1
+  displayName: A finding was triaged to something other than accepted
+  name: projects/project-69726555-c4de-48de-a69/alertPolicies/12749957823457624217/conditions/12749957823457626260
+creationRecord:
+  mutateTime: '2026-09-20T12:05:26.828979336Z'
+  mutatedBy: sindre.demetrio@gmail.com
+displayName: Security finding needs a decision
+documentation:
+  content: |
+    The triage worker returned `${metric.label.verdict}` for a `${metric.label.category}` finding rated `${metric.label.severity}`.
+
+    The mail carries labels rather than the verdict body, because a logs-based metric bounds label cardinality. The reasoning, the citations and the provenance are in the log entry:
+
+    ```
+    gcloud logging read \
+      'logName="projects/project-69726555-c4de-48de-a69/logs/triage-verdict"
+       AND jsonPayload.finding.category="${metric.label.category}"' \
+      --limit 5 --format=json
+    ```
+
+    What each verdict means:
+
+    - `contradicts_decision`: the finding names something this repository recorded a decision about, and the decision does not hold. Read the cited decision first.
+    - `new`: nothing in `.checkov.baseline`, the threat model or `decisions.md` prices this. It needs a decision, not a fix, before anything else.
+    - `insufficient_evidence`: the worker refused to rule. Either the model cited a corpus entry that does not resolve, or the input exceeded its budget. This is a worker problem, not a platform one.
+  mimeType: text/markdown
+  subject: 'Triage: ${metric.label.verdict} on ${metric.label.category}'
+enabled: true
+mutationRecord:
+  mutateTime: '2026-09-20T12:05:26.828979336Z'
+  mutatedBy: sindre.demetrio@gmail.com
+name: projects/project-69726555-c4de-48de-a69/alertPolicies/12749957823457624217
+notificationChannels:
+- projects/project-69726555-c4de-48de-a69/notificationChannels/5886169687490354841
+severity: WARNING
+---
+alertStrategy:
+  autoClose: 1800s
+combiner: OR
+conditions:
+- conditionThreshold:
+    aggregations:
+    - alignmentPeriod: 300s
+      crossSeriesReducer: REDUCE_SUM
+      perSeriesAligner: ALIGN_DELTA
+    comparison: COMPARISON_GT
+    duration: 0s
+    filter: metric.type = "pubsub.googleapis.com/subscription/dead_letter_message_count"
+      AND resource.type = "pubsub_subscription" AND resource.label.subscription_id
+      = "scc-triage"
+    trigger:
+      count: 1
+  displayName: A finding exhausted its deliveries on the triage subscription
+  name: projects/project-69726555-c4de-48de-a69/alertPolicies/16683288236348030013/conditions/16683288236348027296
+creationRecord:
+  mutateTime: '2026-09-21T17:03:12.546117343Z'
+  mutatedBy: sindre.demetrio@gmail.com
+displayName: Security finding was dead-lettered
+documentation:
+  content: |
+    A finding failed five deliveries to the triage worker and was moved to the dead letter topic. It has not been triaged, and nothing will retry it.
+
+    Read the worker's errors first. A ledger or model failure logs `triage failed, leaving the message unacknowledged` once per attempt:
+
+    ```
+    kubectl logs -n agents deploy/triage-worker --since=1h | grep "triage failed"
+    ```
+
+    Peek at what is parked, without acknowledging it:
+
+    ```
+    gcloud pubsub subscriptions pull scc-findings-dead-sub --limit=10 --format=json
+    ```
+
+    Once the cause is fixed, a real state change re-drives the finding: mute it, then unmute it. The worker triages it under its own key.
+  mimeType: text/markdown
+  subject: 'Triage: a finding was dead-lettered'
+enabled: true
+mutationRecord:
+  mutateTime: '2026-09-21T17:03:12.546117343Z'
+  mutatedBy: sindre.demetrio@gmail.com
+name: projects/project-69726555-c4de-48de-a69/alertPolicies/16683288236348030013
+notificationChannels:
+- projects/project-69726555-c4de-48de-a69/notificationChannels/5886169687490354841
+severity: ERROR
+---
+alertStrategy:
+  autoClose: 1800s
+combiner: OR
+conditions:
+- conditionThreshold:
+    aggregations:
+    - alignmentPeriod: 1200s
+      crossSeriesReducer: REDUCE_COUNT_FALSE
+      groupByFields:
+      - resource.label.host
+      perSeriesAligner: ALIGN_NEXT_OLDER
+    comparison: COMPARISON_GT
+    duration: 60s
+    filter: metric.type = "monitoring.googleapis.com/uptime_check/check_passed" AND
+      resource.type = "uptime_url" AND metric.label.check_id = "sindrg-com-healthz-btf-MZocEX8"
+    thresholdValue: 1.0
+    trigger:
+      count: 1
+  displayName: Uptime check failing from more than one checker location
+  name: projects/project-69726555-c4de-48de-a69/alertPolicies/7230741399146436293/conditions/7230741399146435642
+creationRecord:
+  mutateTime: '2026-09-05T23:59:38.154252747Z'
+  mutatedBy: sindre.demetrio@gmail.com
+displayName: sindrg.com is not serving
+documentation:
+  content: |
+    The uptime check for sindrg.com is failing from more than one of Google's checker locations, so the site is not reachable for users rather than unreachable down one network path. Check in this order, from the workload outwards:
+
+    1. `kubectl get pods -n demo -o wide`:are the Pods Running and Ready? A rollout that failed readiness leaves the previous version serving, so Pods that are all gone means something removed them.
+    2. `kubectl get endpointslices -n demo -l kubernetes.io/service-name=nginx`:does the Service still have endpoints? An empty slice is why the load balancer would return 502.
+    3. `kubectl describe gateway external -n demo`:is the listener still Programmed and the address unchanged?
+    4. Load balancer backend health in the console:are the network endpoint group backends healthy? Unhealthy backends with Ready Pods points at the NetworkPolicy admitting Google's proxy ranges, or at the HealthCheckPolicy target.
+    5. `curl -sSi https://sindrg.com/healthz`:what does the edge actually return? A TLS error rather than a status code moves the search to Certificate Manager.
+  mimeType: text/markdown
+  subject: sindrg.com is not serving
+enabled: true
+mutationRecord:
+  mutateTime: '2026-09-13T11:04:06.511135962Z'
+  mutatedBy: sindre.demetrio@gmail.com
+name: projects/project-69726555-c4de-48de-a69/alertPolicies/7230741399146436293
+notificationChannels:
+- projects/project-69726555-c4de-48de-a69/notificationChannels/5886169687490354841
+severity: CRITICAL

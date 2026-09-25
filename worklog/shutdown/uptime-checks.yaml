@@ -1,0 +1,26 @@
+---
+checkerType: STATIC_IP_CHECKERS
+contentMatchers:
+- content: ok
+  matcher: CONTAINS_STRING
+displayName: sindrg.com healthz
+httpCheck:
+  acceptedResponseStatusCodes:
+  - statusClass: STATUS_CLASS_2XX
+  path: /healthz
+  port: 443
+  requestMethod: GET
+  useSsl: true
+  validateSsl: true
+monitoredResource:
+  labels:
+    host: sindrg.com
+    project_id: project-69726555-c4de-48de-a69
+  type: uptime_url
+name: projects/project-69726555-c4de-48de-a69/uptimeCheckConfigs/sindrg-com-healthz-btf-MZocEX8
+period: 60s
+selectedRegions:
+- EUROPE
+- USA
+- ASIA_PACIFIC
+timeout: 10s

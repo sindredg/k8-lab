@@ -1,0 +1,266 @@
+addonsConfig:
+  dnsCacheConfig:
+    enabled: true
+  gcePersistentDiskCsiDriverConfig:
+    enabled: true
+  kubernetesDashboard:
+    disabled: true
+  networkPolicyConfig:
+    disabled: true
+  nodeReadinessConfig: {}
+anonymousAuthenticationConfig:
+  mode: LIMITED
+autopilot: {}
+autoscaling:
+  autoprovisioningNodePoolDefaults:
+    imageType: COS_CONTAINERD
+    management:
+      autoRepair: true
+      autoUpgrade: true
+    oauthScopes:
+    - https://www.googleapis.com/auth/devstorage.read_only
+    - https://www.googleapis.com/auth/logging.write
+    - https://www.googleapis.com/auth/monitoring
+    - https://www.googleapis.com/auth/service.management.readonly
+    - https://www.googleapis.com/auth/servicecontrol
+    - https://www.googleapis.com/auth/trace.append
+    serviceAccount: default
+  autoscalingProfile: BALANCED
+binaryAuthorization: {}
+clusterIpv4Cidr: 10.20.0.0/16
+controlPlaneEgress:
+  mode: VIA_CONTROL_PLANE
+controlPlaneEndpointsConfig:
+  dnsEndpointConfig:
+    allowExternalTraffic: true
+    enableK8sCertsViaDns: false
+    enableK8sTokensViaDns: false
+    endpoint: gke-fa262c863c1049a4b45c7ebc3e0a237f37c6-421458901689.europe-north1-a.gke.goog
+  ipEndpointsConfig:
+    enabled: false
+createTime: '2026-08-27T22:49:24+00:00'
+currentMasterVersion: 1.35.8-gke.1036000
+currentNodeCount: 4
+currentNodeVersion: 1.35.8-gke.1036000
+databaseEncryption:
+  currentState: CURRENT_STATE_DECRYPTED
+  state: DECRYPTED
+defaultMaxPodsConstraint:
+  maxPodsPerNode: '110'
+endpoint: gke-fa262c863c1049a4b45c7ebc3e0a237f37c6-421458901689.europe-north1-a.gke.goog
+enterpriseConfig:
+  clusterTier: STANDARD
+etag: e38e1246-d6b8-4928-9cd1-67665460d2ea
+id: fa262c863c1049a4b45c7ebc3e0a237f37c6f1fae8694be7b3bb5ddd942db67e
+initialClusterVersion: 1.35.6-gke.1710000
+initialNodeCount: 1
+instanceGroupUrls:
+- https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-a/instanceGroupManagers/gke-k8-lab-general-7d6bb7c7-grp
+- https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-b/instanceGroupManagers/gke-k8-lab-general-cf1cb723-grp
+- https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-c/instanceGroupManagers/gke-k8-lab-general-da533e0f-grp
+ipAllocationPolicy:
+  clusterIpv4Cidr: 10.20.0.0/16
+  clusterIpv4CidrBlock: 10.20.0.0/16
+  clusterSecondaryRangeName: gke-subnet-pods
+  defaultPodIpv4RangeUtilization: 0.0156
+  networkTierConfig:
+    networkTier: NETWORK_TIER_DEFAULT
+  podCidrOverprovisionConfig: {}
+  servicesIpv4Cidr: 34.118.224.0/20
+  servicesIpv4CidrBlock: 34.118.224.0/20
+  stackType: IPV4
+  useIpAliases: true
+labelFingerprint: 1fe9b3fc
+legacyAbac: {}
+location: europe-north1-a
+locations:
+- europe-north1-a
+- europe-north1-b
+- europe-north1-c
+loggingConfig:
+  componentConfig:
+    enableComponents:
+    - SYSTEM_COMPONENTS
+    - WORKLOADS
+loggingService: logging.googleapis.com/kubernetes
+maintenancePolicy:
+  resourceVersion: bc041a4d
+  window:
+    dailyMaintenanceWindow:
+      duration: PT4H0M0S
+      startTime: 01:00
+masterAuth:
+  clientCertificateConfig: {}
+  clusterCaCertificate: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVMRENDQXBTZ0F3SUJBZ0lRUm5SemZMblVrY1l1T3F0ZnZ0eXA0akFOQmdrcWhraUc5dzBCQVFzRkFEQXYKTVMwd0t3WURWUVFERXlRek16QTRaV015WXkwell6WmxMVFJrWlRZdFlUYzFOUzAwTjJNeU56Y3pNVEpqTURjdwpJQmNOTWpZd09ESTNNakUwT1RJNVdoZ1BNakExTmpBNE1Ua3lNalE1TWpsYU1DOHhMVEFyQmdOVkJBTVRKRE16Ck1EaGxZekpqTFROak5tVXROR1JsTmkxaE56VTFMVFEzWXpJM056TXhNbU13TnpDQ0FhSXdEUVlKS29aSWh2Y04KQVFFQkJRQURnZ0dQQURDQ0FZb0NnZ0dCQU9MU05EWXVOdmNNKzVkRkFvTHlCL25lWEF4WndoYnVnWklETTJCeQppOE9mVDNoRXBBbUNCU1NZYy9GN29YSW9kcUN6bGUrZVpEY1JKZyttbWdLbjd5ZnV3SEQ1ekRyN21PenVObVNVClppY3JLM0ZLbVhjaUtoa09KRk5VM2pHM3BRWUtDQ1g3N0d0LzVoVk1CS2twb3ZTck5UZzQvYjFkMXlWOHBTSWYKWHh0dzJFaUpNaXpESmJib1E5WG5pdmVhUjZKZi9rbHRlT1ZldTRtaWEwZ3dJNFYza0x2T2dMM1ROd05QRzlQcgpiMS9rVThqb0xNdVhEbnZndm9JeGtqa1JzKzFMRUc0TGFGVE04WURQRC9YNGNoU0hManNqMFdXWkUxQjQ0ZU5ZCk5sN0EvbEgwR0tmR2lqdXVCNUw0ZWV6dFdaY0NMNVpSWlVONTlzUU4rcTNTbGFqVGZoWjVodmliMFlWSFU4aXkKaVdvVnd6MDdDenovRUFQb2JZYkU1YzdmNEJJd1dSbXNCUzQzSHpsYlM5ZXpscEZGL2VGdXhySnl4anlSNmFUVQptb1JYV2ZUUFBlbllzVC9rZEIrSkNkZnZXZ1k0R3FWd3VHMzNHTS9WVFpJb1phMlRpdXdoc1oweFdWL2pOZmhQCk9ZRUNVUTNzazZKNjRYZTVzZWcra0hnaGl3SURBUUFCbzBJd1FEQU9CZ05WSFE4QkFmOEVCQU1DQWdRd0R3WUQKVlIwVEFRSC9CQVV3QXdFQi96QWRCZ05WSFE0RUZnUVVkTU1QUGNTMkJrS2pCNmZrNGVCZmtYZjFQTGt3RFFZSgpLb1pJaHZjTkFRRUxCUUFEZ2dHQkFOS2s3bmIreEp4WmdCK2JYMkQycVVEZC9iSll0Y1JvSkhxejR0SlNQQ2pVCm01UXZsMndqRXJGVnV6TjZvcUhSVnRDMXZJSUVzd3RTS1VaR1NzVmJWaWVCbXBBUlhtc3UzdVFRczU0VDBEbUoKakQ4eXVpZXowMFZybHArZXlzdzhCQnl2RmRSdFd1OXFCOGQvUE1Ca1hBRXRTeU9uaVNMclMzQnhPNmloUVJkZgpNemQ5VlVQSW5WU1Z3WDZNWVFOTjY2MkppdFplbU11bmlIRmdtaHU4eUU2MjQ3OTNXMXoxbDFwRUEwMFhqakNDCmg2aUo3dDR5eEp4ZklSRk1IWWhrcWxBemJuNWx4MmZNbXJtd0hhNkNEZXhTM2luTWR3WXE4V3EyV0lEdlExYnQKaEg1K3Exc2NlcXUyYzNHRzNBNlhhVnN5NlByc29FY284RW5idFNLam9rOEFGZU5QZllPKzhyeVY4eC81T1hFegpma0ErKzlISWlyaG5FZEh6ek52c25VRnh6bE1FVW5vQ3ZyczI4Q1pTM0JPckJaUEwwVWFlZGNlWnlwVEVYRUZaCmtnTVlGYlpZVHZrbGxHVU1PN1ZteUxOU1k4SStRRkFtdFk3ZmVsMU90T0JrRkVjTi96cTB1cHZsbDdIVEpZclAKdWhvMm8xbG9OUjJTMEMvSWdjVlpJUT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+monitoringConfig:
+  advancedDatapathObservabilityConfig:
+    enableRelay: false
+  componentConfig:
+    enableComponents:
+    - SYSTEM_COMPONENTS
+    - HPA
+    - POD
+    - DEPLOYMENT
+    - CADVISOR
+  managedPrometheusConfig:
+    enabled: true
+monitoringService: monitoring.googleapis.com/kubernetes
+name: k8-lab
+network: gke-vpc
+networkConfig:
+  datapathProvider: ADVANCED_DATAPATH
+  defaultEnablePrivateNodes: true
+  defaultSnatStatus: {}
+  gatewayApiConfig:
+    channel: CHANNEL_STANDARD
+  network: projects/project-69726555-c4de-48de-a69/global/networks/gke-vpc
+  serviceExternalIpsConfig: {}
+  subnetwork: projects/project-69726555-c4de-48de-a69/regions/europe-north1/subnetworks/gke-subnet
+nodeConfig:
+  bootDisk:
+    diskType: pd-balanced
+    sizeGb: '50'
+  diskSizeGb: 50
+  diskType: pd-balanced
+  effectiveCgroupMode: EFFECTIVE_CGROUP_MODE_V2
+  imageType: COS_CONTAINERD
+  kubeletConfig:
+    insecureKubeletReadonlyPortEnabled: false
+    maxParallelImagePulls: 3
+  labels:
+    environment: dev
+    managed_by: terraform
+    node_pool: general
+  loggingConfig: {}
+  machineType: e2-medium
+  metadata:
+    disable-legacy-endpoints: 'true'
+  nodeImageConfig:
+    image: gke-1358-gke1036000-cos-125-19216-532-123-c-pre
+    imageProject: gke-node-images
+  oauthScopes:
+  - https://www.googleapis.com/auth/cloud-platform
+  resourceLabels:
+    goog-gke-node-pool-provisioning-model: on-demand
+  serviceAccount: k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com
+  shieldedInstanceConfig:
+    enableIntegrityMonitoring: true
+    enableSecureBoot: true
+  windowsNodeConfig: {}
+  workloadMetadataConfig:
+    mode: GKE_METADATA
+nodeCreationConfig:
+  nodeCreationMode: VIA_KUBELET
+nodePoolAutoConfig:
+  nodeKubeletConfig:
+    insecureKubeletReadonlyPortEnabled: false
+nodePoolDefaults:
+  nodeConfigDefaults:
+    loggingConfig:
+      variantConfig:
+        variant: DEFAULT
+    nodeKubeletConfig:
+      insecureKubeletReadonlyPortEnabled: false
+nodePools:
+- autoscaling:
+    enabled: true
+    locationPolicy: BALANCED
+    totalMaxNodeCount: 3
+    totalMinNodeCount: 2
+  config:
+    bootDisk:
+      diskType: pd-balanced
+      sizeGb: '50'
+    diskSizeGb: 50
+    diskType: pd-balanced
+    effectiveCgroupMode: EFFECTIVE_CGROUP_MODE_V2
+    imageType: COS_CONTAINERD
+    kubeletConfig:
+      insecureKubeletReadonlyPortEnabled: false
+      maxParallelImagePulls: 3
+    labels:
+      environment: dev
+      managed_by: terraform
+      node_pool: general
+    loggingConfig: {}
+    machineType: e2-medium
+    metadata:
+      disable-legacy-endpoints: 'true'
+    nodeImageConfig:
+      image: gke-1358-gke1036000-cos-125-19216-532-123-c-pre
+      imageProject: gke-node-images
+    oauthScopes:
+    - https://www.googleapis.com/auth/cloud-platform
+    resourceLabels:
+      goog-gke-node-pool-provisioning-model: on-demand
+    serviceAccount: k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com
+    shieldedInstanceConfig:
+      enableIntegrityMonitoring: true
+      enableSecureBoot: true
+    windowsNodeConfig: {}
+    workloadMetadataConfig:
+      mode: GKE_METADATA
+  etag: 3c19e596-f7de-4cf2-a871-744d56b738d6
+  initialNodeCount: 2
+  instanceGroupUrls:
+  - https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-a/instanceGroupManagers/gke-k8-lab-general-7d6bb7c7-grp
+  - https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-b/instanceGroupManagers/gke-k8-lab-general-cf1cb723-grp
+  - https://www.googleapis.com/compute/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-c/instanceGroupManagers/gke-k8-lab-general-da533e0f-grp
+  kubeletCertInfo:
+    tpmBootstrapCertExpireTime: '2031-09-23T00:07:33Z'
+  locations:
+  - europe-north1-a
+  - europe-north1-b
+  - europe-north1-c
+  management:
+    autoRepair: true
+    autoUpgrade: true
+  maxPodsConstraint:
+    maxPodsPerNode: '110'
+  name: general
+  networkConfig:
+    enablePrivateNodes: true
+    networkTierConfig:
+      networkTier: NETWORK_TIER_DEFAULT
+    podIpv4CidrBlock: 10.20.0.0/16
+    podIpv4RangeUtilization: 0.0156
+    podRange: gke-subnet-pods
+    subnetwork: projects/project-69726555-c4de-48de-a69/regions/europe-north1/subnetworks/gke-subnet
+  podIpv4CidrSize: 24
+  selfLink: https://container.googleapis.com/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-a/clusters/k8-lab/nodePools/general
+  status: RUNNING
+  upgradeSettings:
+    maxSurge: 1
+    strategy: SURGE
+  version: 1.35.8-gke.1036000
+notificationConfig:
+  pubsub: {}
+podAutoscaling:
+  hpaProfile: PERFORMANCE
+privateClusterConfig:
+  enablePrivateNodes: true
+  publicEndpoint: 35.228.170.226
+rbacBindingConfig:
+  enableInsecureBindingSystemAuthenticated: true
+  enableInsecureBindingSystemUnauthenticated: true
+releaseChannel:
+  channel: REGULAR
+resourceLabels:
+  environment: dev
+  goog-terraform-provisioned: 'true'
+  managed_by: terraform
+satisfiesPzi: true
+satisfiesPzs: false
+securityPostureConfig:
+  mode: BASIC
+  vulnerabilityMode: VULNERABILITY_BASIC
+selfLink: https://container.googleapis.com/v1/projects/project-69726555-c4de-48de-a69/zones/europe-north1-a/clusters/k8-lab
+servicesIpv4Cidr: 34.118.224.0/20
+shieldedNodes:
+  enabled: true
+status: RUNNING
+subnetwork: gke-subnet
+userManagedKeysConfig: {}
+workloadIdentityConfig:
+  workloadPool: project-69726555-c4de-48de-a69.svc.id.goog
+zone: europe-north1-a

@@ -1,0 +1,5 @@
+NAME                              ZONE             MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP  STATUS
+gke-k8-lab-general-cf1cb723-brqr  europe-north1-b  e2-medium                  10.10.0.26                RUNNING
+gke-k8-lab-general-da533e0f-1p9z  europe-north1-c  e2-medium                  10.10.0.28                RUNNING
+gke-k8-lab-general-7d6bb7c7-588s  europe-north1-a  e2-medium                  10.10.0.29                RUNNING
+gke-k8-lab-general-7d6bb7c7-ocmh  europe-north1-a  e2-medium                  10.10.0.25                RUNNING

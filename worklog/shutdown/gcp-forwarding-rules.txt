@@ -1,0 +1,3 @@
+NAME                                    REGION  IP_ADDRESS     IP_PROTOCOL  TARGET
+gkegw1-zs1b-demo-external-ilvdl48uws6q          8.232.183.150  TCP          gkegw1-zs1b-demo-external-r4uki07lgmii
+gkegw1-zs1b-demo-external-z9h90hrf7gt8          8.232.183.150  TCP          gkegw1-zs1b-demo-external-vtqb7bf55l6q

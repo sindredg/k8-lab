@@ -1,0 +1,5 @@
+NAME                               STATUS   ROLES    AGE   VERSION               INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                             KERNEL-VERSION   CONTAINER-RUNTIME
+gke-k8-lab-general-7d6bb7c7-588s   Ready    <none>   26h   v1.35.8-gke.1036000   10.10.0.29    <none>        Container-Optimized OS from Google   6.12.94+         containerd://2.2.7
+gke-k8-lab-general-7d6bb7c7-ocmh   Ready    <none>   36h   v1.35.8-gke.1036000   10.10.0.25    <none>        Container-Optimized OS from Google   6.12.94+         containerd://2.2.7
+gke-k8-lab-general-cf1cb723-brqr   Ready    <none>   36h   v1.35.8-gke.1036000   10.10.0.26    <none>        Container-Optimized OS from Google   6.12.94+         containerd://2.2.7
+gke-k8-lab-general-da533e0f-1p9z   Ready    <none>   36h   v1.35.8-gke.1036000   10.10.0.28    <none>        Container-Optimized OS from Google   6.12.94+         containerd://2.2.7

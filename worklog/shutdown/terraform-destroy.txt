@@ -1,0 +1,204 @@
+module.agent_identity.google_service_account_iam_member.workload_identity: Destroying... [id=projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com/roles/iam.workloadIdentityUser/serviceAccount:project-69726555-c4de-48de-a69.svc.id.goog[agents/triage-worker]]
+module.findings.google_pubsub_topic_iam_member.scc_publisher: Destroying... [id=projects/project-69726555-c4de-48de-a69/topics/scc-findings/roles/pubsub.publisher/serviceAccount:service-org-550178366891@gcp-sa-scc-notification.iam.gserviceaccount.com]
+module.agent_identity.google_storage_bucket_iam_member.ledger_writer: Destroying... [id=b/k8-lab-verdicts-project-69726555-c4de-48de-a69/projects/project-69726555-c4de-48de-a69/roles/k8_lab_ledger_appender/serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.delivery.google_iam_workload_identity_pool_provider.github: Destroying... [id=projects/project-69726555-c4de-48de-a69/locations/global/workloadIdentityPools/github/providers/github-oidc]
+module.findings.google_pubsub_subscription_iam_member.dead_letter_subscriber: Destroying... [id=projects/project-69726555-c4de-48de-a69/subscriptions/scc-triage/roles/pubsub.subscriber/serviceAccount:service-421458901689@gcp-sa-pubsub.iam.gserviceaccount.com]
+module.observability.google_monitoring_dashboard.workload_health: Destroying... [id=projects/421458901689/dashboards/5312ec64-59ff-4fc5-adca-5ec0b81a26ca]
+module.agent_identity.google_project_iam_member.vertex_user: Destroying... [id=project-69726555-c4de-48de-a69/projects/project-69726555-c4de-48de-a69/roles/k8_lab_model_invoker/serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.observability.google_logging_metric.nginx_errors: Destroying... [id=nginx-error-level]
+module.delivery.google_artifact_registry_repository_iam_member.deploy_writer: Destroying... [id=projects/project-69726555-c4de-48de-a69/locations/europe-north1/repositories/k8-lab/roles/artifactregistry.writer/serviceAccount:k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.observability.google_monitoring_alert_policy.triage_verdict: Destroying... [id=projects/project-69726555-c4de-48de-a69/alertPolicies/12749957823457624217]
+module.observability.google_monitoring_alert_policy.triage_verdict: Destruction complete after 2s
+module.agent_identity.google_project_iam_member.log_writer: Destroying... [id=project-69726555-c4de-48de-a69/roles/logging.logWriter/serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.observability.google_monitoring_dashboard.workload_health: Destruction complete after 2s
+module.delivery.google_service_account_iam_member.github_impersonation: Destroying... [id=projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com/roles/iam.workloadIdentityUser/principalSet://iam.googleapis.com/projects/421458901689/locations/global/workloadIdentityPools/github/attribute.repository/sindredg/k8-lab]
+module.observability.google_logging_metric.nginx_errors: Destruction complete after 3s
+module.observability.google_logging_project_bucket_config.default: Destroying... [id=projects/project-69726555-c4de-48de-a69/locations/global/buckets/_Default]
+module.observability.google_logging_project_bucket_config.default: Destruction complete after 0s
+module.delivery.google_project_iam_member.deploy_cluster_viewer: Destroying... [id=project-69726555-c4de-48de-a69/roles/container.clusterViewer/serviceAccount:k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.agent_identity.google_storage_bucket_iam_member.ledger_writer: Destruction complete after 5s
+module.observability.google_monitoring_alert_policy.site_unavailable: Destroying... [id=projects/project-69726555-c4de-48de-a69/alertPolicies/7230741399146436293]
+module.observability.google_monitoring_alert_policy.site_unavailable: Destruction complete after 1s
+module.observability.google_monitoring_alert_policy.triage_dead_letter: Destroying... [id=projects/project-69726555-c4de-48de-a69/alertPolicies/16683288236348030013]
+module.delivery.google_artifact_registry_repository_iam_member.deploy_writer: Destruction complete after 6s
+module.agent_identity.google_pubsub_subscription_iam_member.subscriber: Destroying... [id=projects/project-69726555-c4de-48de-a69/subscriptions/scc-triage/roles/pubsub.subscriber/serviceAccount:k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.delivery.google_service_account_iam_member.github_impersonation: Destruction complete after 5s
+module.findings.google_pubsub_topic_iam_member.scc_publisher: Destruction complete after 7s
+module.findings.google_pubsub_topic_iam_member.dead_letter_publisher: Destroying... [id=projects/project-69726555-c4de-48de-a69/topics/scc-findings-dead/roles/pubsub.publisher/serviceAccount:service-421458901689@gcp-sa-pubsub.iam.gserviceaccount.com]
+module.observability.google_logging_metric.triage_verdict: Destroying... [id=triage/verdicts]
+module.observability.google_monitoring_alert_policy.triage_dead_letter: Destruction complete after 1s
+module.findings.google_storage_bucket.ledger: Destroying... [id=k8-lab-verdicts-project-69726555-c4de-48de-a69]
+module.agent_identity.google_service_account_iam_member.workload_identity: Destruction complete after 8s
+module.agent_identity.google_project_iam_custom_role.ledger_appender: Destroying... [id=projects/project-69726555-c4de-48de-a69/roles/k8_lab_ledger_appender]
+module.agent_identity.google_project_iam_custom_role.ledger_appender: Destruction complete after 0s
+module.observability.google_monitoring_uptime_check_config.public: Destroying... [id=projects/project-69726555-c4de-48de-a69/uptimeCheckConfigs/sindrg-com-healthz-btf-MZocEX8]
+module.observability.google_monitoring_uptime_check_config.public: Destruction complete after 1s
+module.findings.google_scc_v2_project_notification_config.findings: Destroying... [id=projects/421458901689/locations/global/notificationConfigs/k8-lab-triage]
+module.observability.google_logging_metric.triage_verdict: Destruction complete after 3s
+module.findings.google_pubsub_subscription_iam_member.dead_letter_subscriber: Destruction complete after 10s
+module.findings.google_pubsub_subscription.dead_letter: Destroying... [id=projects/project-69726555-c4de-48de-a69/subscriptions/scc-findings-dead-sub]
+module.observability.google_monitoring_notification_channel.email: Destroying... [id=projects/project-69726555-c4de-48de-a69/notificationChannels/5886169687490354841]
+module.agent_identity.google_project_iam_member.vertex_user: Still destroying... [id=project-69726555-c4de-48de-a69/projects...-c4de-48de-a69.iam.gserviceaccount.com, 00m10s elapsed]
+module.delivery.google_iam_workload_identity_pool_provider.github: Still destroying... [id=projects/project-69726555-c4de-48de-a69...tityPools/github/providers/github-oidc, 00m10s elapsed]
+module.delivery.google_project_iam_member.deploy_cluster_viewer: Destruction complete after 7s
+module.delivery.google_service_account.deploy: Destroying... [id=projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-deploy@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.observability.google_monitoring_notification_channel.email: Destruction complete after 1s
+module.gateway.google_compute_ssl_policy.default: Destroying... [id=projects/project-69726555-c4de-48de-a69/global/sslPolicies/k8-lab-gateway-ssl-policy]
+module.findings.google_scc_v2_project_notification_config.findings: Destruction complete after 2s
+module.gateway.google_compute_global_address.gateway: Destroying... [id=projects/project-69726555-c4de-48de-a69/global/addresses/k8-lab-gateway]
+module.agent_identity.google_project_iam_member.vertex_user: Destruction complete after 11s
+module.gke.google_container_node_pool.general: Destroying... [id=projects/project-69726555-c4de-48de-a69/locations/europe-north1-a/clusters/k8-lab/nodePools/general]
+module.delivery.google_service_account.deploy: Destruction complete after 0s
+module.gateway.google_compute_security_policy.default: Destroying... [id=projects/project-69726555-c4de-48de-a69/global/securityPolicies/k8-lab-gateway-rate-limit]
+module.agent_identity.google_project_iam_member.log_writer: Destruction complete after 9s
+module.gateway.google_certificate_manager_certificate_map_entry.default: Destroying... [id=projects/project-69726555-c4de-48de-a69/locations/global/certificateMaps/k8-lab-gateway-cert-map/certificateMapEntries/k8-lab-gateway-cert-entry]
+module.findings.google_storage_bucket.ledger: Destruction complete after 3s
+module.agent_identity.google_project_iam_custom_role.model_invoker: Destroying... [id=projects/project-69726555-c4de-48de-a69/roles/k8_lab_model_invoker]
+module.delivery.google_iam_workload_identity_pool_provider.github: Destruction complete after 11s
+module.delivery.google_iam_workload_identity_pool.github: Destroying... [id=projects/project-69726555-c4de-48de-a69/locations/global/workloadIdentityPools/github]
+module.agent_identity.google_project_iam_custom_role.model_invoker: Destruction complete after 1s
+module.findings.google_pubsub_topic_iam_member.dead_letter_publisher: Destruction complete after 5s
+module.findings.google_pubsub_subscription.dead_letter: Destruction complete after 3s
+module.agent_identity.google_pubsub_subscription_iam_member.subscriber: Still destroying... [id=projects/project-69726555-c4de-48de-a69...-c4de-48de-a69.iam.gserviceaccount.com, 00m09s elapsed]
+module.agent_identity.google_pubsub_subscription_iam_member.subscriber: Destruction complete after 11s
+module.agent_identity.google_service_account.triage: Destroying... [id=projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-triage@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.findings.google_pubsub_subscription.triage: Destroying... [id=projects/project-69726555-c4de-48de-a69/subscriptions/scc-triage]
+module.agent_identity.google_service_account.triage: Destruction complete after 1s
+module.gateway.google_compute_ssl_policy.default: Still destroying... [id=projects/project-69726555-c4de-48de-a69.../sslPolicies/k8-lab-gateway-ssl-policy, 00m09s elapsed]
+module.gateway.google_compute_global_address.gateway: Still destroying... [id=projects/project-69726555-c4de-48de-a69/global/addresses/k8-lab-gateway, 00m09s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 00m09s elapsed]
+module.gateway.google_compute_security_policy.default: Still destroying... [id=projects/project-69726555-c4de-48de-a69...rityPolicies/k8-lab-gateway-rate-limit, 00m09s elapsed]
+module.gateway.google_certificate_manager_certificate_map_entry.default: Still destroying... [id=projects/project-69726555-c4de-48de-a69...teMapEntries/k8-lab-gateway-cert-entry, 00m10s elapsed]
+module.findings.google_pubsub_subscription.triage: Destruction complete after 4s
+module.findings.google_pubsub_topic.dead_letter: Destroying... [id=projects/project-69726555-c4de-48de-a69/topics/scc-findings-dead]
+module.findings.google_pubsub_topic.findings: Destroying... [id=projects/project-69726555-c4de-48de-a69/topics/scc-findings]
+module.delivery.google_iam_workload_identity_pool.github: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ns/global/workloadIdentityPools/github, 00m10s elapsed]
+module.gateway.google_compute_ssl_policy.default: Destruction complete after 10s
+module.delivery.google_iam_workload_identity_pool.github: Destruction complete after 11s
+module.registry.google_artifact_registry_repository_iam_member.node_reader: Destroying... [id=projects/project-69726555-c4de-48de-a69/locations/europe-north1/repositories/k8-lab/roles/artifactregistry.reader/serviceAccount:k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.gateway.google_compute_global_address.gateway: Destruction complete after 11s
+module.gateway.google_compute_security_policy.default: Destruction complete after 11s
+module.gateway.google_certificate_manager_certificate_map_entry.default: Destruction complete after 13s
+module.gateway.google_certificate_manager_certificate.default: Destroying... [id=projects/project-69726555-c4de-48de-a69/locations/global/certificates/k8-lab-gateway-cert]
+module.gateway.google_certificate_manager_certificate_map.default: Destroying... [id=projects/project-69726555-c4de-48de-a69/locations/global/certificateMaps/k8-lab-gateway-cert-map]
+module.findings.google_pubsub_topic.findings: Destruction complete after 3s
+module.findings.google_pubsub_topic.dead_letter: Destruction complete after 4s
+module.gateway.google_certificate_manager_certificate_map.default: Destruction complete after 2s
+module.registry.google_artifact_registry_repository_iam_member.node_reader: Destruction complete after 5s
+module.registry.google_artifact_registry_repository.main: Destroying... [id=projects/project-69726555-c4de-48de-a69/locations/europe-north1/repositories/k8-lab]
+module.registry.google_artifact_registry_repository.main: Destruction complete after 0s
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 00m19s elapsed]
+module.gateway.google_certificate_manager_certificate.default: Still destroying... [id=projects/project-69726555-c4de-48de-a69...lobal/certificates/k8-lab-gateway-cert, 00m10s elapsed]
+module.gateway.google_certificate_manager_certificate.default: Destruction complete after 13s
+module.gateway.google_certificate_manager_dns_authorization.default: Destroying... [id=projects/project-69726555-c4de-48de-a69/locations/global/dnsAuthorizations/k8-lab-gateway-dns-auth]
+module.gateway.google_certificate_manager_dns_authorization.default: Destruction complete after 2s
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 00m29s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 00m38s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 00m48s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 00m58s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 01m07s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 01m17s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 01m27s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 01m36s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 01m46s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 01m56s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 02m06s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 02m16s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 02m26s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 02m36s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 02m45s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 02m55s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 03m05s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 03m14s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 03m24s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 03m34s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 03m43s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 03m53s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 04m03s elapsed]
+module.gke.google_container_node_pool.general: Still destroying... [id=projects/project-69726555-c4de-48de-a69...h1-a/clusters/k8-lab/nodePools/general, 04m12s elapsed]
+module.gke.google_container_node_pool.general: Destruction complete after 4m16s
+module.gke.google_project_iam_member.nodes: Destroying... [id=project-69726555-c4de-48de-a69/roles/container.defaultNodeServiceAccount/serviceAccount:k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.gke.google_container_cluster.main: Destroying... [id=projects/project-69726555-c4de-48de-a69/locations/europe-north1-a/clusters/k8-lab]
+module.gke.google_project_iam_member.nodes: Destruction complete after 9s
+module.gke.google_service_account.nodes: Destroying... [id=projects/project-69726555-c4de-48de-a69/serviceAccounts/k8-lab-nodes@project-69726555-c4de-48de-a69.iam.gserviceaccount.com]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 00m10s elapsed]
+module.gke.google_service_account.nodes: Destruction complete after 1s
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 00m20s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 00m29s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 00m39s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 00m49s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 00m58s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 01m08s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 01m18s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 01m28s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 01m37s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 01m47s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 01m57s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 02m06s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 02m16s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 02m26s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 02m36s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 02m46s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 02m56s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 03m05s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 03m15s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 03m25s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 03m35s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 03m44s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 03m54s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 04m04s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 04m13s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 04m23s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 04m33s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 04m42s elapsed]
+module.gke.google_container_cluster.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...ations/europe-north1-a/clusters/k8-lab, 04m52s elapsed]
+module.gke.google_container_cluster.main: Destruction complete after 4m56s
+module.network.google_compute_router_nat.main: Destroying... [id=project-69726555-c4de-48de-a69/europe-north1/gke-vpc-router/gke-vpc-nat]
+module.network.google_compute_router_nat.main: Still destroying... [id=project-69726555-c4de-48de-a69/europe-north1/gke-vpc-router/gke-vpc-nat, 00m10s elapsed]
+module.network.google_compute_router_nat.main: Destruction complete after 12s
+module.network.google_compute_subnetwork.main: Destroying... [id=projects/project-69726555-c4de-48de-a69/regions/europe-north1/subnetworks/gke-subnet]
+module.network.google_compute_router.main: Destroying... [id=projects/project-69726555-c4de-48de-a69/regions/europe-north1/routers/gke-vpc-router]
+module.network.google_compute_router.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...s/europe-north1/routers/gke-vpc-router, 00m09s elapsed]
+module.network.google_compute_subnetwork.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...s/europe-north1/subnetworks/gke-subnet, 00m09s elapsed]
+module.network.google_compute_router.main: Destruction complete after 9s
+module.network.google_compute_subnetwork.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...s/europe-north1/subnetworks/gke-subnet, 00m19s elapsed]
+module.network.google_compute_subnetwork.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69...s/europe-north1/subnetworks/gke-subnet, 00m29s elapsed]
+module.network.google_compute_subnetwork.main: Destruction complete after 32s
+module.network.google_compute_network.main: Destroying... [id=projects/project-69726555-c4de-48de-a69/global/networks/gke-vpc]
+module.network.google_compute_network.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69/global/networks/gke-vpc, 00m09s elapsed]
+module.network.google_compute_network.main: Still destroying... [id=projects/project-69726555-c4de-48de-a69/global/networks/gke-vpc, 00m19s elapsed]
+module.network.google_compute_network.main: Destruction complete after 22s
+google_project_service.required["compute.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/compute.googleapis.com]
+google_project_service.required["sts.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/sts.googleapis.com]
+google_project_service.required["cloudresourcemanager.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/cloudresourcemanager.googleapis.com]
+google_project_service.required["aiplatform.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/aiplatform.googleapis.com]
+google_project_service.required["certificatemanager.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/certificatemanager.googleapis.com]
+google_project_service.required["artifactregistry.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/artifactregistry.googleapis.com]
+google_project_service.required["logging.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/logging.googleapis.com]
+google_project_service.required["serviceusage.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/serviceusage.googleapis.com]
+google_project_service.required["containerscanning.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/containerscanning.googleapis.com]
+google_project_service.required["aiplatform.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["monitoring.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/monitoring.googleapis.com]
+google_project_service.required["artifactregistry.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["iam.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/iam.googleapis.com]
+google_project_service.required["iam.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["certificatemanager.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["compute.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["cloudresourcemanager.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["serviceusage.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["containerscanning.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["monitoring.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["sts.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["logging.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["iamcredentials.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/iamcredentials.googleapis.com]
+google_project_service.required["securitycenter.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/securitycenter.googleapis.com]
+google_project_service.required["storage.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/storage.googleapis.com]
+google_project_service.required["pubsub.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/pubsub.googleapis.com]
+google_project_service.required["container.googleapis.com"]: Destroying... [id=project-69726555-c4de-48de-a69/container.googleapis.com]
+google_project_service.required["iamcredentials.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["container.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["securitycenter.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["storage.googleapis.com"]: Destruction complete after 0s
+google_project_service.required["pubsub.googleapis.com"]: Destruction complete after 0s
+
+Apply complete! Resources: 0 added, 0 changed, 65 destroyed.

@@ -4,7 +4,7 @@ A private GKE cluster, a couple of workloads, and an AI agent that handles the s
 
 Terraform builds it. GitHub Actions ships to it, keylessly. Each phase has a worklog, and [decisions.md](decisions.md) covers the why.
 
-**Closed on 2026-09-22, and shut down on 2026-09-25.** [plan.md](plan.md) has the status table and what stayed optional. The infrastructure is destroyed and `sindrg.com` no longer serves. [The shutdown worklog](worklog/shutdown.md) holds the final screenshots, the state it was in, and the teardown.
+**Closed on 2026-09-22, and shut down on 2026-09-25.** [plan.md](plan.md) has the status table and what stayed optional. The infrastructure is destroyed, and the DNS records for `sindrg.com` are deleted. [The shutdown worklog](worklog/shutdown.md) holds the final screenshots, the state it was in, and the teardown.
 
 The Terraform, manifests and workflows are kept as they were at the close, so they describe the platform as it ran.
 

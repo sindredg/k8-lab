@@ -1,7 +1,7 @@
 # Worklog: Shutdown
 
 Date: 2026-09-25
-Status: Done, apart from the DNS records. The platform is destroyed, the Terraform state is empty, and `sindrg.com` no longer answers.
+Status: Done. The platform is destroyed, the Terraform state is empty, and the DNS records for `sindrg.com` are deleted.
 
 ## Result
 
@@ -73,4 +73,19 @@ A sweep of the project found nothing that bills beyond pennies:
 
 The deploy, watch and security scan workflows are disabled in GitHub, since each targets the cluster or the domain. CI stays on, and needs no cloud credential.
 
-Open: the Cloudflare records for `sindrg.com` still point at `8.232.183.150`, an address this project no longer holds. Google can hand it to someone else, so the records go next.
+## DNS records
+
+The Cloudflare records for `sindrg.com` pointed at `8.232.183.150` after the destroy. Google can reassign that address, so the records were deleted.
+
+```bash
+dig sindrg.com A @1.1.1.1 +noall +comments
+```
+
+| Name | A | AAAA | CAA |
+| --- | --- | --- | --- |
+| `sindrg.com` | `NOERROR`, 0 answers | `NOERROR`, 0 answers | `NOERROR`, 0 answers |
+| `www.sindrg.com` | `NOERROR`, 0 answers | `NOERROR`, 0 answers | `NOERROR`, 0 answers |
+
+Checked on 2026-09-25 against `1.1.1.1`. `dig +short sindrg.com A @8.8.8.8` also returned nothing.
+
+The zone stays on Cloudflare, with the `eva` and `kareem` name servers and the DS record still published in `.com`. The CAA records from [Phase 14](phase-14-close-the-baseline.md) are gone with the rest, so certificate issuance for the domain is no longer restricted.
